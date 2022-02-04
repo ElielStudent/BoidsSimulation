@@ -3,6 +3,7 @@
 #include "Flock.h"
 #include "constants.h"
 #include "Button.h"
+#include "World.h"
 
 class Game{
 public:
@@ -18,14 +19,19 @@ private:
 	void Update();
 	void Draw();
 
+	void DrawMenu();
+	void DrawGame();
+
 	sf::RenderWindow window;
+	sf::View WorldV;
 	sf::View SimulationV;
 	sf::View MenuV;
 
 	list<Flock> flocks;
-	int flockCount = 0;
-	int currFlock = 0;
-	QuadTree QT;
+	int flockCount = 0;				//Amount of flocks
+	int currFlock = 0;				//The selected flock (used for adding boids,etc)
+	QuadTree QT;					//The quadtree that holds all of the boids and updates every frame
+	World world;					//The world that holds the map and the collision obstacles
 
 	Button buttons[10];
 	Button bFlock;

@@ -35,11 +35,11 @@ void Boid::Draw(sf::RenderWindow& window) {
 
 Vector2f Boid::checkBounds() {
 	Vector2f bound = { 0,0 };
-	if (position.x > WIDTH - BORDERSIZE) 
+	if (position.x > GWIDTH - BORDERSIZE) 
 		bound.x -= TURNFACTOR;
 	else if (position.x < BORDERSIZE) 
 		bound.x += TURNFACTOR;
-	if (position.y > HEIGHT - BORDERSIZE) 
+	if (position.y > GHEIGHT - BORDERSIZE) 
 		bound.y -= TURNFACTOR;
 	else if (position.y < BORDERSIZE) 
 		bound.y += TURNFACTOR;

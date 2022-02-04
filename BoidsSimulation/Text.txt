@@ -8,3 +8,11 @@ In the side bar screen i will hold the settings (using another view) where
 i can switch between "game modes" like the predator simulation, the neural network,
 and the main ones. Youll start  over each one every time you click it, and you can make a reset
 function to put a "blank canvas"
+
+Priorities on the collision detection for the boids
+
+Neural network gets area around him as input and outputs a vector (?) containing which direction to
+rotate, and the "urgency" or how much it should rotate/maybe speed?
+
+
+Make a global game class, and then a menu/simulation game class that inherits from it

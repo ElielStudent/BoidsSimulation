@@ -184,8 +184,11 @@
     <ClCompile Include="Flock.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="Functions.cpp" />
+    <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boid.h" />
@@ -193,8 +196,11 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="Flock.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="Functions.h" />
+    <ClInclude Include="Simulation.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Text.txt" />

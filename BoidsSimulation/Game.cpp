@@ -1,10 +1,10 @@
 #include "Game.h"
 
-Game::Game() :window(sf::VideoMode(WIDTH, HEIGHT), "Boids work!") {
+Game::Game() :window(sf::VideoMode(GWIDTH, GHEIGHT), "Boids work!") {
 	window.setFramerateLimit(60);
 }
 
-void Game::Start(){
+void Game::Start() {
 	LoadGame();
 	while (window.isOpen()) {
 		HandleEvents();
@@ -13,13 +13,13 @@ void Game::Start(){
 	}
 }
 
-void Game::AddFlock(){
+void Game::AddFlock() {
 	Flock* flock = new Flock(++flockCount);
 	++currFlock;
 	flocks.push_back(*flock);
 }
 
-void Game::LoadGame(){
+void Game::LoadGame() {
 	LoadViews();
 	AddFlock();
 	LoadButtons();
@@ -27,11 +27,19 @@ void Game::LoadGame(){
 
 void Game::LoadButtons() {
 	bSeparation.setText("Separate " + std::to_string(SEPARATION));
-	bSeparation.setLocation({ HEIGHT - 20,WIDTH - 30 });
+	bSeparation.setLocation({ GHEIGHT - 20,GWIDTH - 30 });
 }
 
 void Game::LoadViews() {
-	//SimulationV.setCenter();
+	SimulationV.setCenter(GWIDTH / 2, GHEIGHT / 2);
+	SimulationV.setSize(GWIDTH, GHEIGHT);
+	SimulationV.setViewport(FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));
+	MenuV.setCenter(MWIDTH / 2, MHEIGHT / 2);
+	MenuV.setSize(MWIDTH, MHEIGHT);
+	MenuV.setViewport(FloatRect(0, 0, MWIDTHPer, 1.f));
+	WorldV.setCenter(WORLDSIZE / 2, WORLDSIZE / 2);				//What the view is centered in
+	WorldV.setSize(WORLDSIZE / 2, WORLDSIZE / 2);						//What the view can see	(the screen size/2)
+	WorldV.setViewport(FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));	//Top,left,width,height of the viewport
 }
 
 void Game::HandleEvents() {
@@ -52,7 +60,7 @@ void Game::HandleEvents() {
 	}
 }
 
-void Game::HandleButtons(Vector2i mousePos){		//Mouse relative to the window
+void Game::HandleButtons(Vector2i mousePos) {		//Mouse relative to the window
 	//Handle differnet button presses, loop through list checking each one
 }
 
@@ -68,7 +76,23 @@ void Game::Update() {
 }
 
 void Game::Draw() {
-	window.clear({ 135, 206, 235 });
+	window.clear();
+	DrawGame();	
+	DrawMenu();
+	window.display();
+}
+
+void Game::DrawMenu(){
+	window.setView(MenuV);
+	//window.clear(Color::Red);
+}
+
+void Game::DrawGame(){
+	window.setView(WorldV);
+	//window.clear({ 135, 206, 235 });
+
+	world.drawWorld(window);
+
 	window.setView(SimulationV);
 	for (Flock f : flocks) {
 		f.DrawFlock(window);
@@ -79,5 +103,4 @@ void Game::Draw() {
 		b.draw(window);
 	}
 
-	window.display();
 }

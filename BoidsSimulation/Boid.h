@@ -10,7 +10,7 @@ using namespace std;
 class Boid {
 public:
 	Boid(float alignment, float cohesion, float separation,
-		int id, int x = rand() % WIDTH, int y = rand() % HEIGHT);
+		int id, int x = rand() % GWIDTH, int y = rand() % HEIGHT);
 	void Move(std::list<Boid*>& boids);
 	void Draw(sf::RenderWindow& window);
 	int id;
