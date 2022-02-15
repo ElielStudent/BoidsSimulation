@@ -1,17 +1,20 @@
 #pragma once
 #include "QuadTree.h"
+#include <iostream>
 class World{
 public:
 	World();
 	void drawWorld(RenderWindow& window);
+	void Zoom(float zAmount);
+	void changeSize(Vector2f size);
 private:
+	View WorldV;
 	void GenerateWorld();
 	void fillRandom();
 	int getNeighbors(int x, int y);
 	void copyWorld();
-	void getWorld();
-	bool lastGrid[WORLDSIZE][WORLDSIZE] = { {0} };
-	bool grid[WORLDSIZE][WORLDSIZE] = { {0} };
+	bool lastGrid[WORLDSIZE][WORLDSIZE] = { {1} };
+	bool grid[WORLDSIZE][WORLDSIZE] = { {1} };
 	QuadTree obstacles;
 };
 

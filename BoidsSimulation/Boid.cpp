@@ -19,10 +19,22 @@ Boid::Boid(float alignment, float cohesion, float separation,int id, int x, int 
 	velocity.y = float(sin((3.1415 / 180) * shape.getRotation()));
 
 	this->id = id;
+
+	visualRange = BOIDSIGHT;
 }
 
 void Boid::Move(std::list<Boid*>& boids) {
-	velocity += checkBounds() + Alignment(boids) + Cohesion(boids) + Separation(boids);
+	if (boids.size() == 1) {			//Himself
+		if (visualRange < MAXVISUALRANGE)
+			visualRange * 1.11;				//If it has no neighbors,increase range
+	}
+	else {
+		velocity +=  Alignment(boids) + Cohesion(boids) + Separation(boids);
+		visualRange*0.99;				//If it has neighbors, make its range smaller
+	}
+
+	velocity += checkBounds();
+
 	this->shape.setRotation(atan2f(velocity.x, -velocity.y) * (180 / 3.1415));
 
 	this->position += velocity;
@@ -31,6 +43,15 @@ void Boid::Move(std::list<Boid*>& boids) {
 
 void Boid::Draw(sf::RenderWindow& window) {
 	window.draw(shape);
+}
+
+Vector2f Boid::getPosition(){
+	return position;
+}
+
+FloatRect Boid::getVisualRange(){
+	return FloatRect(position.x - visualRange, position.y - visualRange,
+		visualRange*2,visualRange*2);
 }
 
 Vector2f Boid::checkBounds() {
@@ -52,11 +73,11 @@ Vector2f Boid::Alignment(std::list<Boid*>& boids) {
 	for (Boid* b : boids) {
 		if (!b->isVisible || b->id == this->id)
 			continue;
-		double distance = abs(dist(b->position, position));
-		if (distance < BOIDSIGHT) {
+		//double distance = abs(dist(b->position, position));
+		//if (distance < visualRange) {
 			align += b->velocity;
 			total++;
-		}
+		//}
 	}
 	if (total == 0) return { 0,0 };
 	align.x /= total;
@@ -76,11 +97,11 @@ Vector2f Boid::Cohesion(std::list<Boid*>& boids)
 	for (Boid* b : boids) {
 		if (!b->isVisible || b->id == this->id)
 			continue;
-		double distance = abs(dist(b->position, position));
-		if (distance < BOIDSIGHT) {
+		//double distance = abs(dist(b->position, position));
+		//if (distance < visualRange) {
 			cohesion += b->position;
 			total++;
-		}
+		//}
 	}
 	if (total == 0) return { 0,0 };
 	cohesion.x /= total;

@@ -1,6 +1,10 @@
 #include "World.h"
 
 World::World(){
+	WorldV.setCenter(WORLDSIZE / 2, WORLDSIZE / 2);						//What the view is centered in
+	WorldV.setSize(WORLDSIZE / 2, WORLDSIZE / 2);						//What the view can see	(the screen size/2)
+	WorldV.setViewport(FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));		//Top,left,width,height of the viewport
+	
 	GenerateWorld();
 }
 
@@ -16,12 +20,20 @@ void World::GenerateWorld(){
 		}
 		copyWorld();
 	}
+
+	for (int y = WORLDSIZE * 0.33; y < WORLDSIZE * 0.66; y++) {
+		for (int x = WORLDSIZE * 0.33; x < WORLDSIZE * 0.66; x++) {
+			grid[y][x] = 0;
+		}
+	}
 }
 
 void World::drawWorld(RenderWindow& window){
-	CircleShape rect;
+	RectangleShape rect;
+	window.setView(WorldV);
 	//rect.setRadius((GHEIGHT / (WORLDSIZE * 1.2)) * 2);
-	rect.setRadius(1);
+	//rect.setRadius(2);
+	rect.setSize({ 2,2 });
 	rect.setFillColor(Color::Black);
 	RectangleShape wholeRect;							//FILLS WHOLE SCREEN,CAN DELETE
 	wholeRect.setSize({ GWIDTH,GHEIGHT });
@@ -38,21 +50,30 @@ void World::drawWorld(RenderWindow& window){
 	}
 }
 
+void World::Zoom(float zAmount)
+{
+}
+
+void World::changeSize(Vector2f size) {
+	WorldV.setSize(WorldV.getSize()+size);
+	std::cout << "World: " << WorldV.getSize().x << " " << WorldV.getSize().y << std::endl;
+}
+
 void World::fillRandom(){
 	srand(time(NULL));
 	for (int y = 0; y < WORLDSIZE; y++) {
 		for (int x = 0; x < WORLDSIZE; x++) {
-			grid[y][x] = rand() % 101 < 45;
+			grid[y][x] = rand() % 101 < 40;
 			lastGrid[y][x] = grid[y][x];
 		}
 	}
 }
 
 int World::getNeighbors(int x, int y){
-	bool hasBelow = y < WORLDSIZE - 2;
-	bool hasAbove = y > 2;
-	bool hasLeft = x > 2;
-	bool hasRight = x < WORLDSIZE - 2;
+	bool hasBelow = y < WORLDSIZE - 4;
+	bool hasAbove = y > 4;
+	bool hasLeft = x > 4;
+	bool hasRight = x < WORLDSIZE - 4;
 
 	return (!hasAbove || lastGrid[y - 1][x]) +
 		(!hasAbove || !hasLeft || lastGrid[y - 1][x - 1]) +

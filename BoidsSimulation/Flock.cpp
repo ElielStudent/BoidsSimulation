@@ -17,9 +17,17 @@ void Flock::AddBoid(int x, int y) {
 	boids.push_back(boid);
 }
 
-void Flock::UpdateBoids(QuadTree QT) {
+void Flock::InsertBoids(QuadTree* QT){
+	for (Boid* b : boids)
+		QT->Insert(b);
+}
+
+void Flock::UpdateBoids(QuadTree* QT) {
 	for (Boid* b : boids) {
-		b->Move(boids);
+		list<Boid*>* nearby = new list<Boid*>();
+		QT->Query(b->getVisualRange(),nearby);
+		b->Move(*nearby);
+		delete nearby;
 	}
 }
 

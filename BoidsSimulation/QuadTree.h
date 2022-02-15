@@ -7,21 +7,25 @@ using namespace sf;
 class QuadTree {
 public:
 	QuadTree();
-	QuadTree(IntRect boundary);
+	QuadTree(int level, FloatRect boundary);
 	void SubDivide();
-	void Insert(Boid boid);
+	bool Insert(Boid *boid);
 	void Draw(RenderWindow& window);
+	void Query(FloatRect boundary, list<Boid*>* boidList);
+	void Clear();
 private:
-	QuadTree* tLeft;
-	QuadTree* bLeft;
+	/*QuadTree* tLeft;
 	QuadTree* tRight;
-	QuadTree* bRight;
+	QuadTree* bLeft;
+	QuadTree* bRight;*/
+	QuadTree* subNodes[4];
 
-	list<Boid> boids;				//Boids stored in level
-	IntRect boundary;
-	int capacity;					//Max number of boids before dividing (20)
-	bool isDivided;
+	list<Boid*> boids;				//Boids stored in level
+	FloatRect boundary;				//Boundary of the current quadtree level
+	int capacity;					//Max number of boids before dividing 
+	int level;						//Depth of level
+	bool isDivided;					//If the quadtree has divided yet or not
 };
 
-bool inBounds(IntRect boundary, Vector2f point);	//Checks whether a point is in the rectangle bound
+
 

@@ -13,11 +13,14 @@ public:
 		int id, int x = rand() % GWIDTH, int y = rand() % HEIGHT);
 	void Move(std::list<Boid*>& boids);
 	void Draw(sf::RenderWindow& window);
+	Vector2f getPosition();
+	FloatRect getVisualRange();
 	int id;
 
 	float alignmentForce;
 	float cohesionForce;
 	float separationForce;
+	float visualRange;
 private:
 	bool isDead = 0;			//Is eaten
 	bool isVisible = 1;			//Whether other boids can see him

@@ -7,7 +7,8 @@ public:
 	Flock(int id);
 	void AddBoid();
 	void AddBoid(int x, int y);
-	void UpdateBoids(QuadTree QT);
+	void InsertBoids(QuadTree* QT);	//Insert the boids into the quadtree
+	void UpdateBoids(QuadTree* QT);
 	void ClearFlock();
 	void DrawFlock(sf::RenderWindow& window);
 
