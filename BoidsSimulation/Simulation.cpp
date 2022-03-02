@@ -6,7 +6,7 @@ Simulation::Simulation() {
 	SimulationV.setCenter(GWIDTH / 2, GHEIGHT / 2);
 	SimulationV.setSize(GWIDTH, GHEIGHT);
 	SimulationV.setViewport(FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));
-	QT = new QuadTree<Boid>();
+	QT = new QuadTree<BaseBoid>();
 }
 
 Flock* Simulation::getFlock(int index){

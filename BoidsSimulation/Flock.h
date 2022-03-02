@@ -1,14 +1,14 @@
 #pragma once
 #include <list>
-#include "Boid.h"
+#include "BaseBoid.h"
 #include "QuadTree.h"
 class Flock {
 public:
 	Flock(int id);
 	void AddBoid();
 	void AddBoid(int x, int y);
-	void InsertBoids(QuadTree<Boid>* QT);	//Insert the boids into the quadtree
-	void UpdateBoids(QuadTree<Boid>* QT);
+	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the boids into the quadtree
+	void UpdateBoids(QuadTree<BaseBoid>* QT);
 	void ClearFlock();
 	void DrawFlock(sf::RenderWindow& window);
 
@@ -23,7 +23,7 @@ private:
 	int fCount = 0;
 	sf::Color color;
 
-	list<Boid*> boids;
+	list<BaseBoid*> boids;
 	float alignmentForce;
 	float cohesionForce;
 	float separationForce;

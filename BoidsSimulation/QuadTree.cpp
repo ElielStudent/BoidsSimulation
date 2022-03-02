@@ -1,5 +1,5 @@
 #include "QuadTree.h"
-template class QuadTree<Boid>;
+template class QuadTree<BaseBoid>;
 
 bool inBounds(FloatRect boundary, Vector2f point) {	//Checks whether a point is in the rectangle bound
 	return point.x >= boundary.left && point.x <= boundary.left + boundary.width &&
@@ -84,7 +84,7 @@ void QuadTree<T>::Query(FloatRect boundary, list<T*>* boidList) {		//FINISH QUER
 	if (!boundary.intersects(boundary))									//If the boundary is not inside the area
 		return;
 
-	for (Boid* b : this->boids) {
+	for (BaseBoid* b : this->boids) {
 		if (inBounds(boundary, b->getPosition()))
 			boidList->push_back(b);						//Add boids that are inside
 	}

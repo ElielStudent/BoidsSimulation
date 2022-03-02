@@ -1,5 +1,5 @@
 #pragma once
-#include "Boid.h"
+#include "BaseBoid.h"
 #include "constants.h"
 
 using namespace sf;
