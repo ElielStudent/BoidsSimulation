@@ -15,6 +15,6 @@ private:
 	void copyWorld();
 	bool lastGrid[WORLDSIZE][WORLDSIZE] = { {1} };
 	bool grid[WORLDSIZE][WORLDSIZE] = { {1} };
-	QuadTree obstacles;
+	//QuadTree obstacles;
 };
 

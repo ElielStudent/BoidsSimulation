@@ -1,12 +1,12 @@
 #include "Simulation.h"
 
 Simulation::Simulation() {
-	//world = new World();
+	world = new World();
 	currFlock = nullptr;
 	SimulationV.setCenter(GWIDTH / 2, GHEIGHT / 2);
 	SimulationV.setSize(GWIDTH, GHEIGHT);
 	SimulationV.setViewport(FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));
-	QT = new QuadTree();
+	QT = new QuadTree<Boid>();
 }
 
 Flock* Simulation::getFlock(int index){
@@ -31,7 +31,7 @@ void Simulation::addBoid() {			//TEMPORARY, FIX TO MAKE BETTER LOL
 }
 
 void Simulation::Draw(RenderWindow& window) {
-	//world->drawWorld(window);
+	world->drawWorld(window);
 
 	window.setView(SimulationV);
 	for (Flock f : flocks) {

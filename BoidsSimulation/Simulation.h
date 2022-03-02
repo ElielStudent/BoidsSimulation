@@ -26,7 +26,7 @@ private:
 	int flockCount = 0;				//Amount of flocks
 	//int currFlock = 0;			//The selected flock (used for adding boids,etc)
 	Flock* currFlock;
-	QuadTree* QT;					//The quadtree that holds all of the boids and updates every frame
+	QuadTree<Boid>* QT;					//The quadtree that holds all of the boids and updates every frame
 	World* world;					//The world that holds the map and the collision obstacles
 };
 

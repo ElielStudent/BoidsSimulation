@@ -1,15 +1,12 @@
-#include "Button.h"
+#include "Label.h"
 
-Button::Button(std::string text, sf::Vector2f position, sf::Vector2f size, std::function<void()> func)
+Label::Label(std::string text, sf::Vector2f position, sf::Vector2f size)
 	:UIElement(sf::FloatRect(position.x, position.y, size.x, size.y)) {
-	onClick = func;
-
 	shape.setPosition(position);
 	shape.setSize(size);
 	shape.setFillColor(sf::Color::White);
 	shape.setOutlineThickness(2);
 	shape.setOutlineColor(sf::Color::Black);
-
 	bFont.loadFromFile("Arial.ttf");
 	bText.setFont(bFont);
 	bText.setString(text);
@@ -17,49 +14,38 @@ Button::Button(std::string text, sf::Vector2f position, sf::Vector2f size, std::
 	bText.setPosition(position.x + 3, position.y + 3);
 }
 
-void Button::Draw(sf::RenderWindow& window) {
+void Label::Draw(sf::RenderWindow& window) {
 	window.draw(shape);
 	window.draw(bText);
 }
 
-void Button::Update(sf::RenderWindow& window) {
-	//Checks click 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		if (!isClicked) {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			if (getBoundary()->contains(mousePos.x, mousePos.y)) {
-				onClick();
-				isClicked = true;
-			}
-		}
-	}
-	else
-		isClicked = false;
+void Label::Update(sf::RenderWindow& window)
+{
 }
 
-void Button::SetText(std::string text) {
+void Label::SetText(std::string text) {
 	bText.setString(text);
 }
 
-void Button::SetPosition(sf::Vector2f position) {
+void Label::SetPosition(sf::Vector2f position) {
 	shape.setPosition(position);
 	bText.setPosition(position.x + 3, position.y + 3);
 
 }
 
-sf::Vector2f Button::GetPosition() {
+sf::Vector2f Label::GetPosition() {
 	return shape.getPosition();
 }
 
-void Button::SetSize(sf::Vector2f size) {
+void Label::SetSize(sf::Vector2f size) {
 	shape.setSize(size);
 }
 
-sf::Vector2f Button::GetSize() {
+sf::Vector2f Label::GetSize() {
 	return shape.getSize();
 }
 
-void Button::SetOrigin(OriginState state) {
+void Label::SetOrigin(OriginState state) {
 	sf::FloatRect* boundary = getBoundary();
 	switch (state) {
 	case TopLeft:
@@ -82,10 +68,6 @@ void Button::SetOrigin(OriginState state) {
 	}
 }
 
-void Button::SetFunction(std::function<void()> func) {
-	onClick = func;
-}
-
-sf::Text Button::GetText() {
+sf::Text Label::GetText() {
 	return bText;
 }

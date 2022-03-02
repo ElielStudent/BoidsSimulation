@@ -2,10 +2,10 @@
 
 Game::Game() :window(sf::VideoMode(WIDTH, HEIGHT), "Boids work!") {
 	window.setFramerateLimit(60);
+	menu.setSimulation(&simulation);
 }
 
 void Game::Start() {
-	menu.setSimulation(&simulation);
 	while (window.isOpen()) {
 		HandleEvents();
 		Update();
@@ -24,8 +24,8 @@ void Game::HandleEvents() {
 			simulation.addBoid();			//DELETE LATER
 			break;
 		case(sf::Event::MouseButtonPressed):
-			menu.HandleButtons(sf::Mouse::getPosition(window));
-			printf("x %d y %d\n", sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+			//menu.HandleButtons(sf::Mouse::getPosition(window));
+			//printf("x %d y %d\n", sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 			break;
 		default:
 			break;
@@ -34,6 +34,7 @@ void Game::HandleEvents() {
 }
 
 void Game::Update(){
+	menu.Update(window);
 	simulation.Update();
 }
 

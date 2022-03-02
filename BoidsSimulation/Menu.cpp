@@ -8,15 +8,21 @@ Menu::Menu() {
 	LoadButtons();
 }
 
-void Menu::setSimulation(Simulation* simulation){
+void Menu::Update(RenderWindow& window) {
+	for (UIElement* ui : UIElements) {
+		ui->Update(window);
+	}
+}
+
+void Menu::setSimulation(Simulation* simulation) {
 	this->simulation = simulation;
 }
 
 void Menu::Draw(RenderWindow& window) {
 	window.setView(MenuV);
 	//Draw background
-	for (Button b : buttons) {
-		b.draw(window);
+	for (UIElement* element : UIElements) {
+		element->Draw(window);
 	}
 }
 
@@ -24,39 +30,23 @@ void Menu::LoadButtons() {
 	auto szout = [this]() {simulation->changeSize({ 30,30 }); };
 	auto szin = [this]() {simulation->changeSize({ -30,-30 }); };
 
-	sZoomIn.setText("S+");
-	sZoomIn.setPosition({ 60 ,GHEIGHT - 100 });
-	sZoomIn.setFunction(szin);
-	buttons[0] = sZoomIn;
+	Button* sZoomIn = new Button("S +", { 60,GHEIGHT - 100 }, { 100, 50 }, szin);
+	UIElements.push_back(sZoomIn);
 
-	sZoomOut.setText("S -");
-	sZoomOut.setPosition({ 60,GHEIGHT - 200 });
-	sZoomOut.setFunction(szout);
-	buttons[1] = sZoomOut;
+	Button* sZoomOut = new Button("S -", { 60,GHEIGHT - 200 }, { 100,50 }, szout);
+	UIElements.push_back(sZoomOut);
 
 	auto wzout = [this]() {simulation->getWorld()->changeSize({ 30,30 }); };
 	auto wzin = [this]() {simulation->getWorld()->changeSize({ -30,-30 }); };
 
-	wZoomIn.setText("W +");
-	wZoomIn.setPosition({ 60 ,GHEIGHT - 300 });
-	wZoomIn.setFunction(wzin);
-	buttons[2] = wZoomIn;
+	Button* wZoomIn = new Button("W +", { 60,GHEIGHT - 300 }, { 100,50 }, wzin);
+	UIElements.push_back(wZoomIn);
 
-	wZoomOut.setText("W-");
-	wZoomOut.setPosition({ 60,GHEIGHT - 400 });
-	wZoomOut.setFunction(wzout);
-	buttons[3] = wZoomOut;
+	Button* wZoomOut = new Button("W -", { 60,GHEIGHT - 400 }, { 100,50 }, wzout);
+	UIElements.push_back(wZoomOut);
 
 	auto quadToggle = [this]() {simulation->toggleDrawQuad(); };
-	qtToggle.setText("QT +");
-	qtToggle.setPosition({ 60 ,GHEIGHT - 500 });
-	qtToggle.setFunction(quadToggle);
-	buttons[4] = qtToggle;
-}
+	Button* qtToggle = new Button("QT +", { 60,GHEIGHT - 500 }, { 100,50 }, quadToggle);
+	UIElements.push_back(qtToggle);
 
-void Menu::HandleButtons(Vector2i mousePos) {		//Mouse relative to the window
-	//Handle differnet button presses, loop through list checking each one
-	for (Button b : buttons) {
-		b.checkClick(mousePos);
-	}
 }

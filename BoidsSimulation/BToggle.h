@@ -3,12 +3,15 @@
 #include "UIElement.h"
 #include <functional>
 
-class Button :public UIElement {
-public:
-	Button(std::string = "NULL", sf::Vector2f position = { 0,0 }
+class BToggle :
+    public UIElement
+{
+	BToggle(std::string = "NULL", sf::Vector2f position = { 0,0 }
 	, sf::Vector2f size = { 100, 50 }, std::function<void()> func = []() {return; });
 	void Draw(sf::RenderWindow& window);
 	void Update(sf::RenderWindow& window);
+	void SetState(bool);
+	bool GetState();
 	void SetText(std::string);
 	sf::Text GetText();
 	void SetPosition(sf::Vector2f position);
@@ -23,4 +26,5 @@ private:
 	sf::RectangleShape shape;
 	sf::Font bFont;
 	sf::Text bText;
+	bool currentState;
 };

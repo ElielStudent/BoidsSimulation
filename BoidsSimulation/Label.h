@@ -1,12 +1,10 @@
 #pragma once
-#include "SFML/Graphics.hpp"
 #include "UIElement.h"
-#include <functional>
-
-class Button :public UIElement {
+#include <SFML/Graphics.hpp>
+class Label:UIElement{
 public:
-	Button(std::string = "NULL", sf::Vector2f position = { 0,0 }
-	, sf::Vector2f size = { 100, 50 }, std::function<void()> func = []() {return; });
+	Label(std::string = "NULL", sf::Vector2f position = { 0,0 }
+	, sf::Vector2f size = { 100, 50 });
 	void Draw(sf::RenderWindow& window);
 	void Update(sf::RenderWindow& window);
 	void SetText(std::string);
@@ -16,11 +14,9 @@ public:
 	void SetSize(sf::Vector2f size);
 	sf::Vector2f GetSize();
 	void SetOrigin(OriginState state);
-	void SetFunction(std::function<void()> func);
 private:
-	bool isClicked = false;
-	std::function<void()> onClick;
 	sf::RectangleShape shape;
 	sf::Font bFont;
 	sf::Text bText;
 };
+

@@ -5,19 +5,15 @@ class Menu
 {
 public:
 	Menu();
+	void Update(RenderWindow& window);
 	void setSimulation(Simulation* simulation);
 	void Draw(RenderWindow& window);
 	void LoadButtons();
-	void HandleButtons(Vector2i mousePos);
 private:
 	View MenuV;
 
 	Simulation* simulation; //Communicate between the buttons and the simulation
-	Button buttons[5];
-	Button sZoomIn;
-	Button sZoomOut;
-	Button wZoomIn;
-	Button wZoomOut;
-	Button qtToggle;
+	list<UIElement*> UIElements;
+	
 };
 

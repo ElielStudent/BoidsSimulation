@@ -1,15 +1,14 @@
-#include "Button.h"
+#include "BToggle.h"
 
-Button::Button(std::string text, sf::Vector2f position, sf::Vector2f size, std::function<void()> func)
+BToggle::BToggle(std::string text, sf::Vector2f position, sf::Vector2f size, std::function<void()> func)
 	:UIElement(sf::FloatRect(position.x, position.y, size.x, size.y)) {
 	onClick = func;
-
 	shape.setPosition(position);
 	shape.setSize(size);
 	shape.setFillColor(sf::Color::White);
 	shape.setOutlineThickness(2);
 	shape.setOutlineColor(sf::Color::Black);
-
+	currentState = false;
 	bFont.loadFromFile("Arial.ttf");
 	bText.setFont(bFont);
 	bText.setString(text);
@@ -17,19 +16,19 @@ Button::Button(std::string text, sf::Vector2f position, sf::Vector2f size, std::
 	bText.setPosition(position.x + 3, position.y + 3);
 }
 
-void Button::Draw(sf::RenderWindow& window) {
+void BToggle::Draw(sf::RenderWindow& window) {
 	window.draw(shape);
 	window.draw(bText);
 }
 
-void Button::Update(sf::RenderWindow& window) {
+void BToggle::Update(sf::RenderWindow& window) {
 	//Checks click 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		if (!isClicked) {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			if (getBoundary()->contains(mousePos.x, mousePos.y)) {
+				SetState(!currentState);
 				onClick();
-				isClicked = true;
 			}
 		}
 	}
@@ -37,29 +36,42 @@ void Button::Update(sf::RenderWindow& window) {
 		isClicked = false;
 }
 
-void Button::SetText(std::string text) {
+void BToggle::SetState(bool state) {
+	currentState = state;
+	if (currentState) {
+		shape.setFillColor({ 150,150,150 });
+		return;
+	}
+	shape.setFillColor({ 255,255,255 });
+}
+
+bool BToggle::GetState() {
+	return currentState;
+}
+
+void BToggle::SetText(std::string text) {
 	bText.setString(text);
 }
 
-void Button::SetPosition(sf::Vector2f position) {
+void BToggle::SetPosition(sf::Vector2f position) {
 	shape.setPosition(position);
 	bText.setPosition(position.x + 3, position.y + 3);
 
 }
 
-sf::Vector2f Button::GetPosition() {
+sf::Vector2f BToggle::GetPosition() {
 	return shape.getPosition();
 }
 
-void Button::SetSize(sf::Vector2f size) {
+void BToggle::SetSize(sf::Vector2f size) {
 	shape.setSize(size);
 }
 
-sf::Vector2f Button::GetSize() {
+sf::Vector2f BToggle::GetSize() {
 	return shape.getSize();
 }
 
-void Button::SetOrigin(OriginState state) {
+void BToggle::SetOrigin(OriginState state) {
 	sf::FloatRect* boundary = getBoundary();
 	switch (state) {
 	case TopLeft:
@@ -82,10 +94,10 @@ void Button::SetOrigin(OriginState state) {
 	}
 }
 
-void Button::SetFunction(std::function<void()> func) {
+void BToggle::SetFunction(std::function<void()> func) {
 	onClick = func;
 }
 
-sf::Text Button::GetText() {
+sf::Text BToggle::GetText() {
 	return bText;
 }

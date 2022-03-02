@@ -1,11 +1,13 @@
 #include "QuadTree.h"
+template class QuadTree<Boid>;
 
 bool inBounds(FloatRect boundary, Vector2f point) {	//Checks whether a point is in the rectangle bound
 	return point.x >= boundary.left && point.x <= boundary.left + boundary.width &&
 		point.y >= boundary.top && point.y <= boundary.top + boundary.height;
 }
 
-QuadTree::QuadTree() {
+template<typename T>
+QuadTree<T>::QuadTree() {
 	this->boundary = { 0,0,GWIDTH, GHEIGHT };
 	this->level = 0;
 	this->capacity = QUADCAPACITY;
@@ -13,7 +15,8 @@ QuadTree::QuadTree() {
 	subNodes[0] = subNodes[1] = subNodes[2] = subNodes[3] = nullptr;
 }
 
-QuadTree::QuadTree(int level, FloatRect boundary) {
+template<typename T>
+QuadTree<T>::QuadTree(int level, FloatRect boundary) {
 	this->boundary = boundary;
 	this->level = level;
 	this->capacity = QUADCAPACITY;
@@ -21,7 +24,8 @@ QuadTree::QuadTree(int level, FloatRect boundary) {
 	subNodes[0] = subNodes[1] = subNodes[2] = subNodes[3] = nullptr;
 }
 
-void QuadTree::SubDivide() {
+template<typename T>
+void QuadTree<T>::SubDivide() {
 	Vector2f center = { boundary.left + (boundary.width / 2),boundary.top + (boundary.height / 2) };
 	Vector2f size = { boundary.width / 2, boundary.height / 2 };
 	//Divides the 4 children
@@ -32,7 +36,8 @@ void QuadTree::SubDivide() {
 	isDivided = true;
 }
 
-bool QuadTree::Insert(Boid* boid) {
+template<typename T>
+bool QuadTree<T>::Insert(T* boid) {
 	Vector2f boidPos = boid->getPosition();
 	if (!boundary.contains(boidPos))				//If the boid's position belongs in qt
 		return false;
@@ -45,14 +50,15 @@ bool QuadTree::Insert(Boid* boid) {
 	}
 
 	//Attempts to insert into the sub qts
-	for (QuadTree* subNode : subNodes) {
+	for (QuadTree<T>* subNode : subNodes) {
 		if (subNode->Insert(boid))
 			return true;
 	}
 	return false;		//Should never happen, failed to insert the boid
 }
 
-void QuadTree::Draw(RenderWindow& window) {
+template<typename T>
+void QuadTree<T>::Draw(RenderWindow& window) {
 	if (!isDivided)return;
 	Vector2f center = { boundary.left + (boundary.width / 2),boundary.top + (boundary.height / 2) };
 	Vertex vLine[2];			//Vertical line
@@ -69,12 +75,13 @@ void QuadTree::Draw(RenderWindow& window) {
 	window.draw(hLine, 2, PrimitiveType::Lines);
 
 	if (!isDivided)return;
-	for (QuadTree* children : this->subNodes)
+	for (QuadTree<T>* children : this->subNodes)
 		children->Draw(window);
 }
 
-void QuadTree::Query(FloatRect boundary,list<Boid*>* boidList) {		//FINISH QUERYING NEARBY
-	if (!boundary.intersects(boundary))					//If the boundary is not inside the area
+template<typename T>
+void QuadTree<T>::Query(FloatRect boundary, list<T*>* boidList) {		//FINISH QUERYING NEARBY
+	if (!boundary.intersects(boundary))									//If the boundary is not inside the area
 		return;
 
 	for (Boid* b : this->boids) {
@@ -91,10 +98,11 @@ void QuadTree::Query(FloatRect boundary,list<Boid*>* boidList) {		//FINISH QUERY
 	this->subNodes[3]->Query(boundary, boidList);
 }
 
-void QuadTree::Clear() {
+template<typename T>
+void QuadTree<T>::Clear() {
 	boids.clear();
 	if (isDivided) {
-		for (QuadTree* qt : subNodes) {
+		for (QuadTree<T>* qt : subNodes) {
 			qt->Clear();
 			delete qt;
 			qt = nullptr;
