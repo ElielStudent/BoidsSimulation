@@ -29,6 +29,7 @@ void BToggle::Update(sf::RenderWindow& window) {
 			if (getBoundary()->contains(mousePos.x, mousePos.y)) {
 				SetState(!currentState);
 				onClick();
+				isClicked = true;
 			}
 		}
 	}

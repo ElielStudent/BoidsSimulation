@@ -69,6 +69,9 @@
     <ClCompile Include="Boid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PredatorBoid.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="PredatorBoid.h">
+      <Filter>Header Files\Simulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

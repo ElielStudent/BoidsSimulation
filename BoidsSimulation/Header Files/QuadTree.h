@@ -12,7 +12,7 @@ public:
 	void SubDivide();
 	bool Insert(T* boid);
 	void Draw(RenderWindow& window);
-	void Query(FloatRect boundary, list<T*>* boidList);
+	void Query(FloatRect boundary, list<T*>* boidList,BoidType boidType = eBaseBoid);
 	void Clear();
 private:
 	QuadTree* subNodes[4];

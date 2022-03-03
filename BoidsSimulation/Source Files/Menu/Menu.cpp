@@ -4,6 +4,11 @@ Menu::Menu() {
 	MenuV.setCenter(MWIDTH / 2, MHEIGHT / 2);
 	MenuV.setSize(MWIDTH, MHEIGHT);
 	MenuV.setViewport(FloatRect(0, 0, MWIDTHPer, 1.f));
+	background.setPosition(5, 5);
+	background.setSize({MWIDTH-10, MHEIGHT-10});
+	background.setFillColor(Color::Blue);
+	background.setOutlineColor(Color::Magenta);
+	background.setOutlineThickness(5);
 	simulation = nullptr;
 	LoadButtons();
 }
@@ -20,7 +25,7 @@ void Menu::setSimulation(Simulation* simulation) {
 
 void Menu::Draw(RenderWindow& window) {
 	window.setView(MenuV);
-	//Draw background
+	window.draw(background);
 	for (UIElement* element : UIElements) {
 		element->Draw(window);
 	}
@@ -46,7 +51,7 @@ void Menu::LoadButtons() {
 	UIElements.push_back(wZoomOut);
 
 	auto quadToggle = [this]() {simulation->toggleDrawQuad(); };
-	Button* qtToggle = new Button("QT +", { 60,GHEIGHT - 500 }, { 100,50 }, quadToggle);
+	BToggle* qtToggle = new BToggle("QT", { 60,GHEIGHT - 500 }, { 100,50 }, quadToggle);
 	UIElements.push_back(qtToggle);
 
 }

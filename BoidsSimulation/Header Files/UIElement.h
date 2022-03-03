@@ -8,7 +8,7 @@ public:
 	virtual void Draw(sf::RenderWindow &window) = 0;
 	virtual void Update(sf::RenderWindow& window) = 0;
 	virtual sf::FloatRect* getBoundary();
-private:
+protected:
 	sf::FloatRect boundary;
 };
 

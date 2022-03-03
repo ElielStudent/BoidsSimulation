@@ -67,10 +67,10 @@ void QuadTree<T>::Draw(RenderWindow& window) {
 	vLine[1].position = Vector2f(center.x, this->boundary.top + this->boundary.height);
 	hLine[0].position = Vector2f(this->boundary.left, center.y);
 	hLine[1].position = Vector2f(this->boundary.left + this->boundary.width, center.y);
-	vLine[0].color = Color::Black;
-	vLine[1].color = Color::Black;
-	hLine[0].color = Color::Black;
-	hLine[1].color = Color::Black;
+	vLine[0].color = Color::White;
+	vLine[1].color = Color::White;
+	hLine[0].color = Color::White;
+	hLine[1].color = Color::White;
 	window.draw(vLine, 2, PrimitiveType::Lines);
 	window.draw(hLine, 2, PrimitiveType::Lines);
 
@@ -80,13 +80,14 @@ void QuadTree<T>::Draw(RenderWindow& window) {
 }
 
 template<typename T>
-void QuadTree<T>::Query(FloatRect boundary, list<T*>* boidList) {		//FINISH QUERYING NEARBY
+void QuadTree<T>::Query(FloatRect boundary, list<T*>* boidList, BoidType boidType) {		//FINISH QUERYING NEARBY
 	if (!boundary.intersects(boundary))									//If the boundary is not inside the area
 		return;
 
 	for (BaseBoid* b : this->boids) {
-		if (inBounds(boundary, b->getPosition()))
-			boidList->push_back(b);						//Add boids that are inside
+		if ((boidType == eBaseBoid || b->boidType == boidType)	//If base boid was chosen or boid type same as search boid type
+			&& inBounds(boundary, b->getPosition()))			//And its in the same boundary
+			boidList->push_back(b);								//Add boids that are inside
 	}
 
 	if (!isDivided)										//If it hasnt been divided dont check children

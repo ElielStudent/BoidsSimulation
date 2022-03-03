@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "BaseBoid.h"
+#include "Boid.h"
 #include "QuadTree.h"
 class Flock {
 public:

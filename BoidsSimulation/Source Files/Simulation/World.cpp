@@ -29,25 +29,25 @@ void World::GenerateWorld(){
 }
 
 void World::drawWorld(RenderWindow& window){
-	RectangleShape rect;
-	window.setView(WorldV);
-	//rect.setRadius((GHEIGHT / (WORLDSIZE * 1.2)) * 2);
-	//rect.setRadius(2);
-	rect.setSize({ 2,2 });
-	rect.setFillColor(Color::Black);
-	RectangleShape wholeRect;							//FILLS WHOLE SCREEN,CAN DELETE
-	wholeRect.setSize({ GWIDTH,GHEIGHT });
-	wholeRect.setFillColor(Color::White);
-	window.draw(wholeRect);
-	for (int y = 0; y < WORLDSIZE; y++) {
-		for (int x = 0; x < WORLDSIZE; x++) {
-			if (grid[y][x]) {
-				//rect.setPosition(Vector2f(x * (GWIDTH / WORLDSIZE), y * (HEIGHT / WORLDSIZE)));
-				rect.setPosition(x, y);
-				window.draw(rect);
-			}
-		}
-	}
+	//RectangleShape rect;
+	//window.setView(WorldV);
+	////rect.setRadius((GHEIGHT / (WORLDSIZE * 1.2)) * 2);
+	////rect.setRadius(2);
+	//rect.setSize({ 2,2 });
+	//rect.setFillColor(Color::Black);
+	//RectangleShape wholeRect;							//FILLS WHOLE SCREEN,CAN DELETE
+	//wholeRect.setSize({ GWIDTH,GHEIGHT });
+	//wholeRect.setFillColor(Color::White);
+	//window.draw(wholeRect);
+	//for (int y = 0; y < WORLDSIZE; y++) {
+	//	for (int x = 0; x < WORLDSIZE; x++) {
+	//		if (grid[y][x]) {
+	//			//rect.setPosition(Vector2f(x * (GWIDTH / WORLDSIZE), y * (HEIGHT / WORLDSIZE)));
+	//			rect.setPosition(x, y);
+	//			window.draw(rect);
+	//		}
+	//	}
+	//}
 }
 
 void World::Zoom(float zAmount)

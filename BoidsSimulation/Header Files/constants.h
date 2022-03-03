@@ -1,5 +1,4 @@
 #pragma once
-//#define WIDTH 1200
 #define WIDTH 1500
 #define HEIGHT	900
 
@@ -17,9 +16,11 @@
 
 #define QUADCAPACITY 5
 
-#define BOIDSIGHT 30
+#define BOIDRADIUS 6
+#define BOIDSIGHT 80
 #define SEPRANGE 20
 #define MAXVISUALRANGE (BOIDSIGHT*2)
+#define MINVISUALRANGE (BOIDSIGHT/2)
 
 #define ALIGNMENT 0.3
 #define COHESION 0.7

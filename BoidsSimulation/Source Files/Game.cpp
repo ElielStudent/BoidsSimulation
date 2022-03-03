@@ -6,10 +6,15 @@ Game::Game() :window(sf::VideoMode(WIDTH, HEIGHT), "Boids work!") {
 }
 
 void Game::Start() {
+	Clock fps;
+	float lastTime = 0;
 	while (window.isOpen()) {
 		HandleEvents();
 		Update();
 		Draw();
+		float currTime = fps.restart().asSeconds();
+		printf("%f \n", 1.f / currTime);
+		lastTime = currTime;
 	}
 }
 
@@ -39,7 +44,7 @@ void Game::Update(){
 }
 
 void Game::Draw() {
-	window.clear(Color::Cyan);
+	window.clear();
 	simulation.Draw(window);
 	menu.Draw(window);
 	window.display();
