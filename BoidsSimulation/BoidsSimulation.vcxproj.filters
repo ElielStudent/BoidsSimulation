@@ -27,115 +27,112 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Project\src\Simulation\BaseBoid.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\Flock.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Project\src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Functions.cpp">
+    <ClCompile Include="Project\src\Simulation\World.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\PredatorBoid.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\QuadTree.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\Simulation.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Menu\UIElement.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
+    <ClCompile Include="Project\src\Simulation\Boid.cpp">
+      <Filter>Source Files\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Menu\BToggle.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Flock.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="Project\src\Menu\Button.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Simulation.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTree.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Label.cpp">
+    <ClCompile Include="Project\src\Menu\Label.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="UIElement.cpp">
+    <ClCompile Include="Project\src\Menu\Menu.cpp">
       <Filter>Source Files\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="BToggle.cpp">
-      <Filter>Source Files\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseBoid.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Boid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PredatorBoid.cpp">
-      <Filter>Source Files\Simulation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h">
+    <ClInclude Include="Project\include\BaseBoid.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\Boid.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\BToggle.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\Button.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Project\include\Flock.h">
+      <Filter>Header Files\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Functions.h">
+    <ClInclude Include="Project\include\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
+    <ClInclude Include="Project\include\Label.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Flock.h">
-      <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="Project\include\Menu.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTree.h">
+    <ClInclude Include="Project\include\PredatorBoid.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="Simulation.h">
+    <ClInclude Include="Project\include\QuadTree.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
+    <ClInclude Include="Project\include\Simulation.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
-    <ClInclude Include="BaseBoid.h">
-      <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Boid.h">
-      <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="BToggle.h">
+    <ClInclude Include="Project\include\UIElement.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Label.h">
-      <Filter>Header Files\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="UIElement.h">
-      <Filter>Header Files\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="PredatorBoid.h">
+    <ClInclude Include="Project\include\World.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="gamethingy.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="boid.png">
+    <Image Include="Project\data\gamethingy.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Arial.ttf">
+    <Font Include="Project\src\Arial.ttf">
       <Filter>Resource Files</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Project\data\Text.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

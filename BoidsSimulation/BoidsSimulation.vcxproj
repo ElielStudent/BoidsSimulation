@@ -72,8 +72,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SFML32_DIR)\include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(SFML32_DIR)\lib</LibraryPath>
+    <IncludePath>$(ProjectDir)/Project/include;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SFML32_DIR)\include</IncludePath>
+    <LibraryPath>$(ProjectDir)/Project/libs;$(LibraryPath);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(SFML32_DIR)\lib</LibraryPath>
+    <SourcePath>$(ProjectDir)/Project/src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,8 +83,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SFML32_DIR)\include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(SFML32_DIR)\lib</LibraryPath>
+    <IncludePath>$(ProjectDir)/Project/include;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SFML32_DIR)\include</IncludePath>
+    <LibraryPath>$(ProjectDir)/Project/libs;$(LibraryPath);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(SFML32_DIR)\lib</LibraryPath>
+    <SourcePath>$(ProjectDir)/Project/src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -179,48 +181,47 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseBoid.cpp" />
-    <ClCompile Include="Boid.cpp" />
-    <ClCompile Include="BToggle.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Flock.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Label.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="PredatorBoid.cpp" />
-    <ClCompile Include="QuadTree.cpp" />
-    <ClCompile Include="Functions.cpp" />
-    <ClCompile Include="Simulation.cpp" />
-    <ClCompile Include="UIElement.cpp" />
-    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Project\src\Menu\Label.cpp" />
+    <ClCompile Include="Project\src\Menu\Menu.cpp" />
+    <ClCompile Include="Project\src\Simulation\BaseBoid.cpp" />
+    <ClCompile Include="Project\src\Simulation\Boid.cpp" />
+    <ClCompile Include="Project\src\Menu\BToggle.cpp" />
+    <ClCompile Include="Project\src\Menu\Button.cpp" />
+    <ClCompile Include="Project\src\Simulation\Flock.cpp" />
+    <ClCompile Include="Project\src\Game.cpp" />
+    <ClCompile Include="Project\src\Main.cpp" />
+    <ClCompile Include="Project\src\Simulation\PredatorBoid.cpp" />
+    <ClCompile Include="Project\src\Simulation\QuadTree.cpp" />
+    <ClCompile Include="Project\src\Functions.cpp" />
+    <ClCompile Include="Project\src\Simulation\Simulation.cpp" />
+    <ClCompile Include="Project\src\Menu\UIElement.cpp" />
+    <ClCompile Include="Project\src\Simulation\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseBoid.h" />
-    <ClInclude Include="Boid.h" />
-    <ClInclude Include="BToggle.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="Flock.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Label.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="PredatorBoid.h" />
-    <ClInclude Include="QuadTree.h" />
-    <ClInclude Include="Functions.h" />
-    <ClInclude Include="Simulation.h" />
-    <ClInclude Include="UIElement.h" />
-    <ClInclude Include="World.h" />
+    <ClInclude Include="Project\include\BaseBoid.h" />
+    <ClInclude Include="Project\include\Boid.h" />
+    <ClInclude Include="Project\include\BToggle.h" />
+    <ClInclude Include="Project\include\Button.h" />
+    <ClInclude Include="Project\include\constants.h" />
+    <ClInclude Include="Project\include\Flock.h" />
+    <ClInclude Include="Project\include\Game.h" />
+    <ClInclude Include="Project\include\Label.h" />
+    <ClInclude Include="Project\include\Menu.h" />
+    <ClInclude Include="Project\include\PredatorBoid.h" />
+    <ClInclude Include="Project\include\QuadTree.h" />
+    <ClInclude Include="Project\include\Functions.h" />
+    <ClInclude Include="Project\include\Simulation.h" />
+    <ClInclude Include="Project\include\UIElement.h" />
+    <ClInclude Include="Project\include\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt" />
+    <Text Include="Project\data\Text.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="boid.png" />
-    <Image Include="gamethingy.png" />
+    <Image Include="Project\data\gamethingy.png" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Arial.ttf" />
+    <Font Include="Project\src\Arial.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
