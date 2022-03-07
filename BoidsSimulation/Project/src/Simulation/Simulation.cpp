@@ -5,7 +5,7 @@ Simulation::Simulation() {
 	currFlock = nullptr;
 	SimulationV.setCenter(GWIDTH / 2, GHEIGHT / 2);
 	SimulationV.setSize(GWIDTH, GHEIGHT);
-	SimulationV.setViewport(FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));
+	SimulationV.setViewport(sf::FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));
 	QT = new QuadTree<BaseBoid>();
 }
 
@@ -29,7 +29,7 @@ void Simulation::addBoid() {			//TEMPORARY, FIX TO MAKE BETTER LOL
 	currFlock->AddBoid();
 }
 
-void Simulation::Draw(RenderWindow& window) {
+void Simulation::Draw(sf::RenderWindow& window) {
 	world->drawWorld(window);
 
 	window.setView(SimulationV);
@@ -60,7 +60,7 @@ void Simulation::Zoom(float zAmount) {
 
 }
 
-void Simulation::changeSize(Vector2f size) {
+void Simulation::changeSize(sf::Vector2f size) {
 	SimulationV.setSize(SimulationV.getSize() + size);
 	std::cout << "Simulation: " << SimulationV.getSize().x << " " << SimulationV.getSize().y << std::endl;
 }

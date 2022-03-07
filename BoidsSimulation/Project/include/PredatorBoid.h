@@ -4,7 +4,8 @@ class PredatorBoid :
     public BaseBoid
 {
 public:
-    PredatorBoid( int id,int x = rand() % GWIDTH, int y = rand() % HEIGHT);
+    PredatorBoid(float alignment, float cohesion, float separation, int id,
+        int x = rand() % GWIDTH, int y = rand() % HEIGHT);
 
     void setAlignment(float alignmentForce) { this->alignmentForce = alignmentForce; }
     void setCohesion(float cohesionForce) { this->cohesionForce = cohesionForce; }
@@ -19,11 +20,11 @@ private:
     float alignmentForce;
     float cohesionForce;
     float separationForce;
-    Vector2f Alignment();
-    Vector2f Cohesion();
-    Vector2f Separation();
+    sf::Vector2f Alignment();
+    sf::Vector2f Cohesion();
+    sf::Vector2f Separation();
 
-    Vector2f ChaseBoid();
+    sf::Vector2f ChaseBoid();
     float chasingForce = 10;
 };
 

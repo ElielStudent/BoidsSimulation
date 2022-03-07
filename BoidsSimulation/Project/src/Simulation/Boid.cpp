@@ -11,16 +11,16 @@ Boid::Boid(float alignment, float cohesion, float separation, int id, int x, int
 }
 
 void Boid::calcDirection() {
-	Vector2f newDirection = { 0,0 };
+	sf::Vector2f newDirection = { 0,0 };
 	if (changeSight) {
 		if (localBoids->size() == 0) { 				//If no boids are around
-			if (visualRange < MAXVISUALRANGE)
-				visualRange *= 1.01;				//If it has no neighbors,increase range
+			if (visualRadius < MAXVISUALRANGE)
+				visualRadius *= 1.01f;				//If it has no neighbors,increase range
 		}
 		else {
 			newDirection += Alignment() + Cohesion() + Separation() + Escape();
-			if (visualRange > MINVISUALRANGE)
-				visualRange *= 0.985;				//If it has neighbors, make its range smaller
+			if (visualRadius > MINVISUALRANGE)
+				visualRadius *= 0.985f;				//If it has neighbors, make its range smaller
 		}
 	}
 	newDirection += checkBounds();
@@ -28,8 +28,8 @@ void Boid::calcDirection() {
 }
 
 //Alignment is based on visible boids in the same flock
-Vector2f Boid::Alignment() {
-	Vector2f align = { 0,0 };
+sf::Vector2f Boid::Alignment() {
+	sf::Vector2f align = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType == BoidType::ePredatorBoid)
@@ -49,9 +49,9 @@ Vector2f Boid::Alignment() {
 }
 
 //Cohesion is based on visible boids in the same flock
-Vector2f Boid::Cohesion()
+sf::Vector2f Boid::Cohesion()
 {
-	Vector2f cohesion = { 0,0 };
+	sf::Vector2f cohesion = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType == BoidType::ePredatorBoid)
@@ -72,16 +72,16 @@ Vector2f Boid::Cohesion()
 }
 
 //Separation is based on visible non-predator boids
-Vector2f Boid::Separation()
+sf::Vector2f Boid::Separation()
 {
-	Vector2f separation = { 0,0 };
+	sf::Vector2f separation = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType == BoidType::ePredatorBoid)	//Follows all but predator
 			continue;
 		float distance = abs(dist(position, b->getPosition()));
 		if (distance < SEPRANGE) {
-			Vector2f difference = position - b->getPosition();
+			sf::Vector2f difference = position - b->getPosition();
 			difference = normalize(difference);
 			difference /= distance;
 			separation += difference;
@@ -99,15 +99,15 @@ Vector2f Boid::Separation()
 	return separation * separationForce;
 }
 
-Vector2f Boid::Escape() {
-	Vector2f escapeV = { 0,0 };
+sf::Vector2f Boid::Escape() {
+	sf::Vector2f escapeV = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)
 			continue;
 		float distance = abs(dist(position, b->getPosition()));
 		if (distance < SEPRANGE) {
-			Vector2f difference = position - b->getPosition();
+			sf::Vector2f difference = position - b->getPosition();
 			difference = normalize(difference);
 			difference /= distance;
 			escapeV += difference;

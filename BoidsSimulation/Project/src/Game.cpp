@@ -6,7 +6,7 @@ Game::Game() :window(sf::VideoMode(WIDTH, HEIGHT), "Boids work!") {
 }
 
 void Game::Start() {
-	Clock fps;
+	sf::Clock fps;
 	float lastTime = 0;
 	while (window.isOpen()) {
 		HandleEvents();
@@ -26,8 +26,10 @@ void Game::HandleEvents() {
 			window.close();
 			break;
 		case(sf::Event::KeyPressed):
-			simulation.addBoid();			//DELETE LATER
-			break;
+			if (event.key.code == sf::Keyboard::Key::Space) {
+				simulation.addBoid();			//DELETE LATER
+				break;
+			}
 		case(sf::Event::MouseButtonPressed):
 			//menu.HandleButtons(sf::Mouse::getPosition(window));
 			//printf("x %d y %d\n", sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
@@ -38,7 +40,7 @@ void Game::HandleEvents() {
 	}
 }
 
-void Game::Update(){
+void Game::Update() {
 	menu.Update(window);
 	simulation.Update();
 }

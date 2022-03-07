@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Boid.h"
+#include "UserBoid.h"
 #include "QuadTree.h"
 
 class Flock {
@@ -24,7 +25,7 @@ private:
 	int fCount = 0;
 	sf::Color color;
 
-	list<BaseBoid*> boids;
+	std::list<BaseBoid*> boids;
 	float alignmentForce;
 	float cohesionForce;
 	float separationForce;

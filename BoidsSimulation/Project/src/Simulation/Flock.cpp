@@ -5,6 +5,7 @@ Flock::Flock(int id) {
 	cohesionForce = COHESION;
 	separationForce = SEPARATION;
 	this->flID = id;
+	boids.push_back(new UserBoid(++fCount));
 }
 
 void Flock::AddBoid() {
@@ -24,7 +25,7 @@ void Flock::InsertBoids(QuadTree<BaseBoid>* QT){
 
 void Flock::UpdateBoids(QuadTree<BaseBoid>* QT) {	
 	for (BaseBoid* b : boids) {
-		list<BaseBoid*>* nearby = new list<BaseBoid*>();
+		std::list<BaseBoid*>* nearby = new std::list<BaseBoid*>();
 		//DOUBLE RANGE???????
 		//QT->Query(b->getVisualBoundary(),nearby);						//Square range
 		QT->Query(b->getPosition(), b->getVisualRange(), nearby);		//Radius based	(doesn't return himself)

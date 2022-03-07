@@ -21,10 +21,10 @@ private:
 	float cohesionForce;
 	float separationForce;
 
-	Vector2f Alignment();
-	Vector2f Cohesion();
-	Vector2f Separation();
-	Vector2f Escape();
+	sf::Vector2f Alignment();
+	sf::Vector2f Cohesion();
+	sf::Vector2f Separation();
+	sf::Vector2f Escape();
 
 	float escapeForce;
 };

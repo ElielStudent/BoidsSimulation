@@ -4,11 +4,11 @@
 class World{
 public:
 	World();
-	void drawWorld(RenderWindow& window);
+	void drawWorld(sf::RenderWindow& window);
 	void Zoom(float zAmount);
-	void changeSize(Vector2f size);
+	void changeSize(sf::Vector2f size);
 private:
-	View WorldV;
+	sf::View WorldV;
 	void GenerateWorld();
 	void fillRandom();
 	int getNeighbors(int x, int y);

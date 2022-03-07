@@ -2,7 +2,7 @@ Each flock has an id
 Boids of the same flock fly together with the rules
 When they find another bird from another flock, they avoid it
 Same with obstacles
-All boids are stored in a list, and moved around in the global quadtree 
+All boids are stored in a std::list, and moved around in the global quadtree 
 every frame
 In the side bar screen i will hold the settings (using another view) where
 i can switch between "game modes" like the predator simulation, the neural network,

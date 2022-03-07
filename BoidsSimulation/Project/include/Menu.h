@@ -10,21 +10,21 @@ class Menu
 {
 public:
 	Menu();
-	void Update(RenderWindow& window);
+	void Update(sf::RenderWindow& window);
 	void setSimulation(Simulation* simulation);
-	void Draw(RenderWindow& window);
+	void Draw(sf::RenderWindow& window);
 	void LoadButtons();
-	void LoadMenu(MenuType menuType,RenderWindow& window);
+	void LoadMenu(MenuType menuType,sf::RenderWindow& window);
 private:
-	void LoadWorldMenu(RenderWindow& window);
-	void LoadFlockMenu(RenderWindow& window);
-	void LoadBoidMenu(RenderWindow& window);
+	void LoadWorldMenu(sf::RenderWindow& window);
+	void LoadFlockMenu(sf::RenderWindow& window);
+	void LoadBoidMenu(sf::RenderWindow& window);
 
 	MenuType currMenu = MenuType::eWorldMenu;
-	View MenuV;
+	sf::View MenuV;
 
 	sf::RectangleShape background;
 	Simulation* simulation; //Communicate between the buttons and the simulation
-	list<UIElement*> UIElements;
+	std::list<UIElement*> UIElements;
 };
 

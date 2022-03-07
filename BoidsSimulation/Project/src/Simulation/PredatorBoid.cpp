@@ -1,22 +1,25 @@
 #include "PredatorBoid.h"
 
-PredatorBoid::PredatorBoid(int id, int x, int y)
+PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, int id, int x, int y)
 	:BaseBoid(id, x, y)
 {
+	alignmentForce = alignment;
+	cohesionForce = cohesion;
+	separationForce = separation;
 	boidType = BoidType::ePredatorBoid;
 }
 
 void PredatorBoid::calcDirection() {
-	Vector2f newDirection = { 0,0 };
+	sf::Vector2f newDirection = { 0,0 };
 	if (changeSight) {
 		if (localBoids->size() == 0) { 				//If no other boids are around
-			if (visualRange < MAXVISUALRANGE)
-				visualRange *= 1.01;				//If it has no neighbors,increase range
+			if (visualRadius < MAXVISUALRANGE)
+				visualRadius *= 1.01f;				//If it has no neighbors,increase range
 		}
 		else {
 			newDirection += ChaseBoid();
-			if (visualRange > MINVISUALRANGE)
-				visualRange *= 0.985;				//If it has neighbors, make its range smaller
+			if (visualRadius > MINVISUALRANGE)
+				visualRadius *= 0.985f;				//If it has neighbors, make its range smaller
 		}
 	}
 
@@ -26,8 +29,8 @@ void PredatorBoid::calcDirection() {
 
 }
 
-Vector2f PredatorBoid::Alignment() {
-	Vector2f align = { 0,0 };
+sf::Vector2f PredatorBoid::Alignment() {
+	sf::Vector2f align = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)
@@ -46,8 +49,8 @@ Vector2f PredatorBoid::Alignment() {
 	return align * alignmentForce;
 }
 
-Vector2f PredatorBoid::Cohesion() {
-	Vector2f cohesion = { 0,0 };
+sf::Vector2f PredatorBoid::Cohesion() {
+	sf::Vector2f cohesion = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)
@@ -67,15 +70,15 @@ Vector2f PredatorBoid::Cohesion() {
 	return cohesion * cohesionForce;
 }
 
-Vector2f PredatorBoid::Separation() {
-	Vector2f separation = { 0,0 };
+sf::Vector2f PredatorBoid::Separation() {
+	sf::Vector2f separation = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)	//Follows all but predator
 			continue;
 		float distance = abs(dist(position, b->getPosition()));
 		if (distance < SEPRANGE) {
-			Vector2f difference = position - b->getPosition();
+			sf::Vector2f difference = position - b->getPosition();
 			difference = normalize(difference);
 			difference /= distance;
 			separation += difference;
@@ -93,8 +96,8 @@ Vector2f PredatorBoid::Separation() {
 	return separation * separationForce;
 }
 
-Vector2f PredatorBoid::ChaseBoid() {
-	Vector2f chaseV = { 0,0 };
+sf::Vector2f PredatorBoid::ChaseBoid() {
+	sf::Vector2f chaseV = { 0,0 };
 	float total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible)
