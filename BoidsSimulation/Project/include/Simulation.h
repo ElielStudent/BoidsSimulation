@@ -9,7 +9,7 @@ class Simulation
 {
 public:
 	Simulation();
-	Flock* getFlock(int index);
+	Flock* getFlock(int id);
 	void UpdateQuadTree();
 	void AddFlock();
 	void addBoid();

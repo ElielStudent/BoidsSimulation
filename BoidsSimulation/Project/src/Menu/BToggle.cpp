@@ -1,19 +1,20 @@
 #include "BToggle.h"
 
-BToggle::BToggle(std::string text, sf::Vector2f position, sf::Vector2f size, std::function<void()> func)
-	:UIElement(sf::FloatRect(position.x, position.y, size.x, size.y)) {
+BToggle::BToggle(std::string text, sf::Vector2f position, sf::Vector2f size,
+	std::function<void()> func,sf::Color fillColor, sf::Color outlineColor)
+	:UIElement(position, size, fillColor, outlineColor) {
 	onClick = func;
-	shape.setPosition(position);
-	shape.setSize(size);
+
 	shape.setFillColor(sf::Color::White);
 	shape.setOutlineThickness(2);
 	shape.setOutlineColor(sf::Color::Black);
-	currentState = false;
-	bFont.loadFromFile("Arial.ttf");
+
 	bText.setFont(bFont);
 	bText.setString(text);
 	bText.setFillColor(sf::Color::Black);
 	bText.setPosition(position.x + 3, position.y + 3);
+	
+	currentState = false;
 }
 
 void BToggle::Draw(sf::RenderWindow& window) {
@@ -25,8 +26,7 @@ void BToggle::Update(sf::RenderWindow& window) {
 	//Checks click 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		if (!isClicked) {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			if (getBoundary()->contains(mousePos.x, mousePos.y)) {
+			if (shape.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
 				SetState(!currentState);
 				onClick();
 				isClicked = true;
@@ -54,50 +54,17 @@ void BToggle::SetText(std::string text) {
 	bText.setString(text);
 }
 
-void BToggle::SetPosition(sf::Vector2f position) {
-	shape.setPosition(position);
-	bText.setPosition(position.x + 3, position.y + 3);
-
-}
-
-sf::Vector2f BToggle::GetPosition() {
-	return shape.getPosition();
-}
-
-void BToggle::SetSize(sf::Vector2f size) {
-	shape.setSize(size);
-}
-
-sf::Vector2f BToggle::GetSize() {
-	return shape.getSize();
-}
-
-void BToggle::SetOrigin(OriginState state) {
-	sf::FloatRect* boundary = getBoundary();
-	switch (state) {
-	case OriginState::TopLeft:
-		shape.setOrigin(boundary->left, boundary->top);
-		break;
-	case OriginState::TopRight:
-		shape.setOrigin(boundary->left + boundary->width, boundary->top);
-		break;
-	case OriginState::BottomLeft:
-		shape.setOrigin(boundary->left, boundary->top + boundary->height);
-		break;
-	case OriginState::BottomRight:
-		shape.setOrigin(boundary->left + boundary->width, boundary->top + boundary->height);
-		break;
-	case OriginState::Center:
-		shape.setOrigin(boundary->left + (boundary->width / 2), boundary->top + (boundary->height / 2));
-		break;
-	default:
-		break;
-	}
-}
-
 void BToggle::SetFunction(std::function<void()> func) {
 	onClick = func;
 }
+
+void BToggle::SetPosition(sf::Vector2f position) {
+	shape.setPosition(position);
+	bText.setPosition(position + sf::Vector2f(
+		shape.getLocalBounds().width * 0.25f,
+		shape.getLocalBounds().height * 0.25f));
+}
+
 
 sf::Text BToggle::GetText() {
 	return bText;

@@ -1,7 +1,7 @@
 #include "Boid.h"
 
-Boid::Boid(float alignment, float cohesion, float separation, int id, int x, int y)
-	:BaseBoid(id, x, y) 
+Boid::Boid(float alignment, float cohesion, float separation, int id,int flID, int x, int y)
+	:BaseBoid(id,flID, x, y) 
 {
 	alignmentForce = alignment;
 	cohesionForce = cohesion;

@@ -9,8 +9,11 @@ Simulation::Simulation() {
 	QT = new QuadTree<BaseBoid>();
 }
 
-Flock* Simulation::getFlock(int index) {
-	return &(*(next(flocks.begin(), index)));
+Flock* Simulation::getFlock(int id) {
+	if (id > flocks.size()) return nullptr;
+	std::list<Flock>::iterator it = flocks.begin();
+	std::advance(it, id - 1);
+	return &(*it);
 }
 
 void Simulation::UpdateQuadTree() {
@@ -39,8 +42,6 @@ void Simulation::Draw(sf::RenderWindow& window) {
 	for (Flock f : flocks) {
 		f.DrawFlock(window);
 	}
-
-
 }
 
 void Simulation::Update() {

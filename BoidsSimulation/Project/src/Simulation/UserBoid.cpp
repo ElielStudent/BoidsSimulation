@@ -1,14 +1,14 @@
 #include "UserBoid.h"
 
-UserBoid::UserBoid(int id, int x, int y) :BaseBoid(id, x, y) {
+UserBoid::UserBoid(int id,int flID, int x, int y) :BaseBoid(id,flID, x, y) {
 	boidType = BoidType::eUserBoid;
 }
 
-void UserBoid::calcDirection(){
+void UserBoid::calcDirection() {
 	float USERTURN = 0.1f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		direction = { cos(USERTURN) * direction.x - sin(USERTURN) * direction.y,
-		cos(USERTURN) * direction.y + sin(USERTURN )* direction.x };
+		cos(USERTURN) * direction.y + sin(USERTURN) * direction.x };
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		direction = { cos(-USERTURN) * direction.x - sin(-USERTURN) * direction.y,
 		cos(-USERTURN) * direction.y + sin(-USERTURN) * direction.x };
@@ -18,14 +18,8 @@ void UserBoid::calcDirection(){
 	direction += checkBounds();
 }
 
-void UserBoid::setAlignment(float alignmentForce)
-{
-}
+void UserBoid::setAlignment(float alignmentForce) {}
 
-void UserBoid::setCohesion(float cohesionForce)
-{
-}
+void UserBoid::setCohesion(float cohesionForce) {}
 
-void UserBoid::setSeparation(float separationForce)
-{
-}
+void UserBoid::setSeparation(float separationForce) {}

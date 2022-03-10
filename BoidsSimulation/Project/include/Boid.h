@@ -3,12 +3,12 @@
 #include <list>
 
 class Boid :
-    public BaseBoid
+	public BaseBoid
 {
 public:
-	Boid(float alignment, float cohesion, float separation, int id,
+	Boid(float alignment, float cohesion, float separation, int id, int flID,
 		int x = rand() % GWIDTH, int y = rand() % HEIGHT);
-    void calcDirection();
+	void calcDirection();
 
 	void setAlignment(float alignmentForce) { this->alignmentForce = alignmentForce; }
 	void setCohesion(float cohesionForce) { this->cohesionForce = cohesionForce; }

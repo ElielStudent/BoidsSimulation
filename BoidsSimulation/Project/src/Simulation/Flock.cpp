@@ -1,15 +1,15 @@
 #include "Flock.h"
 
-Flock::Flock(int id) {
+Flock::Flock(int flID) {
 	alignmentForce = ALIGNMENT;
 	cohesionForce = COHESION;
 	separationForce = SEPARATION;
-	this->flID = id;
-	boids.push_back(new UserBoid(++fCount));
+	this->flID = flID;
+	boids.push_back(new UserBoid(++fCount,this->flID));
 }
 
 void Flock::AddBoid() {
-	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount);
+	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount,this->flID);
 	boids.push_back(boid);
 }
 
@@ -18,12 +18,12 @@ void Flock::AddBoid(int x, int y) {
 	boids.push_back(boid);
 }
 
-void Flock::InsertBoids(QuadTree<BaseBoid>* QT){
+void Flock::InsertBoids(QuadTree<BaseBoid>* QT) {
 	for (BaseBoid* b : boids)
 		QT->Insert(b);
 }
 
-void Flock::UpdateBoids(QuadTree<BaseBoid>* QT) {	
+void Flock::UpdateBoids(QuadTree<BaseBoid>* QT) {
 	for (BaseBoid* b : boids) {
 		std::list<BaseBoid*>* nearby = new std::list<BaseBoid*>();
 		//DOUBLE RANGE???????
@@ -43,6 +43,13 @@ void Flock::DrawFlock(sf::RenderWindow& window) {
 		b->Draw(window);
 
 	}
+}
+
+BaseBoid* Flock::GetBoid(int id) {
+	if (id > boids.size()) return nullptr;
+	std::list<BaseBoid*>::iterator it = this->boids.begin();
+	std::advance(it, id - 1);
+	return *it;
 }
 
 void Flock::setAlignment(float alignmentForce) {

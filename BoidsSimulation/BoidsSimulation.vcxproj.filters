@@ -75,6 +75,9 @@
     <ClCompile Include="Project\src\Simulation\UserBoid.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
+    <ClCompile Include="Tab.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Project\include\BaseBoid.h">
@@ -122,8 +125,11 @@
     <ClInclude Include="Project\include\World.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
+    <ClInclude Include="Tab.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
     <ClInclude Include="Project\include\UserBoid.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Simulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,16 +1,13 @@
 #include "BaseBoid.h"
 
-BaseBoid::BaseBoid(int id, int x, int y) {
-	visualRadius = BOIDSIGHT;
-
-	shape.setFillColor(sf::Color::White);
+BaseBoid::BaseBoid(int id,int flID, int x, int y, sf::Color fillColor , sf::Color outlineColor) {
+	shape.setFillColor(fillColor);
 	shape.setOutlineThickness(1);
-	shape.setOutlineColor(sf::Color::Black);
+	shape.setOutlineColor(outlineColor);
 	shape.setRadius(BOIDRADIUS);
 	shape.setPointCount(3);
 	shape.setOrigin(BOIDRADIUS / 2, BOIDRADIUS / 2);
 	shape.setScale(1, 1.5);
-
 
 	position = sf::Vector2f(x, y);
 	shape.setPosition(position);
@@ -20,11 +17,14 @@ BaseBoid::BaseBoid(int id, int x, int y) {
 	direction.y = float(sin((3.1415 / 180) * shape.getRotation()));
 	direction = normalize(direction);
 
+	visualRadius = BOIDSIGHT;
+
 	this->id = id;
+	this->flID = flID;
 
 	localBoids = nullptr;
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < TRAILSIZE; i++)		//Init the lastPos 
 		lastPos.push_back({ 0,0 });
 }
 
@@ -53,7 +53,14 @@ void BaseBoid::Draw(sf::RenderWindow& window) {
 		DrawNeighbors(window);
 	if (this->drawTrail)
 		DrawTrail(window);
+	if (this->drawDirection)
+		DrawDirection(window);
 	window.draw(shape);
+}
+
+void BaseBoid::setColor(sf::Color fillColor, sf::Color outlineColor){
+	shape.setFillColor(fillColor);
+	shape.setOutlineColor(outlineColor);
 }
 
 void BaseBoid::DrawVisualRange(sf::RenderWindow& window) {
@@ -87,17 +94,28 @@ void BaseBoid::DrawTrail(sf::RenderWindow& window) {
 	for (it; it != lastPos.end(); it++) {
 		if ((*it) == sf::Vector2f(0, 0))
 			continue;
-		//trailLine[0].color = Color(2* index, 4*index, 8*index);
-		//trailLine[1].color = Color(64 * index, 32* index, 16 * index);
-		trailLine[0].color = sf::Color(5 * index, 5 * index, 5 * index);
-		trailLine[1].color = sf::Color(5 * index, 5 * index, 5 * index);
-		//trailLine[0].color = Color(25* index, 25*index, 25*index);
-		//trailLine[1].color = Color(25 * index, 25 * index, 25 * index);
+		//trailLine[0].color = sf::Color(2* index, 4*index, 8*index);
+		//trailLine[1].color = sf::Color(64 * index, 32* index, 16 * index);
+		//trailLine[0].color = sf::Color(5 * index, 5 * index, 5 * index);
+		//trailLine[1].color = sf::Color(5 * index, 5 * index, 5 * index); 
+		trailLine[0].color = sf::Color(255, 255 ,255,5*index);
+		trailLine[1].color = sf::Color(255, 255 ,255,5*index);
+		//trailLine[0].color = sf::Color(25* index, 25*index, 25*index);
+		//trailLine[1].color = sf::Color(25 * index, 25 * index, 25 * index);
 		trailLine[1].position = *it;
 		window.draw(trailLine, 2, sf::PrimitiveType::Lines);
 		trailLine[0].position = trailLine[1].position;
 		index--;
 	}
+}
+
+void BaseBoid::DrawDirection(sf::RenderWindow& window){
+	sf::Vertex direcLine[2];
+	direcLine[0].position = this->position;
+	direcLine[1].position = this->position + (this->direction);
+	direcLine[0].color = sf::Color::White;
+	direcLine[1].color = sf::Color::White;
+	window.draw(direcLine, 2, sf::PrimitiveType::Lines);
 }
 
 sf::Vector2f BaseBoid::getPosition() {
@@ -111,6 +129,10 @@ sf::Vector2f BaseBoid::getDirection() {
 sf::FloatRect BaseBoid::getVisualBoundary() {
 	return sf::FloatRect(position.x - visualRadius, position.y - visualRadius,
 		visualRadius * 2, visualRadius * 2);
+}
+
+void BaseBoid::ToggleVisibility(){
+	isVisible = !isVisible;
 }
 
 sf::Vector2f BaseBoid::checkBounds() {

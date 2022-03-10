@@ -1,7 +1,7 @@
 #include "PredatorBoid.h"
 
-PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, int id, int x, int y)
-	:BaseBoid(id, x, y)
+PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, int id,int flID, int x, int y)
+	:BaseBoid(id,flID, x, y)
 {
 	alignmentForce = alignment;
 	cohesionForce = cohesion;

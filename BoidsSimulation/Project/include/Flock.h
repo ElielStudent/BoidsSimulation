@@ -6,13 +6,14 @@
 
 class Flock {
 public:
-	Flock(int id);
+	Flock(int flID);
 	void AddBoid();
 	void AddBoid(int x, int y);
 	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the boids into the quadtree
 	void UpdateBoids(QuadTree<BaseBoid>* QT);
 	void ClearFlock();
 	void DrawFlock(sf::RenderWindow& window);
+	BaseBoid* GetBoid(int id);
 
 	void setAlignment(float alignmentForce);
 	void setCohesion(float cohesionForce);
@@ -24,7 +25,6 @@ private:
 	int flID;
 	int fCount = 0;
 	sf::Color color;
-
 	std::list<BaseBoid*> boids;
 	float alignmentForce;
 	float cohesionForce;

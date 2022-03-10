@@ -14,6 +14,7 @@ Menu::Menu() {
 }
 
 void Menu::Update(sf::RenderWindow& window) {
+	window.setView(MenuV);
 	for (UIElement* ui : UIElements) {
 		ui->Update(window);
 	}
@@ -51,6 +52,10 @@ void Menu::LoadButtons() {
 	//Toggle QuadTree
 	auto quadToggle = [this]() {simulation->toggleDrawQuad(); };
 	UIElements.push_back(new BToggle("QT", { 60,GHEIGHT - 500 }, { 100,50 }, quadToggle));
+
+	//No 2 another color
+	auto setColor2 = [this]() {simulation->getFlock(1)->GetBoid(2)->setColor(sf::Color::Red); };
+	UIElements.push_back(new Button("2 2 R", { 60,GHEIGHT - 600 }, { 100,50 }, setColor2));
 }
 
 void Menu::LoadMenu(MenuType menuType, sf::RenderWindow& window) {
