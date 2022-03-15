@@ -6,18 +6,19 @@ World::World(){
 	WorldV.setViewport(sf::FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));		//Top,left,width,height of the viewport
 	
 	GenerateWorld();
+	GenerateTexture();
 }
 
 void World::drawWorld(sf::RenderWindow& window){
 	window.setView(WorldV);
-	window.draw(gridSprite);
+	gridTexture.clear(sf::Color::Blue);
+	gridTexture.display();
 }
 
 void World::GenerateWorld(){
-	bool lastGrid[WORLDSIZE][WORLDSIZE] = { {1} };
 	fillRandom();
 	int neighbors;
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < numberOfSteps; i++) {
 		for (int y = 0; y < WORLDSIZE; y++) {
 			for (int x = 0; x < WORLDSIZE; x++) {
 				neighbors = getNeighbors(x, y);
@@ -26,26 +27,16 @@ void World::GenerateWorld(){
 		}
 		copyWorld();
 	}
-
-	gridTexture.create(REALWORLDSIZE, REALWORLDSIZE);
-	
-	/*for (int y = WORLDSIZE * 0.33f; y < WORLDSIZE * 0.66f; y++) {
-		for (int x = WORLDSIZE * 0.33f; x < WORLDSIZE * 0.66f; x++) {
-			grid[y][x] = 0;
-		}
-	}*/
 }
 
 void World::GenerateTexture(){
+	gridTexture.create(REALWORLDSIZE, REALWORLDSIZE);
 	sf::CircleShape circ;
 	circ.setRadius((GHEIGHT / (REALWORLDSIZE * 1.2)) * 2);
 	circ.setRadius(2);
+	circ.setFillColor(sf::Color::Red);
 	//rect.setSize({ 2,2 });
 	//rect.setFillColor(sf::Color::Black);
-	sf::RectangleShape wholeRect;							//FILLS WHOLE SCREEN,CAN DELETE
-	wholeRect.setSize({ REALWORLDSIZE,REALWORLDSIZE });
-	wholeRect.setFillColor(sf::Color::White);
-	gridTexture.draw(wholeRect);
 	for (int y = 0; y < WORLDSIZE; y++) {
 		for (int x = 0; x < WORLDSIZE; x++) {
 			if (grid[y][x]) {
@@ -71,7 +62,7 @@ void World::fillRandom(){
 	for (int y = 0; y < WORLDSIZE; y++) {
 		for (int x = 0; x < WORLDSIZE; x++) {
 			grid[y][x] = rand() % 101 < 40;
-			//lastGrid[y][x] = grid[y][x];
+			lastGrid[y][x] = grid[y][x];
 		}
 	}
 }
@@ -82,21 +73,20 @@ int World::getNeighbors(int x, int y){
 	bool hasLeft = x > 4;
 	bool hasRight = x < WORLDSIZE - 4;
 
-	/*return (!hasAbove || lastGrid[y - 1][x]) +
+	return (!hasAbove || lastGrid[y - 1][x]) +
 		(!hasAbove || !hasLeft || lastGrid[y - 1][x - 1]) +
 		(!hasAbove || !hasRight || lastGrid[y - 1][x + 1]) +
 		(!hasLeft || lastGrid[y][x - 1]) +
 		(!hasRight || lastGrid[y][x + 1]) +
 		(!hasBelow || lastGrid[y + 1][x]) +
 		(!hasBelow || !hasLeft || lastGrid[y + 1][x - 1]) +
-		(!hasBelow || !hasRight || lastGrid[y + 1][x + 1]);*/
-	return 1;
+		(!hasBelow || !hasRight || lastGrid[y + 1][x + 1]);
 }
 
 void World::copyWorld(){
 	for (int y = 0; y < WORLDSIZE; y++) {
 		for (int x = 0; x < WORLDSIZE; x++) {
-			//lastGrid[y][x] = grid[y][x];
+			lastGrid[y][x] = grid[y][x];
 		}
 	}
 }

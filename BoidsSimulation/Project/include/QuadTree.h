@@ -11,7 +11,7 @@ public:
 	void SubDivide();
 	bool Insert(T* boid);
 	void Draw(sf::RenderWindow& window);
-	void Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType = BoidType::eBaseBoid);
+	void Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType = BoidType::eBaseBoid,int flID = -1);
 	void Query(sf::Vector2f position,float visualRadius, std::list<T*>* boidList,BoidType boidType = BoidType::eBaseBoid);
 	void Clear();
 private:

@@ -17,6 +17,9 @@ private:
 	int getNeighbors(int x, int y);
 	void copyWorld();
 	bool grid[WORLDSIZE][WORLDSIZE] = { {1} };
+	bool lastGrid[WORLDSIZE][WORLDSIZE] = { {1} };
 	//QuadTree obstacles;
+
+	int numberOfSteps = 7;
 };
 

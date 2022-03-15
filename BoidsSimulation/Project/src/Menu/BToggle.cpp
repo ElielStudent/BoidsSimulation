@@ -1,19 +1,17 @@
 #include "BToggle.h"
 
 BToggle::BToggle(std::string text, sf::Vector2f position, sf::Vector2f size,
-	std::function<void()> func,sf::Color fillColor, sf::Color outlineColor)
+	std::function<void()> func, sf::Color fillColor, sf::Color outlineColor)
 	:UIElement(position, size, fillColor, outlineColor) {
 	onClick = func;
-
-	shape.setFillColor(sf::Color::White);
-	shape.setOutlineThickness(2);
-	shape.setOutlineColor(sf::Color::Black);
 
 	bText.setFont(bFont);
 	bText.setString(text);
 	bText.setFillColor(sf::Color::Black);
-	bText.setPosition(position.x + 3, position.y + 3);
-	
+	bText.setPosition(
+		(position.x + shape.getGlobalBounds().width / 2.5f) - (bText.getLocalBounds().width / 2),
+		(position.y + shape.getGlobalBounds().height / 2.5f) - (bText.getLocalBounds().height / 2));
+
 	currentState = false;
 }
 

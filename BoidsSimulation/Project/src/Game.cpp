@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game() :window(sf::VideoMode(WIDTH, HEIGHT), "Boids work!") {
+Game::Game() :window(sf::VideoMode(WIDTH, HEIGHT), "Boids work!"), menu(window),simulation(window) {
 	window.setFramerateLimit(60);
 	menu.setSimulation(&simulation);
 }
@@ -25,15 +25,6 @@ void Game::HandleEvents() {
 		case(sf::Event::Closed):
 			window.close();
 			break;
-		case(sf::Event::KeyPressed):
-			if (event.key.code == sf::Keyboard::Key::Space) {
-				simulation.addBoid();			//DELETE LATER
-				break;
-			}
-		case(sf::Event::MouseButtonPressed):
-			//menu.HandleButtons(sf::Mouse::getPosition(window));
-			//printf("x %d y %d\n", sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-			break;
 		default:
 			break;
 		}
@@ -41,13 +32,13 @@ void Game::HandleEvents() {
 }
 
 void Game::Update() {
-	menu.Update(window);
+	menu.Update();
 	simulation.Update();
 }
 
 void Game::Draw() {
 	window.clear();
-	simulation.Draw(window);
-	menu.Draw(window);
+	simulation.Draw();
+	menu.Draw();
 	window.display();
 }

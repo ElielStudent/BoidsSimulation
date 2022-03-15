@@ -4,27 +4,28 @@
 #include "Label.h"
 #include "Simulation.h"
 
-enum class MenuType{eWorldMenu,eBoidMenu,eFlockMenu};
+enum MenuType{eWorldMenu, eFlockMenu,eBoidMenu};
 
 class Menu 
 {
 public:
-	Menu();
-	void Update(sf::RenderWindow& window);
+	Menu(sf::RenderWindow& window);
+	void Update();
 	void setSimulation(Simulation* simulation);
-	void Draw(sf::RenderWindow& window);
-	void LoadButtons();
-	void LoadMenu(MenuType menuType,sf::RenderWindow& window);
+	void Draw();
+	void LoadMenu(MenuType menuType);
 private:
-	void LoadWorldMenu(sf::RenderWindow& window);
-	void LoadFlockMenu(sf::RenderWindow& window);
-	void LoadBoidMenu(sf::RenderWindow& window);
+	void RestartMenu(MenuType menuType);
+	void LoadWorldMenu();
+	void LoadFlockMenu();
+	void LoadBoidMenu();
 
-	MenuType currMenu = MenuType::eWorldMenu;
+	MenuType currMenu = eWorldMenu;
+	sf::RenderWindow& window;
 	sf::View MenuV;
-
 	sf::RectangleShape background;
 	Simulation* simulation; //Communicate between the buttons and the simulation
+	std::list<BToggle*> UITabs;
 	std::list<UIElement*> UIElements;
 };
 

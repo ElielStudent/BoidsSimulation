@@ -1,54 +1,56 @@
 #include "Simulation.h"
 
-Simulation::Simulation() {
+Simulation::Simulation(sf::RenderWindow& window) :window(window) {
 	world = new World();
 	currFlock = nullptr;
 	SimulationV.setCenter(GWIDTH / 2, GHEIGHT / 2);
 	SimulationV.setSize(GWIDTH, GHEIGHT);
 	SimulationV.setViewport(sf::FloatRect(MWIDTHPer, 0, GWIDTHPer, 1.f));
 	QT = new QuadTree<BaseBoid>();
+	AddFlock();
 }
 
 Flock* Simulation::getFlock(int id) {
 	if (id > flocks.size()) return nullptr;
-	std::list<Flock>::iterator it = flocks.begin();
+	std::list<Flock*>::iterator it = flocks.begin();
 	std::advance(it, id - 1);
-	return &(*it);
+	return *it;
 }
 
 void Simulation::UpdateQuadTree() {
 	QT->Clear();
-	for (Flock f : flocks)
-		f.InsertBoids(QT);
+	for (Flock* f : flocks)
+		f->InsertBoids(QT);
 }
 
 void Simulation::AddFlock() {
-	flocks.push_back(*(new Flock(++flockCount)));
-	currFlock = &(flocks.back());
+	flocks.push_back(new Flock(++flockCount));
+	currFlock = flocks.back();
+	currFlockNum = flockCount - 1;
 }
 
-void Simulation::addBoid() {			//TEMPORARY, FIX TO MAKE BETTER LOL
+void Simulation::AddBoid() {			//TEMPORARY, FIX TO MAKE BETTER LOL
 	if (currFlock == nullptr)AddFlock();
-	currFlock->AddBoid();
+	currFlock->AddBoid(eBaseBoid);
 }
 
-void Simulation::Draw(sf::RenderWindow& window) {
+void Simulation::Draw() {
 	world->drawWorld(window);
 
 	window.setView(SimulationV);
 	if (drawQuad)	//option to draw quadtree
 		QT->Draw(window);
 
-	for (Flock f : flocks) {
-		f.DrawFlock(window);
+	for (Flock* f : flocks) {
+		f->DrawFlock(window);
 	}
 }
 
 void Simulation::Update() {
 	UpdateQuadTree();
 
-	for (Flock f : flocks) {
-		f.UpdateBoids(QT);
+	for (Flock* f : flocks) {
+		f->UpdateBoids(QT);
 	}
 	//call flock to move boids and check death,etc
 
@@ -72,4 +74,13 @@ World* Simulation::getWorld() {
 
 void Simulation::toggleDrawQuad() {
 	drawQuad = !drawQuad;
+}
+
+int Simulation::setFlockIndexFrom(int num) {
+	num = ((num + currFlockNum) + flockCount) % flockCount;
+	std::list<Flock*>::iterator it = flocks.begin();
+	std::advance(it, num);
+	currFlock = *it;
+	currFlockNum = num;
+	return num;
 }

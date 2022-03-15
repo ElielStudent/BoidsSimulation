@@ -4,9 +4,8 @@ UIElement::UIElement(sf::Vector2f position, sf::Vector2f size ,sf::Color fillCol
 	bFont.loadFromFile("Arial.ttf");
 	shape.setPosition(position);
 	shape.setSize(size);
-
 	shape.setFillColor(fillColor);
-	shape.setOutlineThickness(2);
+	shape.setOutlineThickness(-2);
 	shape.setOutlineColor(outlineColor);
 }
 

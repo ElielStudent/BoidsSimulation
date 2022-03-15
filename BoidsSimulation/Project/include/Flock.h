@@ -2,13 +2,14 @@
 #include <list>
 #include "Boid.h"
 #include "UserBoid.h"
+#include "PredatorBoid.h"
 #include "QuadTree.h"
 
 class Flock {
 public:
 	Flock(int flID);
-	void AddBoid();
-	void AddBoid(int x, int y);
+	void AddBoid(BoidType bType);
+	void AddBoid(int x, int y, BoidType bType);
 	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the boids into the quadtree
 	void UpdateBoids(QuadTree<BaseBoid>* QT);
 	void ClearFlock();

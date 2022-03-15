@@ -1,16 +1,16 @@
 #include "Label.h"
 
 Label::Label(std::string text, sf::Vector2f position, sf::Vector2f size,
-	sf::Color fillColor, sf::Color outlineColor )
+	std::function<void()> func, sf::Color fillColor, sf::Color outlineColor )
 	:UIElement(position,size,fillColor, outlineColor) {
-	shape.setFillColor(sf::Color::White);
-	shape.setOutlineThickness(2);
-	shape.setOutlineColor(sf::Color::Black);
+	onUpdate = func;
 
 	bText.setFont(bFont);
 	bText.setString(text);
 	bText.setFillColor(sf::Color::Black);
-	bText.setPosition(position.x + 3, position.y + 3);
+	bText.setPosition(
+		(position.x + shape.getGlobalBounds().width / 2.5f) - (bText.getLocalBounds().width / 2),
+		(position.y + shape.getGlobalBounds().height / 2.5f) - (bText.getLocalBounds().height / 2));
 }
 
 void Label::Draw(sf::RenderWindow& window) {
@@ -18,8 +18,8 @@ void Label::Draw(sf::RenderWindow& window) {
 	window.draw(bText);
 }
 
-void Label::Update(sf::RenderWindow& window)
-{
+void Label::Update(sf::RenderWindow& window){
+	onUpdate();
 }
 
 void Label::SetText(std::string text) {
@@ -35,4 +35,8 @@ void Label::SetPosition(sf::Vector2f position) {
 
 sf::Text Label::GetText() {
 	return bText;
+}
+
+void Label::SetFunction(std::function<void()> func){
+	onUpdate = func;
 }

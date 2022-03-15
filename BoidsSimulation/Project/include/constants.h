@@ -26,6 +26,7 @@
 #define ALIGNMENT 0.3f
 #define COHESION 0.7f
 #define SEPARATION 0.8f
+#define ESCAPEFORCE 5
 
 #define MAXSPEED 3 
 #define MAXFORCE 0.5f

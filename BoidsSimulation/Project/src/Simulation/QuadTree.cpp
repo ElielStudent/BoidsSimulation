@@ -107,12 +107,13 @@ void QuadTree<T>::Draw(sf::RenderWindow& window) {
 
 //Rectangle based query
 template<typename T>
-void QuadTree<T>::Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType) {
+void QuadTree<T>::Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType,int flID) {
 	if (!this->boundary.intersects(boundary))									//If the boundary is not inside the area
 		return;
 
 	for (BaseBoid* b : this->boids) {
-		if ((boidType == BoidType::eBaseBoid || b->boidType == boidType)		//If base boid was chosen or boid type same as search boid type
+		if ((boidType == BoidType::eBaseBoid || b->getBoidType() == boidType)	//If base boid was chosen or boid type same as search boid type
+			&& (flID == -1 || b->getFlID() == flID)								//If all FLIds are chosen or flid same as search boid flid
 			&& inBounds(boundary, b->getPosition()))							//And its in the same boundary
 			boidList->push_back(b);												//Add boids that are inside
 	}
@@ -133,7 +134,7 @@ void QuadTree<T>::Query(sf::Vector2f position, float visualRadius, std::list<T*>
 		return;
 
 	for (BaseBoid* b : this->boids) {
-		if ((boidType == BoidType::eBaseBoid || b->boidType == boidType)	//If base boid was chosen or boid type same as search boid type
+		if ((boidType == BoidType::eBaseBoid || b->getBoidType() == boidType)	//If base boid was chosen or boid type same as search boid type
 			&& inRadius(position, visualRadius, b->getPosition()))			//And its in the same Radius (not same boid)
 			boidList->push_back(b);											//Add boids that are inside
 	}

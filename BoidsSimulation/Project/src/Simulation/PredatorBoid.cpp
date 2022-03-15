@@ -1,11 +1,9 @@
 #include "PredatorBoid.h"
 
-PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, int id,int flID, int x, int y)
-	:BaseBoid(id,flID, x, y)
+PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, int id,int flID, int x, int y,
+	sf::Color fillColor, sf::Color outlineColor)
+	:BaseBoid(id,flID, x, y,fillColor,outlineColor,alignment,cohesion,separation)
 {
-	alignmentForce = alignment;
-	cohesionForce = cohesion;
-	separationForce = separation;
 	boidType = BoidType::ePredatorBoid;
 }
 
@@ -33,7 +31,7 @@ sf::Vector2f PredatorBoid::Alignment() {
 	sf::Vector2f align = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)
+		if (!b->isVisible() || b->getID() == this->id|| b->getFlID() != this->flID)
 			continue;
 		align += b->getDirection();
 		total++;
@@ -53,7 +51,7 @@ sf::Vector2f PredatorBoid::Cohesion() {
 	sf::Vector2f cohesion = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)
+		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID)
 			continue;
 		cohesion += b->getPosition();
 		total++;
@@ -74,7 +72,7 @@ sf::Vector2f PredatorBoid::Separation() {
 	sf::Vector2f separation = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible || b->id == this->id || b->boidType != BoidType::ePredatorBoid)	//Follows all but predator
+		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID)
 			continue;
 		float distance = abs(dist(position, b->getPosition()));
 		if (distance < SEPRANGE) {
@@ -100,7 +98,7 @@ sf::Vector2f PredatorBoid::ChaseBoid() {
 	sf::Vector2f chaseV = { 0,0 };
 	float total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible)
+		if (!b->isVisible())
 			continue;
 		chaseV += b->getPosition();
 		total++;

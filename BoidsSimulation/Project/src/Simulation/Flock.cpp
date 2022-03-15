@@ -5,15 +5,35 @@ Flock::Flock(int flID) {
 	cohesionForce = COHESION;
 	separationForce = SEPARATION;
 	this->flID = flID;
-	boids.push_back(new UserBoid(++fCount,this->flID));
+	this->color = sf::Color(rand()%255, rand() % 255, rand() % 255);
 }
 
-void Flock::AddBoid() {
-	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount,this->flID);
-	boids.push_back(boid);
+void Flock::AddBoid(BoidType bType) {
+	BaseBoid* boid;
+	switch (bType) {
+	case(eNormalBoid):
+		boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount, this->flID);
+		boid->setColor(this->color);
+		boids.push_back(boid);
+		break;
+	case(eUserBoid):
+		boid = new UserBoid(++fCount, this->flID);
+		boid->setColor(this->color);
+		boids.push_back(boid);
+		break;
+	case(ePredatorBoid):
+		boid = new PredatorBoid(alignmentForce, cohesionForce, separationForce, ++fCount, this->flID);
+		boid->setColor(this->color);
+		boids.push_back(boid);
+		break;
+	case(eAiBoid):
+		break;
+	default:
+		break;
+	}
 }
 
-void Flock::AddBoid(int x, int y) {
+void Flock::AddBoid(int x, int y, BoidType bType) {
 	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount, x, y);
 	boids.push_back(boid);
 }

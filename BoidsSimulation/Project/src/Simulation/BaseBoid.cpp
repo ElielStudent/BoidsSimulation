@@ -1,6 +1,7 @@
 #include "BaseBoid.h"
 
-BaseBoid::BaseBoid(int id,int flID, int x, int y, sf::Color fillColor , sf::Color outlineColor) {
+BaseBoid::BaseBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Color outlineColor,
+	float alignment, float cohesion, float separation) {
 	shape.setFillColor(fillColor);
 	shape.setOutlineThickness(1);
 	shape.setOutlineColor(outlineColor);
@@ -16,6 +17,9 @@ BaseBoid::BaseBoid(int id,int flID, int x, int y, sf::Color fillColor , sf::Colo
 	direction.x = float(cos((3.1415 / 180) * shape.getRotation()));
 	direction.y = float(sin((3.1415 / 180) * shape.getRotation()));
 	direction = normalize(direction);
+	this->alignmentForce = alignment;
+	this->cohesionForce = cohesion;
+	this->separationForce = separation;
 
 	visualRadius = BOIDSIGHT;
 
@@ -58,7 +62,7 @@ void BaseBoid::Draw(sf::RenderWindow& window) {
 	window.draw(shape);
 }
 
-void BaseBoid::setColor(sf::Color fillColor, sf::Color outlineColor){
+void BaseBoid::setColor(sf::Color fillColor, sf::Color outlineColor) {
 	shape.setFillColor(fillColor);
 	shape.setOutlineColor(outlineColor);
 }
@@ -67,7 +71,7 @@ void BaseBoid::DrawVisualRange(sf::RenderWindow& window) {
 	sf::CircleShape range;
 	range.setRadius(this->visualRadius);
 	range.setPosition({ this->position.x - this->visualRadius  ,
-		this->position.y - this->visualRadius  });
+		this->position.y - this->visualRadius });
 	range.setFillColor(sf::Color::Transparent);
 	range.setOutlineColor(sf::Color::White);
 	range.setOutlineThickness(-1);
@@ -98,8 +102,8 @@ void BaseBoid::DrawTrail(sf::RenderWindow& window) {
 		//trailLine[1].color = sf::Color(64 * index, 32* index, 16 * index);
 		//trailLine[0].color = sf::Color(5 * index, 5 * index, 5 * index);
 		//trailLine[1].color = sf::Color(5 * index, 5 * index, 5 * index); 
-		trailLine[0].color = sf::Color(255, 255 ,255,5*index);
-		trailLine[1].color = sf::Color(255, 255 ,255,5*index);
+		trailLine[0].color = sf::Color(255, 255, 255, 5 * index);
+		trailLine[1].color = sf::Color(255, 255, 255, 5 * index);
 		//trailLine[0].color = sf::Color(25* index, 25*index, 25*index);
 		//trailLine[1].color = sf::Color(25 * index, 25 * index, 25 * index);
 		trailLine[1].position = *it;
@@ -109,13 +113,86 @@ void BaseBoid::DrawTrail(sf::RenderWindow& window) {
 	}
 }
 
-void BaseBoid::DrawDirection(sf::RenderWindow& window){
+void BaseBoid::DrawDirection(sf::RenderWindow& window) {
 	sf::Vertex direcLine[2];
 	direcLine[0].position = this->position;
-	direcLine[1].position = this->position + (this->direction);
-	direcLine[0].color = sf::Color::White;
-	direcLine[1].color = sf::Color::White;
+	direcLine[1].position = this->position + this->direction;
+	direcLine[0].color = sf::Color::Red;
+	direcLine[1].color = sf::Color::Green;
 	window.draw(direcLine, 2, sf::PrimitiveType::Lines);
+}
+
+//Alignment is based on visible boids in the same flock
+sf::Vector2f BaseBoid::Alignment() {
+	sf::Vector2f align = { 0,0 };
+	int total = 0;
+	for (BaseBoid* b : *localBoids) {
+		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID
+			|| b->getBoidType() == BoidType::ePredatorBoid)
+			continue;
+		align += b->getDirection();
+		total++;
+	}
+	if (total == 0) return { 0,0 };
+	align.x /= total;
+	align.y /= total;
+	/*align = normalize(align);
+	align.x *= MAXSPEED;
+	align.y *= MAXSPEED;*/
+	align -= this->direction;
+	//align = limit(align, MAXFORCE);
+	return align * alignmentForce;
+}
+
+//Cohesion is based on visible boids in the same flock
+sf::Vector2f BaseBoid::Cohesion() {
+	sf::Vector2f cohesion = { 0,0 };
+	int total = 0;
+	for (BaseBoid* b : *localBoids) {
+		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID
+			|| b->getBoidType() == BoidType::ePredatorBoid)
+			continue;
+		cohesion += b->getPosition();
+		total++;
+	}
+	if (total == 0) return { 0,0 };
+	cohesion.x /= total;
+	cohesion.y /= total;
+	cohesion -= position;
+	/*cohesion = normalize(cohesion);
+	cohesion.x *= MAXSPEED;
+	cohesion.y *= MAXSPEED;*/
+	cohesion -= direction;
+	//cohesion = limit(cohesion, MAXFORCE);
+	return cohesion * cohesionForce;
+}
+
+//Separation is based on visible non-predator boids
+sf::Vector2f BaseBoid::Separation() {
+	sf::Vector2f separation = { 0,0 };
+	int total = 0;
+	for (BaseBoid* b : *localBoids) {
+		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID
+			|| b->getBoidType() == BoidType::ePredatorBoid)	//Follows all but predator
+			continue;
+		float distance = abs(dist(position, b->getPosition()));
+		if (distance < SEPRANGE) {
+			sf::Vector2f difference = position - b->getPosition();
+			difference = normalize(difference);
+			difference /= distance;
+			separation += difference;
+			total++;
+		}
+	}
+	if (total == 0) return { 0,0 };
+	separation.x /= total;
+	separation.y /= total;
+	/*separation = normalize(separation);
+	separation.x *= MAXSPEED;
+	separation.y *= MAXSPEED;*/
+	separation -= direction;
+	//separation = limit(separation, MAXFORCE);
+	return separation * separationForce;
 }
 
 sf::Vector2f BaseBoid::getPosition() {
@@ -129,10 +206,6 @@ sf::Vector2f BaseBoid::getDirection() {
 sf::FloatRect BaseBoid::getVisualBoundary() {
 	return sf::FloatRect(position.x - visualRadius, position.y - visualRadius,
 		visualRadius * 2, visualRadius * 2);
-}
-
-void BaseBoid::ToggleVisibility(){
-	isVisible = !isVisible;
 }
 
 sf::Vector2f BaseBoid::checkBounds() {

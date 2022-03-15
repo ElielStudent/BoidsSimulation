@@ -25,11 +25,14 @@
     <Filter Include="Header Files\Simulation">
       <UniqueIdentifier>{ce7d9128-a317-4354-b7af-691d62c33bf7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Simulation\Boids">
+      <UniqueIdentifier>{e8c4baac-f7d2-4497-876c-45c57086486b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Simulation\Boids">
+      <UniqueIdentifier>{f6eafbda-43c5-4997-8457-567748781ebe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Project\src\Simulation\BaseBoid.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
     <ClCompile Include="Project\src\Simulation\Flock.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
@@ -40,9 +43,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Project\src\Simulation\World.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\src\Simulation\PredatorBoid.cpp">
       <Filter>Source Files\Simulation</Filter>
     </ClCompile>
     <ClCompile Include="Project\src\Simulation\QuadTree.cpp">
@@ -57,9 +57,6 @@
     <ClCompile Include="Project\src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Project\src\Simulation\Boid.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
     <ClCompile Include="Project\src\Menu\BToggle.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
@@ -72,20 +69,26 @@
     <ClCompile Include="Project\src\Menu\Menu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Project\src\Simulation\UserBoid.cpp">
-      <Filter>Source Files\Simulation</Filter>
-    </ClCompile>
     <ClCompile Include="Tab.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\BaseBoid.cpp">
+      <Filter>Source Files\Simulation\Boids</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\Boid.cpp">
+      <Filter>Source Files\Simulation\Boids</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\PredatorBoid.cpp">
+      <Filter>Source Files\Simulation\Boids</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\src\Simulation\UserBoid.cpp">
+      <Filter>Source Files\Simulation\Boids</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Project\include\BaseBoid.h">
-      <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\include\Boid.h">
-      <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
     <ClInclude Include="Project\include\BToggle.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
@@ -110,9 +113,6 @@
     <ClInclude Include="Project\include\Menu.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Project\include\PredatorBoid.h">
-      <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
     <ClInclude Include="Project\include\QuadTree.h">
       <Filter>Header Files\Simulation</Filter>
     </ClInclude>
@@ -128,8 +128,20 @@
     <ClInclude Include="Tab.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
+    <ClInclude Include="Project\include\Boid.h">
+      <Filter>Header Files\Simulation\Boids</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\BaseBoid.h">
+      <Filter>Header Files\Simulation\Boids</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\include\PredatorBoid.h">
+      <Filter>Header Files\Simulation\Boids</Filter>
+    </ClInclude>
     <ClInclude Include="Project\include\UserBoid.h">
-      <Filter>Header Files\Simulation</Filter>
+      <Filter>Header Files\Simulation\Boids</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

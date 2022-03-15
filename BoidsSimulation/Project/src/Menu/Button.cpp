@@ -8,7 +8,9 @@ Button::Button(std::string text, sf::Vector2f position, sf::Vector2f size,
 	bText.setFont(bFont);
 	bText.setString(text);
 	bText.setFillColor(sf::Color::Black);
-	bText.setPosition(position.x + 3, position.y + 3);
+	bText.setPosition(
+		(position.x + shape.getGlobalBounds().width / 2.5f) - (bText.getLocalBounds().width / 2),
+		(position.y + shape.getGlobalBounds().height / 2.5f) - (bText.getLocalBounds().height / 2));
 }
 
 void Button::Draw(sf::RenderWindow& window) {

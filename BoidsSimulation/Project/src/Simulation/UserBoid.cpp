@@ -1,6 +1,7 @@
 #include "UserBoid.h"
 
-UserBoid::UserBoid(int id,int flID, int x, int y) :BaseBoid(id,flID, x, y) {
+UserBoid::UserBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Color outlineColor)
+	:BaseBoid(id, flID, x, y, fillColor, outlineColor,ALIGNMENT,COHESION,SEPARATION) {
 	boidType = BoidType::eUserBoid;
 }
 
@@ -18,8 +19,3 @@ void UserBoid::calcDirection() {
 	direction += checkBounds();
 }
 
-void UserBoid::setAlignment(float alignmentForce) {}
-
-void UserBoid::setCohesion(float cohesionForce) {}
-
-void UserBoid::setSeparation(float separationForce) {}
