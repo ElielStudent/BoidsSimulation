@@ -136,11 +136,11 @@ sf::Vector2f BaseBoid::Alignment() {
 	if (total == 0) return { 0,0 };
 	align.x /= total;
 	align.y /= total;
-	/*align = normalize(align);
+	align = normalize(align);
 	align.x *= MAXSPEED;
-	align.y *= MAXSPEED;*/
+	align.y *= MAXSPEED;
 	align -= this->direction;
-	//align = limit(align, MAXFORCE);
+	align = limit(align, MAXFORCE);
 	return align * alignmentForce;
 }
 
@@ -159,11 +159,11 @@ sf::Vector2f BaseBoid::Cohesion() {
 	cohesion.x /= total;
 	cohesion.y /= total;
 	cohesion -= position;
-	/*cohesion = normalize(cohesion);
+	cohesion = normalize(cohesion);
 	cohesion.x *= MAXSPEED;
-	cohesion.y *= MAXSPEED;*/
+	cohesion.y *= MAXSPEED;
 	cohesion -= direction;
-	//cohesion = limit(cohesion, MAXFORCE);
+	cohesion = limit(cohesion, MAXFORCE);
 	return cohesion * cohesionForce;
 }
 
@@ -187,11 +187,11 @@ sf::Vector2f BaseBoid::Separation() {
 	if (total == 0) return { 0,0 };
 	separation.x /= total;
 	separation.y /= total;
-	/*separation = normalize(separation);
+	separation = normalize(separation);
 	separation.x *= MAXSPEED;
-	separation.y *= MAXSPEED;*/
+	separation.y *= MAXSPEED;
 	separation -= direction;
-	//separation = limit(separation, MAXFORCE);
+	separation = limit(separation, MAXFORCE);
 	return separation * separationForce;
 }
 
