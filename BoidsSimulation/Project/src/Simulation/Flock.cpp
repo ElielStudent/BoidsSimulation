@@ -5,36 +5,36 @@ Flock::Flock(int flID) {
 	cohesionForce = COHESION;
 	separationForce = SEPARATION;
 	this->flID = flID;
-	this->color = sf::Color(rand()%255, rand() % 255, rand() % 255);
+	this->color = sf::Color(rand() % 255, rand() % 255, rand() % 255);
+	AddBoid(eNormalBoid);
+	currBoid = boids.front();
+	currBoidIndex = currBoid->getID();
 }
 
 void Flock::AddBoid(BoidType bType) {
 	BaseBoid* boid;
 	switch (bType) {
 	case(eNormalBoid):
-		boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount, this->flID);
-		boid->setColor(this->color);
-		boids.push_back(boid);
+		boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
 		break;
 	case(eUserBoid):
 		boid = new UserBoid(++fCount, this->flID);
-		boid->setColor(this->color);
-		boids.push_back(boid);
 		break;
 	case(ePredatorBoid):
-		boid = new PredatorBoid(alignmentForce, cohesionForce, separationForce, ++fCount, this->flID);
-		boid->setColor(this->color);
-		boids.push_back(boid);
+		boid = new PredatorBoid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
 		break;
-	case(eAiBoid):
-		break;
+	/*case(eAiBoid):
+		break;*/
 	default:
+		boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
 		break;
 	}
+	boid->setColor(this->color);
+	boids.push_back(boid);
 }
 
 void Flock::AddBoid(int x, int y, BoidType bType) {
-	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, ++fCount, x, y);
+	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, x, y);
 	boids.push_back(boid);
 }
 
@@ -44,28 +44,38 @@ void Flock::InsertBoids(QuadTree<BaseBoid>* QT) {
 }
 
 void Flock::UpdateBoids(QuadTree<BaseBoid>* QT) {
-	for (BaseBoid* b : boids) {
+	std::list<BaseBoid*>::iterator it = boids.begin();
+	while (it != boids.end()) {
+		BaseBoid* b = (*it);
+		if (b->isDead()) {
+			b->setNeighborBoids(nullptr);	//Delete the pointer to the nearby list of the boid
+			delete b;						//Delete the boid
+			it = boids.erase(it);			//Erase from list and update the iterator
+			continue;
+		}
 		std::list<BaseBoid*>* nearby = new std::list<BaseBoid*>();
-		//DOUBLE RANGE???????
-		//QT->Query(b->getVisualBoundary(),nearby);						//Square range
+		//QT->Query(b->getVisualBoundary(),nearby);								//Square range
 		QT->Query(b->getPosition(), b->getVisualRange(), nearby);		//Radius based	(doesn't return himself)
-		b->setNeighborBoids(nearby);
-		b->Move();
+		b->setNeighborBoids(nearby);										//Set nearby boids of the boid
+		b->Move();															//Update the boid
+		it++;																	//Keep iterating
 	}
 }
 
 void Flock::ClearFlock() {
+	for (BaseBoid* b : boids)
+		delete b;
 	boids.clear();
+	currBoid = nullptr;
 }
 
 void Flock::DrawFlock(sf::RenderWindow& window) {
 	for (BaseBoid* b : boids) {
 		b->Draw(window);
-
 	}
 }
 
-BaseBoid* Flock::GetBoid(int id) {
+BaseBoid* Flock::getBoid(int id) {
 	if (id > boids.size()) return nullptr;
 	std::list<BaseBoid*>::iterator it = this->boids.begin();
 	std::advance(it, id - 1);
@@ -92,3 +102,34 @@ void Flock::setSeparation(float separationForce) {
 		b->setSeparation(separationForce);
 	}
 }
+
+void Flock::ToggleRange(){
+	for (BaseBoid* b : boids)
+		b->ToggleRange();
+}
+
+void Flock::ToggleNeighbors(){
+	for (BaseBoid* b : boids)
+		b->ToggleNeighbors();
+}
+
+void Flock::ToggleTrail(){
+	for (BaseBoid* b : boids)
+		b->ToggleTrail();
+}
+
+void Flock::ToggleHighlight(){
+	for (BaseBoid* b : boids)
+		b->ToggleHighlight();
+}
+
+int Flock::setBoidIndexFrom(int num) {
+	int boidCount = boids.size();
+	num = ((num + currBoidIndex) + boidCount) % boidCount;
+	std::list<BaseBoid*>::iterator it = boids.begin();
+	std::advance(it, num);
+	currBoid = *it;
+	currBoidIndex = (*it)->getID();
+	return num;
+}
+

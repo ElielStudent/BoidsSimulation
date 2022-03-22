@@ -11,8 +11,7 @@ World::World(){
 
 void World::drawWorld(sf::RenderWindow& window){
 	window.setView(WorldV);
-	gridTexture.clear(sf::Color::Blue);
-	gridTexture.display();
+	window.draw(gridSprite);
 }
 
 void World::GenerateWorld(){
@@ -30,22 +29,25 @@ void World::GenerateWorld(){
 }
 
 void World::GenerateTexture(){
-	gridTexture.create(REALWORLDSIZE, REALWORLDSIZE);
+	gridTexture.create(WORLDSIZE, WORLDSIZE);
 	sf::CircleShape circ;
+	sf::RectangleShape rect;
 	circ.setRadius((GHEIGHT / (REALWORLDSIZE * 1.2)) * 2);
-	circ.setRadius(2);
+	//circ.setRadius(2);
 	circ.setFillColor(sf::Color::Red);
-	//rect.setSize({ 2,2 });
-	//rect.setFillColor(sf::Color::Black);
+	rect.setSize({ 2,2 });
+	rect.setFillColor(sf::Color::White);
 	for (int y = 0; y < WORLDSIZE; y++) {
 		for (int x = 0; x < WORLDSIZE; x++) {
 			if (grid[y][x]) {
 				//rect.setPosition(sf::Vector2f(x * (GWIDTH / WORLDSIZE), y * (HEIGHT / WORLDSIZE)));
 				circ.setPosition(x, y);
+				//gridTexture.draw(rect);
 				gridTexture.draw(circ);
 			}
 		}
 	}
+	gridSprite.setTexture(gridTexture.getTexture());
 }
 
 void World::Zoom(float zAmount){

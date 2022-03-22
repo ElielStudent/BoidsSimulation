@@ -8,9 +8,6 @@ public:
 		int x = rand() % GWIDTH, int y = rand() % HEIGHT,
 		sf::Color fillColor = sf::Color::White, sf::Color outlineColor = sf::Color::Black);
 private:
-	sf::Vector2f Alignment();
-	sf::Vector2f Cohesion();
-	sf::Vector2f Separation();
 	void calcDirection();
 	sf::Vector2f ChaseBoid();
 

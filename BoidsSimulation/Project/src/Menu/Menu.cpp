@@ -111,8 +111,8 @@ void Menu::LoadWorldMenu() {
 }
 
 void Menu::LoadFlockMenu() {
-	Label* flockIndex = new Label("0", { 138, 70 }, { 50,50 });
-	auto updateFlockIndex = [this, flockIndex]() {flockIndex->SetText(std::to_string(simulation->getCurrFlockIndex()+1)); };
+	Label* flockIndex = new Label("1", { 138, 70 }, { 50,50 });
+	auto updateFlockIndex = [this, flockIndex]() {flockIndex->SetText(std::to_string(simulation->getCurrFlock()->getFLID() + 1)); };
 	flockIndex->SetFunction(updateFlockIndex);
 	UIElements.push_back(flockIndex);
 
@@ -125,34 +125,35 @@ void Menu::LoadFlockMenu() {
 	auto addFlock = [this]() {simulation->AddFlock(); };
 	UIElements.push_back(new Button("New Flock", { 60, 200 }, { 200,80 }, addFlock));
 
+	//Toggle functions
+	auto togHig = [this]() {simulation->getCurrFlock()->ToggleHighlight(); };
+	UIElements.push_back(new Button("Highlight", { 30, 300 }, { 140,80 }, togHig));
+
+	auto togNei = [this]() {simulation->getCurrFlock()->ToggleNeighbors(); };
+	UIElements.push_back(new Button("Nearby", { 200, 300 }, { 140,80 }, togNei));
+
+	auto togRan = [this]() {simulation->getCurrFlock()->ToggleRange(); };
+	UIElements.push_back(new Button("Range", { 30, 400 }, { 140,80 }, togRan));
+
+	auto togTra = [this]() {simulation->getCurrFlock()->ToggleTrail(); };
+	UIElements.push_back(new Button("Trail", { 200, 400 }, { 140,80 }, togTra));
+	
+	//Adding boid functions
 	auto addNB = [this]() {simulation->getCurrFlock()->AddBoid(BoidType::eNormalBoid); };
-	UIElements.push_back(new Button("Boid +", { 60, 400 }, { 150,70 }, addNB));
+	UIElements.push_back(new Button("Boid +", { 60, 600 }, { 150,70 }, addNB));
 
 	auto addPB = [this]() {simulation->getCurrFlock()->AddBoid(BoidType::ePredatorBoid); };
-	UIElements.push_back(new Button("PBoid +", { 60, 500 }, { 150,70 }, addPB));
+	UIElements.push_back(new Button("PBoid +", { 60, 700 }, { 150,70 }, addPB));
 
 	auto addUB = [this]() {simulation->getCurrFlock()->AddBoid(BoidType::eUserBoid); };
-	UIElements.push_back(new Button("UBoid +", { 60, 600 }, { 150,70 }, addUB));
+	UIElements.push_back(new Button("UBoid +", { 60, 800 }, { 150,70 }, addUB));
 
-	//No 2 another color
-	/*auto setColor2 = [this]() {simulation->getFlock(1)->GetBoid(2)->setColor(sf::Color::Red); };
-	UIElements.push_back(new Button("2 2 R", { 60, 700 }, { 100,50 }, setColor2));*/
-
-
+	
 	//Flock Selection
 	//Adds outline to all boids of flock based on which one is selected
 	//Add boid
+	//Delete boid
 	//Choose to add predator flock
 	//Delete flocks
 	//Change flock separation,cohesion,alignment
 }
-
-void Menu::LoadBoidMenu() {
-	//Choose between boids in flock
-	//Add user boid
-	//Select isHidden
-	//Delete boid
-	//Buttons for range,nearby,trail
-	//add user boid to flock
-}
-

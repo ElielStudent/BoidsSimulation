@@ -1,17 +1,19 @@
 #include "QuadTree.h"
 template class QuadTree<BaseBoid>;
 
-bool inBounds(sf::FloatRect boundary, sf::Vector2f point) {	//True if point is inside, false if its the same point or outside
-	if (boundary.left + boundary.width / 2 == point.x && boundary.top + boundary.height / 2 == point.y)
-		return false;
+bool BoundIsPoint(sf::FloatRect boundary, sf::Vector2f point) {
+	return (boundary.left + boundary.width / 2 == point.x && boundary.top + boundary.height / 2 == point.y);
+}
+
+bool inBounds(sf::FloatRect boundary, sf::Vector2f point) {	
 	return point.x >= boundary.left && point.x <= boundary.left + boundary.width &&
 		point.y >= boundary.top && point.y <= boundary.top + boundary.height;
 }
 
 bool CircRectIntersects(sf::FloatRect boundary, sf::Vector2f center, float radius) {
 	sf::Vector2f circleDistance;
-	circleDistance.x = abs(center.x - (boundary.left+boundary.width/2));
-	circleDistance.y = abs(center.y - (boundary.top+boundary.height/2));
+	circleDistance.x = abs(center.x - (boundary.left + boundary.width / 2));
+	circleDistance.y = abs(center.y - (boundary.top + boundary.height / 2));
 
 	if (circleDistance.x > (boundary.width / 2 + radius)) { return false; }
 	if (circleDistance.y > (boundary.height / 2 + radius)) { return false; }
@@ -26,9 +28,7 @@ bool CircRectIntersects(sf::FloatRect boundary, sf::Vector2f center, float radiu
 }
 
 bool inRadius(sf::Vector2f point1, float radius, sf::Vector2f point2) {
-	if (point1 == point2)
-		return false;									//Doesnt include itself in isRadius
-	return  distSqrd(point1, point2) < radius * radius;	
+	return  distSqrd(point1, point2) < radius * radius;
 }
 
 
@@ -107,13 +107,14 @@ void QuadTree<T>::Draw(sf::RenderWindow& window) {
 
 //Rectangle based query
 template<typename T>
-void QuadTree<T>::Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType,int flID) {
+void QuadTree<T>::Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType, int flID) {
 	if (!this->boundary.intersects(boundary))									//If the boundary is not inside the area
 		return;
 
 	for (BaseBoid* b : this->boids) {
 		if ((boidType == BoidType::eBaseBoid || b->getBoidType() == boidType)	//If base boid was chosen or boid type same as search boid type
 			&& (flID == -1 || b->getFlID() == flID)								//If all FLIds are chosen or flid same as search boid flid
+			&& !BoundIsPoint(boundary,b->getPosition())							//And its not the same point
 			&& inBounds(boundary, b->getPosition()))							//And its in the same boundary
 			boidList->push_back(b);												//Add boids that are inside
 	}
@@ -135,11 +136,12 @@ void QuadTree<T>::Query(sf::Vector2f position, float visualRadius, std::list<T*>
 
 	for (BaseBoid* b : this->boids) {
 		if ((boidType == BoidType::eBaseBoid || b->getBoidType() == boidType)	//If base boid was chosen or boid type same as search boid type
-			&& inRadius(position, visualRadius, b->getPosition()))			//And its in the same Radius (not same boid)
-			boidList->push_back(b);											//Add boids that are inside
+			&& position != b->getPosition()										//And its not the same point
+			&& inRadius(position, visualRadius, b->getPosition()))				//And its in the same Radius (not same boid)
+			boidList->push_back(b);												//Add boids that are inside
 	}
 
-	if (!isDivided)															//If it hasnt been divided dont check children
+	if (!isDivided)																//If it hasnt been divided dont check children
 		return;
 
 	this->subNodes[0]->Query(position, visualRadius, boidList);

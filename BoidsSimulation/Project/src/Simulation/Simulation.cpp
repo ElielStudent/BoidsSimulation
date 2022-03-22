@@ -24,9 +24,9 @@ void Simulation::UpdateQuadTree() {
 }
 
 void Simulation::AddFlock() {
-	flocks.push_back(new Flock(++flockCount));
+	flocks.push_back(new Flock(flocks.size()));
 	currFlock = flocks.back();
-	currFlockNum = flockCount - 1;
+	currFlockIndex = flocks.size() - 1;
 }
 
 void Simulation::AddBoid() {			//TEMPORARY, FIX TO MAKE BETTER LOL
@@ -52,11 +52,6 @@ void Simulation::Update() {
 	for (Flock* f : flocks) {
 		f->UpdateBoids(QT);
 	}
-	//call flock to move boids and check death,etc
-
-	//for all flocks
-	//for all boids in flock
-	//add to quadtree and recalculate it
 }
 
 void Simulation::Zoom(float zAmount) {
@@ -77,10 +72,11 @@ void Simulation::toggleDrawQuad() {
 }
 
 int Simulation::setFlockIndexFrom(int num) {
-	num = ((num + currFlockNum) + flockCount) % flockCount;
+	int flockCount = flocks.size();
+	num = ((num + currFlockIndex) + flockCount) % flockCount;
 	std::list<Flock*>::iterator it = flocks.begin();
 	std::advance(it, num);
 	currFlock = *it;
-	currFlockNum = num;
+	currFlockIndex = (*it)->getFLID();
 	return num;
 }

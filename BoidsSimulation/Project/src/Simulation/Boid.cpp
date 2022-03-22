@@ -2,7 +2,7 @@
 
 Boid::Boid(float alignment, float cohesion, float separation, int id, int flID, int x, int y,
 	sf::Color fillColor, sf::Color outlineColor)
-	:BaseBoid(id, flID, x, y, fillColor, outlineColor,alignment,cohesion,separation)
+	:BaseBoid(id, flID, x, y, fillColor, outlineColor, alignment, cohesion, separation)
 {
 	boidType = BoidType::eNormalBoid;
 	escapeForce = ESCAPEFORCE;
@@ -13,21 +13,22 @@ void Boid::calcDirection() {
 	if (changeSight) {
 		if (localBoids->size() == 0) { 				//If no boids are around
 			if (visualRadius < MAXVISUALRANGE)
-				visualRadius *= 1.01f;				//If it has no neighbors,increase range
+				visualRadius *= 1.005f;				//If it has no neighbors,increase range
 		}
-		else {
-			newDirection = Alignment() + Cohesion() + Separation() + Escape();
+		else {		
 			if (visualRadius > MINVISUALRANGE)
-				visualRadius *= 0.985f;				//If it has neighbors, make its range smaller
+				visualRadius *= 0.995f;				//If it has neighbors, make its range smaller
 		}
 	}
-	newDirection += checkBounds();
-	direction += newDirection;
+	direction = checkBounds() + Alignment() + Cohesion() + Separation() + Escape() + direction;
+	direction = normalize(direction);
+	//direction = limit(direction,MAXSPEED);
+	//direction += newDirection;
 }
 
 sf::Vector2f Boid::Escape() {
 	sf::Vector2f escapeV = { 0,0 };
-	int total = 0;
+	/*int total = 0;
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible() || b->getID() == this->id || b->getBoidType() != BoidType::ePredatorBoid)
 			continue;
@@ -47,6 +48,6 @@ sf::Vector2f Boid::Escape() {
 	escapeV.x *= MAXSPEED;
 	escapeV.y *= MAXSPEED;
 	escapeV -= direction;
-	escapeV = limit(escapeV, MAXFORCE);
+	escapeV = limit(escapeV, MAXFORCE);*/
 	return escapeV * escapeForce;
 }

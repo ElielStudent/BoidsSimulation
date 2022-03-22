@@ -1,4 +1,5 @@
 #include "BaseBoid.h"
+#include "..\..\include\BaseBoid.h"
 
 BaseBoid::BaseBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Color outlineColor,
 	float alignment, float cohesion, float separation) {
@@ -17,6 +18,9 @@ BaseBoid::BaseBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Colo
 	direction.x = float(cos((3.1415 / 180) * shape.getRotation()));
 	direction.y = float(sin((3.1415 / 180) * shape.getRotation()));
 	direction = normalize(direction);
+	direction.x *= MAXSPEED;
+	direction.y *= MAXSPEED;
+
 	this->alignmentForce = alignment;
 	this->cohesionForce = cohesion;
 	this->separationForce = separation;
@@ -57,8 +61,8 @@ void BaseBoid::Draw(sf::RenderWindow& window) {
 		DrawNeighbors(window);
 	if (this->drawTrail)
 		DrawTrail(window);
-	if (this->drawDirection)
-		DrawDirection(window);
+	if (this->drawHighlight)
+		DrawHighlight(window);
 	window.draw(shape);
 }
 
@@ -113,13 +117,11 @@ void BaseBoid::DrawTrail(sf::RenderWindow& window) {
 	}
 }
 
-void BaseBoid::DrawDirection(sf::RenderWindow& window) {
-	sf::Vertex direcLine[2];
-	direcLine[0].position = this->position;
-	direcLine[1].position = this->position + this->direction;
-	direcLine[0].color = sf::Color::Red;
-	direcLine[1].color = sf::Color::Green;
-	window.draw(direcLine, 2, sf::PrimitiveType::Lines);
+void BaseBoid::DrawHighlight(sf::RenderWindow& window){
+	sf::CircleShape highlight(shape);
+	highlight.setOutlineThickness(3);
+	highlight.setOutlineColor(sf::Color(255, 255, 0, 200));
+	window.draw(highlight);
 }
 
 //Alignment is based on visible boids in the same flock
@@ -127,8 +129,7 @@ sf::Vector2f BaseBoid::Alignment() {
 	sf::Vector2f align = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID
-			|| b->getBoidType() == BoidType::ePredatorBoid)
+		if (!b->isVisible() || b->getFlID() != this->flID)
 			continue;
 		align += b->getDirection();
 		total++;
@@ -136,11 +137,10 @@ sf::Vector2f BaseBoid::Alignment() {
 	if (total == 0) return { 0,0 };
 	align.x /= total;
 	align.y /= total;
-	align = normalize(align);
-	align.x *= MAXSPEED;
-	align.y *= MAXSPEED;
 	align -= this->direction;
-	align = limit(align, MAXFORCE);
+	align.x /= 8;
+	align.y /= 8;
+
 	return align * alignmentForce;
 }
 
@@ -149,8 +149,7 @@ sf::Vector2f BaseBoid::Cohesion() {
 	sf::Vector2f cohesion = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID
-			|| b->getBoidType() == BoidType::ePredatorBoid)
+		if (!b->isVisible() || b->getFlID() != this->flID)
 			continue;
 		cohesion += b->getPosition();
 		total++;
@@ -158,12 +157,10 @@ sf::Vector2f BaseBoid::Cohesion() {
 	if (total == 0) return { 0,0 };
 	cohesion.x /= total;
 	cohesion.y /= total;
+
 	cohesion -= position;
-	cohesion = normalize(cohesion);
-	cohesion.x *= MAXSPEED;
-	cohesion.y *= MAXSPEED;
-	cohesion -= direction;
-	cohesion = limit(cohesion, MAXFORCE);
+	cohesion.x /= 100;
+	cohesion.y /= 100;
 	return cohesion * cohesionForce;
 }
 
@@ -172,26 +169,16 @@ sf::Vector2f BaseBoid::Separation() {
 	sf::Vector2f separation = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible() || b->getID() == this->id || b->getFlID() != this->flID
-			|| b->getBoidType() == BoidType::ePredatorBoid)	//Follows all but predator
+		if (!b->isVisible() || b->getFlID() != this->flID)
 			continue;
-		float distance = abs(dist(position, b->getPosition()));
-		if (distance < SEPRANGE) {
-			sf::Vector2f difference = position - b->getPosition();
-			difference = normalize(difference);
-			difference /= distance;
-			separation += difference;
-			total++;
+		//float distance = abs(dist(position, b->getPosition()));
+		sf::Vector2f distance = position - b->getPosition();
+		distance = { abs(distance.x),abs(distance.y) };
+		if (distance.x < SEPRANGE && distance.y < SEPRANGE) {
+			separation -= position - b->getPosition();
 		}
 	}
-	if (total == 0) return { 0,0 };
-	separation.x /= total;
-	separation.y /= total;
-	separation = normalize(separation);
-	separation.x *= MAXSPEED;
-	separation.y *= MAXSPEED;
-	separation -= direction;
-	separation = limit(separation, MAXFORCE);
+
 	return separation * separationForce;
 }
 
