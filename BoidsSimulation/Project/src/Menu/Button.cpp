@@ -1,8 +1,8 @@
 #include "Button.h"
 
 Button::Button(std::string text, sf::Vector2f position, sf::Vector2f size,
-	std::function<void()> func, sf::Color fillColor,sf::Color outlineColor)
-	:UIElement(position, size,fillColor,outlineColor) {
+	std::function<void()> func)
+	:UIElement(position, size) {
 	onClick = func;
 
 	bText.setFont(bFont);

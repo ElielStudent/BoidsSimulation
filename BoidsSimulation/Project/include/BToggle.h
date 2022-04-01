@@ -6,7 +6,7 @@
 class BToggle : public UIElement {
 public:
 	BToggle(std::string = "NULL", sf::Vector2f position = { 0,0 }, sf::Vector2f size = { 100, 50 },
-		std::function<void()> func = []() {return; },sf::Color fill = sf::Color::White, sf::Color outline = sf::Color::Black);
+		std::function<void()> clickFunc = []() {return; }, std::function<void()> unClickFunc = []() {return; });
 	void Draw(sf::RenderWindow& window);
 	void Update(sf::RenderWindow& window);
 	void SetState(bool);
@@ -18,6 +18,7 @@ public:
 private:
 	bool isClicked = false;
 	std::function<void()> onClick;		//Runs on click
+	std::function<void()> onUnClick;	//Runs on un-click
 	sf::Text bText;
 	bool currentState;
 };

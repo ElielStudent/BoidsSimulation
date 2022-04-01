@@ -19,6 +19,7 @@ public:
 	void changeSize(sf::Vector2f size);
 	World* getWorld();
 	void toggleDrawQuad();
+	void setDrawQuad(bool state);
 	int setFlockIndexFrom(int num);
 	Flock* getCurrFlock() { return currFlock; };
 private:						  

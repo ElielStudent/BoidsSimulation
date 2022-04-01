@@ -23,8 +23,13 @@ public:
 	float getCohesion() { return cohesionForce; }
 	float getSeparation() { return separationForce; }
 
+	void setDrawRange(bool state);
+	void setDrawNear(bool state);
+	void setDrawTrail(bool state);
+	void setDrawHighlight(bool state);
+
 	void ToggleRange();
-	void ToggleNeighbors() ;
+	void ToggleNear() ;
 	void ToggleTrail() ;
 	void ToggleHighlight() ;
 

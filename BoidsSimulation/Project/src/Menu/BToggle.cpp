@@ -1,9 +1,10 @@
 #include "BToggle.h"
 
 BToggle::BToggle(std::string text, sf::Vector2f position, sf::Vector2f size,
-	std::function<void()> func, sf::Color fillColor, sf::Color outlineColor)
-	:UIElement(position, size, fillColor, outlineColor) {
-	onClick = func;
+	std::function<void()> clickFunc, std::function<void()>unClickFunc)
+	:UIElement(position, size) {
+	onClick = clickFunc;
+	onUnClick = unClickFunc;
 
 	bText.setFont(bFont);
 	bText.setString(text);
@@ -26,13 +27,17 @@ void BToggle::Update(sf::RenderWindow& window) {
 		if (!isClicked) {
 			if (shape.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
 				SetState(!currentState);
-				onClick();
+				if(currentState)	//If it has been clicked now
+					onClick();
+				if (!currentState)	//If it was un-clicked
+					onUnClick();
 				isClicked = true;
 			}
 		}
 	}
-	else
+	else 
 		isClicked = false;
+	
 }
 
 void BToggle::SetState(bool state) {

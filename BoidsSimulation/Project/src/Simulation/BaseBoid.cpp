@@ -57,8 +57,8 @@ void BaseBoid::setNeighborBoids(std::list<BaseBoid*>* localBoids) {
 void BaseBoid::Draw(sf::RenderWindow& window) {
 	if (this->drawRange)
 		DrawVisualRange(window);
-	if (this->drawNeighbors)
-		DrawNeighbors(window);
+	if (this->drawNear)
+		DrawNear(window);
 	if (this->drawTrail)
 		DrawTrail(window);
 	if (this->drawHighlight)
@@ -82,7 +82,7 @@ void BaseBoid::DrawVisualRange(sf::RenderWindow& window) {
 	window.draw(range);
 }
 
-void BaseBoid::DrawNeighbors(sf::RenderWindow& window) {
+void BaseBoid::DrawNear(sf::RenderWindow& window) {
 	sf::Vertex neighborLine[2];
 	neighborLine[0].color = sf::Color::Green;
 	neighborLine[1].color = sf::Color::Red;
@@ -140,7 +140,7 @@ sf::Vector2f BaseBoid::Alignment() {
 	align -= this->direction;
 	align.x /= 8;
 	align.y /= 8;
-
+	align = normalize(align);
 	return align * alignmentForce;
 }
 
@@ -161,6 +161,7 @@ sf::Vector2f BaseBoid::Cohesion() {
 	cohesion -= position;
 	cohesion.x /= 100;
 	cohesion.y /= 100;
+	cohesion = normalize(cohesion);
 	return cohesion * cohesionForce;
 }
 
@@ -178,7 +179,6 @@ sf::Vector2f BaseBoid::Separation() {
 			separation -= position - b->getPosition();
 		}
 	}
-
 	return separation * separationForce;
 }
 

@@ -1,12 +1,12 @@
 #include "UIElement.h"
 
-UIElement::UIElement(sf::Vector2f position, sf::Vector2f size ,sf::Color fillColor,sf::Color outlineColor) {
+UIElement::UIElement(sf::Vector2f position, sf::Vector2f size ) {
 	bFont.loadFromFile("Arial.ttf");
 	shape.setPosition(position);
 	shape.setSize(size);
-	shape.setFillColor(fillColor);
+	shape.setFillColor(sf::Color::White);
 	shape.setOutlineThickness(-2);
-	shape.setOutlineColor(outlineColor);
+	shape.setOutlineColor(sf::Color::Black);
 }
 
 void UIElement::SetOrigin(OriginState state) {

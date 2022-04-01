@@ -34,8 +34,13 @@ public:
 	int getFlID() { return flID; };
 	BoidType getBoidType() { return boidType; };
 
+	void setDrawRange(bool state) { drawRange = state; };
+	void setDrawNear(bool state) { drawNear = state; };
+	void setDrawTrail(bool state) { drawTrail = state; };
+	void setDrawHighlight(bool state) { drawHighlight = state; };
+
 	void ToggleRange () { drawRange = !drawRange; };
-	void ToggleNeighbors () { drawNeighbors = !drawNeighbors; };
+	void ToggleNear () { drawNear = !drawNear; };
 	void ToggleTrail () { drawTrail = !drawTrail; };
 	void ToggleHighlight() { drawHighlight = !drawHighlight; };
 protected:
@@ -46,7 +51,7 @@ protected:
 	std::list<BaseBoid*>* localBoids;
 
 	void DrawVisualRange(sf::RenderWindow& window);
-	void DrawNeighbors(sf::RenderWindow& window);
+	void DrawNear(sf::RenderWindow& window);
 	void DrawTrail(sf::RenderWindow& window);
 	void DrawHighlight(sf::RenderWindow& window);
 	std::list<sf::Vector2f> lastPos;				//std::list of 10 last pos to draw trail
@@ -75,7 +80,7 @@ protected:
 	bool changeSight = 1;		//Whether it's visual range increases/decreases
 
 	bool drawRange = 0;
-	bool drawNeighbors = 0;
+	bool drawNear = 0;
 	bool drawTrail = 0;
 	bool drawHighlight = 0;
 };

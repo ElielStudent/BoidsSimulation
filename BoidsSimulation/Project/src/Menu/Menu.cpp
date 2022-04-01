@@ -13,14 +13,14 @@ Menu::Menu(sf::RenderWindow& window) :window(window) {
 	simulation = nullptr;
 
 	auto worldMenu = [this]() {LoadMenu(eWorldMenu); };
-	UITabs.push_back(new BToggle(" GAME", { 5,GHEIGHT - 105 }, { 123,100 }, worldMenu, sf::Color::Cyan));
+	UITabs.push_back(new BToggle(" GAME", { 5,GHEIGHT - 105 }, { 184,100 }, worldMenu));
 	UITabs.front()->SetState(true);	//Default menu type
 
 	auto flockMenu = [this]() {LoadMenu(eFlockMenu); };
-	UITabs.push_back(new BToggle(" FLOCK", { 126,GHEIGHT - 105 }, { 123,100 }, flockMenu, sf::Color::Green));
+	UITabs.push_back(new BToggle(" FLOCKS", { 185,GHEIGHT - 105 }, { 184,100 }, flockMenu));
 
-	auto boidMenu = [this]() {LoadMenu(eBoidMenu); };
-	UITabs.push_back(new BToggle(" BOID", { 247,GHEIGHT - 105 }, { 123,100 }, boidMenu, sf::Color::Red));
+	//auto boidMenu = [this]() {LoadMenu(eBoidMenu); };
+	//UITabs.push_back(new BToggle(" BOID", { 247,GHEIGHT - 105 }, { 123,100 }, boidMenu, sf::Color::Red));
 
 	LoadMenu(eWorldMenu);			//Default menu type
 }
@@ -68,9 +68,6 @@ void Menu::LoadMenu(MenuType menuType) {
 	case(eFlockMenu):
 		LoadFlockMenu();
 		break;
-	case(eBoidMenu):
-		LoadBoidMenu();
-		break;
 	default:
 		LoadWorldMenu();
 	}
@@ -94,8 +91,9 @@ void Menu::LoadWorldMenu() {
 	UIElements.push_back(new Button("W -", { 60, 400 }, { 100,50 }, wzout));
 
 	//Toggle QuadTree
-	auto quadToggle = [this]() {simulation->toggleDrawQuad(); };
-	UIElements.push_back(new BToggle("QT", { 60, 500 }, { 100,50 }, quadToggle));
+	auto quadToggleOn = [this]() {simulation->setDrawQuad(true); };
+	auto quadToggleOff = [this]() {simulation->setDrawQuad(false); };
+	UIElements.push_back(new BToggle("QT", { 60, 500 }, { 100,50 }, quadToggleOn, quadToggleOff));
 
 	// World Gen: blank with walls on the outside, cave generated map, premade map with obstacles and neural network
 	// In neural network (with different tabs), you can select a pre trained network or let one learn for
@@ -111,42 +109,48 @@ void Menu::LoadWorldMenu() {
 }
 
 void Menu::LoadFlockMenu() {
-	Label* flockIndex = new Label("1", { 138, 70 }, { 50,50 });
+	//Flock Indexing
+	Label* flockIndex = new Label("1", { 153, 70 }, { 50,50 });
 	auto updateFlockIndex = [this, flockIndex]() {flockIndex->SetText(std::to_string(simulation->getCurrFlock()->getFLID() + 1)); };
 	flockIndex->SetFunction(updateFlockIndex);
 	UIElements.push_back(flockIndex);
 
 	auto subF = [this]() {simulation->setFlockIndexFrom(-1); };
-	UIElements.push_back(new Button("FL-", { 60, 50 }, { 70,90 }, subF));
+	UIElements.push_back(new Button("FL-", { 75, 50 }, { 70,90 }, subF));
 
 	auto addF = [this]() {simulation->setFlockIndexFrom(1); };
-	UIElements.push_back(new Button("FL+", { 200, 50 }, { 70,90 }, addF));
+	UIElements.push_back(new Button("FL+", { 215, 50 }, { 70,90 }, addF));
 
+	//Flock add
 	auto addFlock = [this]() {simulation->AddFlock(); };
-	UIElements.push_back(new Button("New Flock", { 60, 200 }, { 200,80 }, addFlock));
+	UIElements.push_back(new Button("Add Flock", { 86, 150 }, { 190,80 }, addFlock));
 
 	//Toggle functions
-	auto togHig = [this]() {simulation->getCurrFlock()->ToggleHighlight(); };
-	UIElements.push_back(new Button("Highlight", { 30, 300 }, { 140,80 }, togHig));
+	auto togHigOn = [this]() {simulation->getCurrFlock()->setDrawHighlight(true); };
+	auto togHigOff = [this]() {simulation->getCurrFlock()->setDrawHighlight(false); };
+	UIElements.push_back(new BToggle("Highlight", { 20, 300 }, { 150,80 }, togHigOn, togHigOff));
 
-	auto togNei = [this]() {simulation->getCurrFlock()->ToggleNeighbors(); };
-	UIElements.push_back(new Button("Nearby", { 200, 300 }, { 140,80 }, togNei));
+	auto togNeiOn = [this]() {simulation->getCurrFlock()->setDrawNear(true); };
+	auto togNeiOff = [this]() {simulation->getCurrFlock()->setDrawNear(false); };
+	UIElements.push_back(new BToggle("Nearby", { 200, 300 }, { 150,80 }, togNeiOn,togNeiOff));
 
-	auto togRan = [this]() {simulation->getCurrFlock()->ToggleRange(); };
-	UIElements.push_back(new Button("Range", { 30, 400 }, { 140,80 }, togRan));
+	auto togRanOn = [this]() {simulation->getCurrFlock()->setDrawRange(true); };
+	auto togRanOff = [this]() {simulation->getCurrFlock()->setDrawRange(false); };
+	UIElements.push_back(new BToggle("Range", { 20, 400 }, { 150,80 }, togRanOn,togRanOff));
 
-	auto togTra = [this]() {simulation->getCurrFlock()->ToggleTrail(); };
-	UIElements.push_back(new Button("Trail", { 200, 400 }, { 140,80 }, togTra));
+	auto togTraOn = [this]() {simulation->getCurrFlock()->setDrawTrail(true); };
+	auto togTraOff = [this]() {simulation->getCurrFlock()->setDrawTrail(false); };
+	UIElements.push_back(new BToggle("Trail", { 200, 400 }, { 150,80 }, togTraOn,togTraOff));
 	
 	//Adding boid functions
 	auto addNB = [this]() {simulation->getCurrFlock()->AddBoid(BoidType::eNormalBoid); };
-	UIElements.push_back(new Button("Boid +", { 60, 600 }, { 150,70 }, addNB));
+	UIElements.push_back(new Button("Boid +", { 60, 500 }, { 150,70 }, addNB));
 
 	auto addPB = [this]() {simulation->getCurrFlock()->AddBoid(BoidType::ePredatorBoid); };
-	UIElements.push_back(new Button("PBoid +", { 60, 700 }, { 150,70 }, addPB));
+	UIElements.push_back(new Button("PBoid +", { 60, 600 }, { 150,70 }, addPB));
 
 	auto addUB = [this]() {simulation->getCurrFlock()->AddBoid(BoidType::eUserBoid); };
-	UIElements.push_back(new Button("UBoid +", { 60, 800 }, { 150,70 }, addUB));
+	UIElements.push_back(new Button("UBoid +", { 60, 700 }, { 150,70 }, addUB));
 
 	
 	//Flock Selection

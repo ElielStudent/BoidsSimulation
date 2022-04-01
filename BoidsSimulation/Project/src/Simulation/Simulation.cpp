@@ -71,6 +71,10 @@ void Simulation::toggleDrawQuad() {
 	drawQuad = !drawQuad;
 }
 
+void Simulation::setDrawQuad(bool state){
+	drawQuad = state;
+}
+
 int Simulation::setFlockIndexFrom(int num) {
 	int flockCount = flocks.size();
 	num = ((num + currFlockIndex) + flockCount) % flockCount;

@@ -21,7 +21,6 @@ void Boid::calcDirection() {
 		}
 	}
 	direction = checkBounds() + Alignment() + Cohesion() + Separation() + Escape() + direction;
-	direction = normalize(direction);
 	//direction = limit(direction,MAXSPEED);
 	//direction += newDirection;
 }

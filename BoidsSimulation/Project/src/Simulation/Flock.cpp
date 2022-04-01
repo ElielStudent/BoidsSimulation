@@ -103,14 +103,34 @@ void Flock::setSeparation(float separationForce) {
 	}
 }
 
+void Flock::setDrawRange(bool state){
+	for (BaseBoid* b : boids)
+		b->setDrawRange(state);
+}
+
+void Flock::setDrawNear(bool state){
+	for (BaseBoid* b : boids)
+		b->setDrawNear(state);
+}
+
+void Flock::setDrawTrail(bool state){
+	for (BaseBoid* b : boids)
+		b->setDrawTrail(state);
+}
+
+void Flock::setDrawHighlight(bool state){
+	for (BaseBoid* b : boids)
+		b->setDrawHighlight(state);
+}
+
 void Flock::ToggleRange(){
 	for (BaseBoid* b : boids)
 		b->ToggleRange();
 }
 
-void Flock::ToggleNeighbors(){
+void Flock::ToggleNear(){
 	for (BaseBoid* b : boids)
-		b->ToggleNeighbors();
+		b->ToggleNear();
 }
 
 void Flock::ToggleTrail(){
