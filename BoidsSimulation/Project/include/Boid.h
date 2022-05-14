@@ -13,5 +13,6 @@ private:
 	void calcDirection();
 	sf::Vector2f Escape();
 	float escapeForce;
+	bool isEscaping = false;
 };
 

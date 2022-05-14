@@ -19,8 +19,8 @@ Flock* Simulation::getFlock(int id) {
 
 void Simulation::UpdateQuadTree() {
 	QT->Clear();
-	for (Flock* f : flocks)
-		f->InsertBoids(QT);
+	for (Flock* f : flocks) 
+		f->InsertBoids(QT);			//Adds the boids of each flock into the global QT
 }
 
 void Simulation::AddFlock() {
@@ -29,9 +29,8 @@ void Simulation::AddFlock() {
 	currFlockIndex = flocks.size() - 1;
 }
 
-void Simulation::AddBoid() {			//TEMPORARY, FIX TO MAKE BETTER LOL
-	if (currFlock == nullptr)AddFlock();
-	currFlock->AddBoid(eBaseBoid);
+void Simulation::AddBoid() {
+	allBoids.push_back(currFlock->AddBoid(eBaseBoid));
 }
 
 void Simulation::Draw() {

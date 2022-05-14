@@ -18,7 +18,6 @@ public:
 
 	sf::Vector2f getPosition();
 	sf::Vector2f getDirection();
-
 	float getVisualRange() { return visualRadius; }
 	sf::FloatRect getVisualBoundary();
 
@@ -27,6 +26,7 @@ public:
 	void setAlignment(float alignmentForce) { this->alignmentForce = alignmentForce; };
 	void setCohesion(float cohesionForce) { this->cohesionForce = cohesionForce; };
 	void setSeparation(float separationForce) { this->separationForce = separationForce; };
+	void limitSpeed();
 
 	bool isVisible() { return isvisible; };
 	bool isDead() { return isdead; };
@@ -38,14 +38,8 @@ public:
 	void setDrawNear(bool state) { drawNear = state; };
 	void setDrawTrail(bool state) { drawTrail = state; };
 	void setDrawHighlight(bool state) { drawHighlight = state; };
-
-	void ToggleRange () { drawRange = !drawRange; };
-	void ToggleNear () { drawNear = !drawNear; };
-	void ToggleTrail () { drawTrail = !drawTrail; };
-	void ToggleHighlight() { drawHighlight = !drawHighlight; };
 protected:
-	int id;
-	int flID;
+	int id, flID;
 	BoidType boidType = BoidType::eBaseBoid;
 
 	std::list<BaseBoid*>* localBoids;
@@ -66,21 +60,12 @@ protected:
 	float getCohesion() { return cohesionForce; }
 	float getSeparation() { return separationForce; }
 
-	float alignmentForce;
-	float cohesionForce;
-	float separationForce;
+	float alignmentForce, cohesionForce, separationForce;
 
 	float visualRadius;
-	sf::Vector2f position;
-	sf::Vector2f direction;			//Direction vector
+	sf::Vector2f position, direction;		//Position/Direction vector
 	sf::CircleShape shape;
 
-	bool isvisible = 1;			//Whether other boids can see him
-	bool isdead = 0;			//Is eaten
-	bool changeSight = 1;		//Whether it's visual range increases/decreases
-
-	bool drawRange = 0;
-	bool drawNear = 0;
-	bool drawTrail = 0;
-	bool drawHighlight = 0;
+	bool isvisible = 1, isdead = 0, changeSight = 1;			//Whether other boids can see him, Is eaten, Whether it's visual range increases/decreases
+	bool drawRange = 0, drawNear = 0, drawTrail = 0, drawHighlight = 0;
 };

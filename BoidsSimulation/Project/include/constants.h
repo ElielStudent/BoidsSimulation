@@ -17,20 +17,27 @@
 #define QUADCAPACITY 5
 
 #define BOIDRADIUS 6
-#define BOIDSIGHT 50
-#define SEPRANGE 40
+#define BOIDSIGHT 35
+#define SEPRANGE 15
 #define MAXVISUALRANGE (BOIDSIGHT*2)
 #define MINVISUALRANGE (BOIDSIGHT-20)
 #define TRAILSIZE 50
 
-#define ALIGNMENT 0.3f
-#define COHESION 0.7f
-#define SEPARATION 0.8f
-#define ESCAPEFORCE 5
+//#define ALIGNMENT 0.05f
+//#define COHESION 0.005f
+//#define SEPARATION 0.05f
 
-#define MAXSPEED 5
+#define ALIGNMENT 0.05f
+#define COHESION 0.005f
+#define SEPARATION 0.05f
+
+#define ESCAPEFORCE 5
+#define CHASINGFORCE 5
+
+#define MAXSPEED 20.f
+#define MINSPEED 5.f
 #define MAXFORCE 0.5f
-#define TURNFACTOR 1
+#define TURNFACTOR 1.f
 #define BORDERSIZE 50
 
 #define TABNUMBER 3

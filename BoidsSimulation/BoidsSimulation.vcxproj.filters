@@ -69,9 +69,6 @@
     <ClCompile Include="Project\src\Menu\Menu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Tab.cpp">
-      <Filter>Source Files\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="Project\src\Simulation\BaseBoid.cpp">
       <Filter>Source Files\Simulation\Boids</Filter>
     </ClCompile>
@@ -124,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="Project\include\World.h">
       <Filter>Header Files\Simulation</Filter>
-    </ClInclude>
-    <ClInclude Include="Tab.h">
-      <Filter>Header Files\Menu</Filter>
     </ClInclude>
     <ClInclude Include="Project\include\Boid.h">
       <Filter>Header Files\Simulation\Boids</Filter>

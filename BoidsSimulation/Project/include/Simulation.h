@@ -27,6 +27,8 @@ private:
 	sf::View SimulationV;
 	sf::RenderWindow& window;
 	std::list<Flock*> flocks;	
+	std::list<BaseBoid*> allBoids;
+
 	Flock* currFlock;				//Current flock that is selected
 	int currFlockIndex;
 	QuadTree<BaseBoid>* QT;			//The quadtree that holds all of the boids and updates every frame

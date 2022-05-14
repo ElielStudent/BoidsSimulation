@@ -5,13 +5,13 @@ Flock::Flock(int flID) {
 	cohesionForce = COHESION;
 	separationForce = SEPARATION;
 	this->flID = flID;
-	this->color = sf::Color(rand() % 255, rand() % 255, rand() % 255);
+	this->color = sf::Color((rand() % (255 - 64)) + 64, (rand() % (255 - 64)) + 64, (rand() % (255-64))+64);
 	AddBoid(eNormalBoid);
 	currBoid = boids.front();
 	currBoidIndex = currBoid->getID();
 }
 
-void Flock::AddBoid(BoidType bType) {
+BaseBoid* Flock::AddBoid(BoidType bType) {
 	BaseBoid* boid;
 	switch (bType) {
 	case(eNormalBoid):
@@ -31,11 +31,13 @@ void Flock::AddBoid(BoidType bType) {
 	}
 	boid->setColor(this->color);
 	boids.push_back(boid);
+	return boid;
 }
 
-void Flock::AddBoid(int x, int y, BoidType bType) {
+BaseBoid* Flock::AddBoid(int x, int y, BoidType bType) {
 	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, x, y);
-	boids.push_back(boid);
+	boids.push_back(boid);	
+	return boid;
 }
 
 void Flock::InsertBoids(QuadTree<BaseBoid>* QT) {
@@ -121,26 +123,6 @@ void Flock::setDrawTrail(bool state){
 void Flock::setDrawHighlight(bool state){
 	for (BaseBoid* b : boids)
 		b->setDrawHighlight(state);
-}
-
-void Flock::ToggleRange(){
-	for (BaseBoid* b : boids)
-		b->ToggleRange();
-}
-
-void Flock::ToggleNear(){
-	for (BaseBoid* b : boids)
-		b->ToggleNear();
-}
-
-void Flock::ToggleTrail(){
-	for (BaseBoid* b : boids)
-		b->ToggleTrail();
-}
-
-void Flock::ToggleHighlight(){
-	for (BaseBoid* b : boids)
-		b->ToggleHighlight();
 }
 
 int Flock::setBoidIndexFrom(int num) {

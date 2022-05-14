@@ -34,7 +34,7 @@ void World::GenerateTexture(){
 	sf::RectangleShape rect;
 	circ.setRadius((GHEIGHT / (REALWORLDSIZE * 1.2)) * 2);
 	//circ.setRadius(2);
-	circ.setFillColor(sf::Color::Red);
+	circ.setFillColor(sf::Color::White);
 	rect.setSize({ 2,2 });
 	rect.setFillColor(sf::Color::White);
 	for (int y = 0; y < WORLDSIZE; y++) {

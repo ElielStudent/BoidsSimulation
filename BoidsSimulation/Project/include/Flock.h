@@ -8,17 +8,19 @@
 class Flock {
 public:
 	Flock(int flID);
-	void AddBoid(BoidType bType);
-	void AddBoid(int x, int y, BoidType bType);
-	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the boids into the quadtree referenced
+	BaseBoid* AddBoid(BoidType bType);
+	BaseBoid* AddBoid(int x, int y, BoidType bType);
+	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the flock's boids into the quadtree referenced
 	void UpdateBoids(QuadTree<BaseBoid>* QT);
 	void ClearFlock();
 	void DrawFlock(sf::RenderWindow& window);
 	BaseBoid* getBoid(int id);
+	std::list<BaseBoid*>& getBoids() { return this->boids; };
 
 	void setAlignment(float alignmentForce);
 	void setCohesion(float cohesionForce);
 	void setSeparation(float separationForce);
+
 	float getAlignment() { return alignmentForce; }
 	float getCohesion() { return cohesionForce; }
 	float getSeparation() { return separationForce; }
@@ -27,11 +29,6 @@ public:
 	void setDrawNear(bool state);
 	void setDrawTrail(bool state);
 	void setDrawHighlight(bool state);
-
-	void ToggleRange();
-	void ToggleNear() ;
-	void ToggleTrail() ;
-	void ToggleHighlight() ;
 
 	int setBoidIndexFrom(int num);
 	BaseBoid* getCurrBoid() { return currBoid; };
@@ -43,6 +40,7 @@ private:
 	int currBoidIndex;
 	sf::Color color;
 	std::list<BaseBoid*> boids;
+
 	float alignmentForce;
 	float cohesionForce;
 	float separationForce;
