@@ -26,13 +26,14 @@ public:
 	void setAlignment(float alignmentForce) { this->alignmentForce = alignmentForce; };
 	void setCohesion(float cohesionForce) { this->cohesionForce = cohesionForce; };
 	void setSeparation(float separationForce) { this->separationForce = separationForce; };
-	void limitSpeed();
+	void limitSpeed(float maxspeed = MAXSPEED, float minspeed = MINSPEED);
 
 	bool isVisible() { return isvisible; };
 	bool isDead() { return isdead; };
 	int getID() { return id; };
 	int getFlID() { return flID; };
 	BoidType getBoidType() { return boidType; };
+	sf::FloatRect getShapeGlobalBounds() { return this->shape.getGlobalBounds(); }
 
 	void setDrawRange(bool state) { drawRange = state; };
 	void setDrawNear(bool state) { drawNear = state; };
@@ -41,7 +42,6 @@ public:
 protected:
 	int id, flID;
 	BoidType boidType = BoidType::eBaseBoid;
-
 	std::list<BaseBoid*>* localBoids;
 
 	void DrawVisualRange(sf::RenderWindow& window);
@@ -66,6 +66,6 @@ protected:
 	sf::Vector2f position, direction;		//Position/Direction vector
 	sf::CircleShape shape;
 
-	bool isvisible = 1, isdead = 0, changeSight = 1;			//Whether other boids can see him, Is eaten, Whether it's visual range increases/decreases
+	bool isvisible = 1, isdead = 0, changeSight = 1;					//Whether other boids can see him, Is eaten, Whether it's visual range increases/decreases
 	bool drawRange = 0, drawNear = 0, drawTrail = 0, drawHighlight = 0;
 };

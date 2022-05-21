@@ -20,12 +20,8 @@
 #define BOIDSIGHT 35
 #define SEPRANGE 15
 #define MAXVISUALRANGE (BOIDSIGHT*2)
-#define MINVISUALRANGE (BOIDSIGHT-20)
+#define MINVISUALRANGE (BOIDSIGHT-10)
 #define TRAILSIZE 50
-
-//#define ALIGNMENT 0.05f
-//#define COHESION 0.005f
-//#define SEPARATION 0.05f
 
 #define ALIGNMENT 0.05f
 #define COHESION 0.005f
@@ -34,10 +30,10 @@
 #define ESCAPEFORCE 5
 #define CHASINGFORCE 5
 
-#define MAXSPEED 20.f
-#define MINSPEED 5.f
+#define MAXSPEED 4.f
+#define MINSPEED 1.f
 #define MAXFORCE 0.5f
-#define TURNFACTOR 1.f
+#define TURNFACTOR 0.8f
 #define BORDERSIZE 50
 
 #define TABNUMBER 3

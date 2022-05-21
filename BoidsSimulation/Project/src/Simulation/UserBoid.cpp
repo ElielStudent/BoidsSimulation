@@ -3,7 +3,7 @@
 UserBoid::UserBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Color outlineColor)
 	:BaseBoid(id, flID, x, y, fillColor, outlineColor,ALIGNMENT,COHESION,SEPARATION) {
 	boidType = BoidType::eUserBoid;
-	direction = { 0,-5 };
+	direction = { 0.1,-5 };
 }
 
 void UserBoid::calcDirection() {

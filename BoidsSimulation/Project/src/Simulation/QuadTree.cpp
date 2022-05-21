@@ -55,19 +55,25 @@ void QuadTree<T>::SubDivide() {
 	sf::Vector2f center = { boundary.left + (boundary.width / 2),boundary.top + (boundary.height / 2) };
 	sf::Vector2f size = { boundary.width / 2, boundary.height / 2 };
 	//Divides the 4 children
-	subNodes[0] = new QuadTree(this->level + 1, sf::FloatRect(boundary.left, boundary.top, size.x, size.y));	//TL
-	subNodes[1] = new QuadTree(this->level + 1, sf::FloatRect(center.x, boundary.top, size.x, size.y));			//TR
-	subNodes[2] = new QuadTree(this->level + 1, sf::FloatRect(boundary.left, center.y, size.x, size.y));		//BL
-	subNodes[3] = new QuadTree(this->level + 1, sf::FloatRect(center.x, center.y, size.x, size.y));				//BR
+	subNodes[0] = new QuadTree(this->level + 1, 
+		sf::FloatRect(boundary.left, boundary.top, size.x, size.y));	//TL
+	subNodes[1] = new QuadTree(this->level + 1, 
+		sf::FloatRect(center.x, boundary.top, size.x, size.y));			//TR
+	subNodes[2] = new QuadTree(this->level + 1, 
+		sf::FloatRect(boundary.left, center.y, size.x, size.y));		//BL
+	subNodes[3] = new QuadTree(this->level + 1, 
+		sf::FloatRect(center.x, center.y, size.x, size.y));				//BR
 	isDivided = true;
 }
 
 template<typename T>
 bool QuadTree<T>::Insert(T* boid) {
 	sf::Vector2f boidPos = boid->getPosition();
-	if (!boundary.contains(boidPos))				//If the boid's position belongs in qt
+	//If the boid's position belongs in QT
+	if (!boundary.contains(boidPos))	
 		return false;
-	if (!this->isDivided) {							//If it isnt divided,insert into std::list and divide if necessary
+	//If it isnt divided,insert into std::list and divide if necessary
+	if (!this->isDivided) {		
 		this->boids.push_back(boid);
 		capacity--;
 		if (capacity == 0)
@@ -80,27 +86,23 @@ bool QuadTree<T>::Insert(T* boid) {
 		if (subNode->Insert(boid))
 			return true;
 	}
-	return false;		//Should never happen, failed to insert the boid
+	return false;	//Should never happen, failed to insert the boid
 }
 
 template<typename T>
 void QuadTree<T>::Draw(sf::RenderWindow& window) {
 	if (!isDivided)return;
 	sf::Vector2f center = { boundary.left + (boundary.width / 2),boundary.top + (boundary.height / 2) };
-	sf::Vertex vLine[2];			//Vertical line
-	sf::Vertex hLine[2];			//Horizontal line
+	sf::Vertex vLine[2], hLine[2];			//Vertical line,Horizontal line
+
 	vLine[0].position = sf::Vector2f(center.x, this->boundary.top);
 	vLine[1].position = sf::Vector2f(center.x, this->boundary.top + this->boundary.height);
 	hLine[0].position = sf::Vector2f(this->boundary.left, center.y);
 	hLine[1].position = sf::Vector2f(this->boundary.left + this->boundary.width, center.y);
-	vLine[0].color = sf::Color::White;
-	vLine[1].color = sf::Color::White;
-	hLine[0].color = sf::Color::White;
-	hLine[1].color = sf::Color::White;
+	vLine[0].color = vLine[1].color = hLine[0].color = hLine[1].color = sf::Color::White;
+
 	window.draw(vLine, 2, sf::PrimitiveType::Lines);
 	window.draw(hLine, 2, sf::PrimitiveType::Lines);
-
-	if (!isDivided)return;
 	for (QuadTree<T>* children : this->subNodes)
 		children->Draw(window);
 }
@@ -110,7 +112,7 @@ template<typename T>
 void QuadTree<T>::Query(sf::FloatRect boundary, std::list<T*>* boidList, BoidType boidType, int flID) {
 	if (!this->boundary.intersects(boundary))									//If the boundary is not inside the area
 		return;
-
+	
 	for (BaseBoid* b : this->boids) {
 		if ((boidType == BoidType::eBaseBoid || b->getBoidType() == boidType)	//If base boid was chosen or boid type same as search boid type
 			&& (flID == -1 || b->getFlID() == flID)								//If all FLIds are chosen or flid same as search boid flid

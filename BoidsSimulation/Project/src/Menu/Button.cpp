@@ -22,7 +22,8 @@ void Button::Update(sf::RenderWindow& window) {
 	//Checks click 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		if (!isClicked) {
-			if (shape.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+			if (shape.getGlobalBounds().contains(
+				window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
 				onClick();
 				isClicked = true;
 			}

@@ -19,9 +19,10 @@ void Boid::calcDirection() {
 				visualRadius *= 0.9995f;				//If it has neighbors, make its range smaller
 		}
 	}
-	direction = direction + Escape();
-	if (!isEscaping)
+	direction += Escape();
+	if (!isEscaping) {
 		direction += Alignment() + Cohesion() + Separation();
+	}
 	limitSpeed();
 	direction += checkBounds();
 }
@@ -31,6 +32,10 @@ sf::Vector2f Boid::Escape() {
 	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible() || b->getBoidType() != BoidType::ePredatorBoid || b->getFlID() == this->flID)
 			continue;
+		if (this->shape.getGlobalBounds().intersects(b->getShapeGlobalBounds())) {
+			this->isdead = true;
+			return { 0,0 };
+		}
 		escapeV += position - b->getPosition();
 	}
 	if (escapeV.x != 0 && escapeV.y != 0)

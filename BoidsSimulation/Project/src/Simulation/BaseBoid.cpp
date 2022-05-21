@@ -19,8 +19,8 @@ BaseBoid::BaseBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Colo
 	//direction.x = float(cos((3.1415 / 180) * shape.getRotation()));
 	//direction.y = float(sin((3.1415 / 180) * shape.getRotation()));
 
-	direction.x = (rand() % (int)MAXSPEED+1)+1;
-	direction.y = (rand() % (int)MAXSPEED+1)+1;
+	direction.x = (rand() % (int)MAXSPEED + 1) + 1;
+	direction.y = (rand() % (int)MAXSPEED + 1) + 1;
 
 	this->alignmentForce = alignment;
 	this->cohesionForce = cohesion;
@@ -92,25 +92,27 @@ void BaseBoid::DrawNear(sf::RenderWindow& window) {
 	}
 }
 
+//trailLine[0].color = sf::Color(rand() % 255, rand() % 255, rand() % 255);
+//trailLine[1].color = sf::Color(rand() % 255, rand() % 255, rand() % 255);
+//trailLine[0].color = sf::Color(25* index, 25*index, 25*index);
+//trailLine[1].color = sf::Color(25 * index, 25 * index, 25 * index);
+//trailLine[0].color = sf::Color(255, 255, 255);
+//trailLine[1].color = sf::Color(255, 255, 255);
+
+//trailLine[0].color.a = (255 / TRAILSIZE) * index;
+//trailLine[1].color.a = (255 / TRAILSIZE) * index;
 void BaseBoid::DrawTrail(sf::RenderWindow& window) {
 	std::list<sf::Vector2f>::iterator it = lastPos.begin();
 	std::advance(it, 1);
 	sf::Vertex trailLine[2];
 	trailLine[0].position = lastPos.front();
 	int index = TRAILSIZE;
-	//trailLine[0].color = sf::Color(2* index, 4*index, 8*index);
-	//trailLine[1].color = sf::Color(64 * index, 32* index, 16 * index);
-	//trailLine[0].color = sf::Color(5 * index, 5 * index, 5 * index);
-	//trailLine[1].color = sf::Color(5 * index, 5 * index, 5 * index); 
-	trailLine[0].color = sf::Color(255, 255, 255);
-	trailLine[1].color = sf::Color(255, 255, 255);
-	//trailLine[0].color = sf::Color(25* index, 25*index, 25*index);
-	//trailLine[1].color = sf::Color(25 * index, 25 * index, 25 * index);
 	for (it; it != lastPos.end(); it++) {
 		if ((*it) == sf::Vector2f(0, 0))
 			continue;
-		trailLine[0].color.a = (255 / TRAILSIZE) * index;
-		trailLine[1].color.a = (255 / TRAILSIZE) * index;
+
+		trailLine[0].color = sf::Color(2 * index, 4 * index, 8 * index);
+		trailLine[1].color = sf::Color(64 * index, 32 * index, 16 * index);
 		trailLine[1].position = *it;
 		window.draw(trailLine, 2, sf::PrimitiveType::Lines);
 		trailLine[0].position = trailLine[1].position;
@@ -130,7 +132,8 @@ sf::Vector2f BaseBoid::Alignment() {
 	sf::Vector2f align = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible() || b->getFlID() != this->flID || b->getBoidType() == ePredatorBoid)
+		if (!b->isVisible() || b->getFlID() != this->flID
+			|| b->getBoidType() == ePredatorBoid)
 			continue;
 		align += b->getDirection();
 		total++;
@@ -147,7 +150,8 @@ sf::Vector2f BaseBoid::Cohesion() {
 	sf::Vector2f cohesion = { 0,0 };
 	int total = 0;
 	for (BaseBoid* b : *localBoids) {
-		if (!b->isVisible() || b->getFlID() != this->flID || b->getBoidType() == ePredatorBoid)
+		if (!b->isVisible() || b->getFlID() != this->flID
+			|| b->getBoidType() == ePredatorBoid)
 			continue;
 		cohesion += b->getPosition();
 		total++;
@@ -155,15 +159,14 @@ sf::Vector2f BaseBoid::Cohesion() {
 	if (total == 0) return { 0,0 };
 	cohesion.x /= total;
 	cohesion.y /= total;
-
-	cohesion -= position;
+	cohesion -= this->position;
 	return cohesion * cohesionForce;
 }
 
 //Separation is based on visible non-predator boids
 sf::Vector2f BaseBoid::Separation() {
 	sf::Vector2f separation = { 0,0 };
-		for (BaseBoid* b : *localBoids) {
+	for (BaseBoid* b : *localBoids) {
 		if (!b->isVisible() || b->getBoidType() == ePredatorBoid)
 			continue;
 		float distance = abs(distSqrd(position, b->getPosition()));
@@ -187,12 +190,10 @@ sf::FloatRect BaseBoid::getVisualBoundary() {
 		visualRadius * 2, visualRadius * 2);
 }
 
-void BaseBoid::limitSpeed() {
-	float speed = this->direction.x * this->direction.x + this->direction.y * this->direction.y;
-	if (speed > MAXSPEED) 
-		this->direction = (this->direction / speed) * MAXSPEED;
-	else if (speed < MINSPEED) 
-		this->direction = (this->direction / speed) * MINSPEED;
+void BaseBoid::limitSpeed(float maxspeed , float minspeed ) {
+	float speed = sqrt(this->direction.x * this->direction.x + this->direction.y * this->direction.y);
+	if (speed > MAXSPEED) this->direction = (this->direction / speed) * MAXSPEED;
+	else if (speed < MINSPEED) this->direction = (this->direction / speed) * MINSPEED;
 }
 sf::Vector2f BaseBoid::checkBounds() {
 	sf::Vector2f bound = { 0,0 };

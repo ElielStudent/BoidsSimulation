@@ -11,14 +11,14 @@ Flock::Flock(int flID) {
 	currBoidIndex = currBoid->getID();
 }
 
-BaseBoid* Flock::AddBoid(BoidType bType) {
+void Flock::AddBoid(BoidType bType) {
 	BaseBoid* boid;
 	switch (bType) {
 	case(eNormalBoid):
 		boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
 		break;
 	case(eUserBoid):
-		boid = new UserBoid(++fCount, this->flID);
+		boid = new UserBoid(fCount++, this->flID);
 		break;
 	case(ePredatorBoid):
 		boid = new PredatorBoid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
@@ -31,13 +31,6 @@ BaseBoid* Flock::AddBoid(BoidType bType) {
 	}
 	boid->setColor(this->color);
 	boids.push_back(boid);
-	return boid;
-}
-
-BaseBoid* Flock::AddBoid(int x, int y, BoidType bType) {
-	Boid* boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, x, y);
-	boids.push_back(boid);	
-	return boid;
 }
 
 void Flock::InsertBoids(QuadTree<BaseBoid>* QT) {
@@ -53,14 +46,15 @@ void Flock::UpdateBoids(QuadTree<BaseBoid>* QT) {
 			b->setNeighborBoids(nullptr);	//Delete the pointer to the nearby list of the boid
 			delete b;						//Delete the boid
 			it = boids.erase(it);			//Erase from list and update the iterator
+			fCount--;
 			continue;
 		}
 		std::list<BaseBoid*>* nearby = new std::list<BaseBoid*>();
-		//QT->Query(b->getVisualBoundary(),nearby);								//Square range
+		//QT->Query(b->getVisualBoundary(),nearby);						//Square range
 		QT->Query(b->getPosition(), b->getVisualRange(), nearby);		//Radius based	(doesn't return himself)
-		b->setNeighborBoids(nearby);										//Set nearby boids of the boid
-		b->Move();															//Update the boid
-		it++;																	//Keep iterating
+		b->setNeighborBoids(nearby);									//Set nearby boids of the boid
+		b->Move();														//Update the boid
+		it++;															//Keep iterating
 	}
 }
 
@@ -82,6 +76,10 @@ BaseBoid* Flock::getBoid(int id) {
 	std::list<BaseBoid*>::iterator it = this->boids.begin();
 	std::advance(it, id - 1);
 	return *it;
+}
+
+int Flock::getBoidCount(){
+	return fCount;
 }
 
 void Flock::setAlignment(float alignmentForce) {
@@ -127,11 +125,11 @@ void Flock::setDrawHighlight(bool state){
 
 int Flock::setBoidIndexFrom(int num) {
 	int boidCount = boids.size();
-	num = ((num + currBoidIndex) + boidCount) % boidCount;
+	int index = ((num + currBoidIndex) + boidCount) % boidCount;
 	std::list<BaseBoid*>::iterator it = boids.begin();
-	std::advance(it, num);
+	std::advance(it, index);
 	currBoid = *it;
 	currBoidIndex = (*it)->getID();
-	return num;
+	return currBoidIndex;
 }
 

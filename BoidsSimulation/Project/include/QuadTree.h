@@ -18,8 +18,8 @@ private:
 	QuadTree* subNodes[4];
 
 	std::list<T*> boids;					//Boids stored in level
-	sf::FloatRect boundary;				//Boundary of the current quadtree level
-	int capacity;					//Max number of boids before dividing 
-	int level;						//Depth of level
-	bool isDivided;					//If the quadtree has divided yet or not
+	sf::FloatRect boundary;					//Boundary of the current quadtree level
+	int capacity;							//Max number of boids before dividing 
+	int level;								//Depth of level
+	bool isDivided;							//If the quadtree has divided yet or not
 };

@@ -11,10 +11,14 @@ PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, in
 }
 
 void PredatorBoid::calcDirection() {
-	direction = direction + ChaseBoid();
-	if (followsRules && !isChasing)
+	direction += ChaseBoid();
+	if (!isChasing) {
 		direction += Alignment() + Cohesion() + Separation();
-	limitSpeed();
+		limitSpeed();
+	}
+	else {
+		limitSpeed(MAXSPEED+10,MINSPEED+10);
+	}
 	direction += checkBounds();
 }
 
@@ -31,7 +35,8 @@ sf::Vector2f PredatorBoid::ChaseBoid() {
 		isChasing = false;
 		return { 0,0 };
 	}
-	isChasing = true;
+	else
+		isChasing = true;
 	chaseV /= total;
 	chaseV -= this->position;
 	return chaseV * chasingForce;

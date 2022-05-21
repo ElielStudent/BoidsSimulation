@@ -8,13 +8,13 @@
 class Flock {
 public:
 	Flock(int flID);
-	BaseBoid* AddBoid(BoidType bType);
-	BaseBoid* AddBoid(int x, int y, BoidType bType);
+	void AddBoid(BoidType bType);
 	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the flock's boids into the quadtree referenced
 	void UpdateBoids(QuadTree<BaseBoid>* QT);
 	void ClearFlock();
 	void DrawFlock(sf::RenderWindow& window);
 	BaseBoid* getBoid(int id);
+	int getBoidCount();
 	std::list<BaseBoid*>& getBoids() { return this->boids; };
 
 	void setAlignment(float alignmentForce);

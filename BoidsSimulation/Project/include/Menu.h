@@ -4,7 +4,7 @@
 #include "Label.h"
 #include "Simulation.h"
 
-enum MenuType{eWorldMenu, eFlockMenu};
+enum MenuType{eWorldMenu, eFlockMenu,eBoidMenu};
 
 class Menu 
 {
@@ -18,7 +18,7 @@ private:
 	void RestartMenu(MenuType menuType);
 	void LoadWorldMenu();
 	void LoadFlockMenu();
-	//void LoadBoidMenu();
+	void LoadBoidMenu();
 
 	MenuType currMenu = eWorldMenu;
 	sf::RenderWindow& window;

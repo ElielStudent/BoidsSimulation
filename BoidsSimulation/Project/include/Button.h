@@ -5,7 +5,8 @@
 
 class Button :public UIElement {
 public:
-	Button(std::string = "NULL", sf::Vector2f position = { 0,0 }, sf::Vector2f size = { 100, 50 },
+	Button(std::string = "NULL", sf::Vector2f position = { 0,0 }, 
+		sf::Vector2f size = { 100, 50 },
 		std::function<void()> func = []() {return; });
 	void Draw(sf::RenderWindow& window);
 	void Update(sf::RenderWindow& window);
