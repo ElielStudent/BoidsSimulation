@@ -125,20 +125,76 @@ void Menu::LoadWorldMenu() {
 
 void Menu::LoadFlockMenu() {
 	//Flock Indexing
-	Label* flockIndex = new Label("1", { 153, 70 }, { 50,50 });
+	Label* flockIndex = new Label("1", { 93, 70 }, { 50,50 });
 	auto updateFlockIndex = [this, flockIndex]() {flockIndex->SetText(std::to_string(simulation->getCurrFlock()->getFLID() + 1)); };
 	flockIndex->SetFunction(updateFlockIndex);
 	UIElements.push_back(flockIndex);
 
 	auto subF = [this]() {simulation->setFlockIndexFrom(-1); };
-	UIElements.push_back(new Button("FL-", { 75, 50 }, { 70,90 }, subF));
+	UIElements.push_back(new Button("FL-", { 15, 50 }, { 70,90 }, subF));
 
 	auto addF = [this]() {simulation->setFlockIndexFrom(1); };
-	UIElements.push_back(new Button("FL+", { 215, 50 }, { 70,90 }, addF));
+	UIElements.push_back(new Button("FL+", { 155, 50 }, { 70,90 }, addF));
 
 	//Flock add
 	auto addFlock = [this]() {simulation->AddFlock(); };
-	UIElements.push_back(new Button("Add Flock", { 86, 150 }, { 190,80 }, addFlock));
+	UIElements.push_back(new Button("Add Flock", { 26, 150 }, { 190,80 }, addFlock));
+
+	//Toggle functions
+	auto togHigOn = [this]() {simulation->getCurrFlock()->setDrawHighlight(true); };
+	auto togHigOff = [this]() {simulation->getCurrFlock()->setDrawHighlight(false); };
+	UIElements.push_back(new BToggle("H", { 240, 80 }, { 60,60 }, togHigOn, togHigOff));
+
+	auto togNeiOn = [this]() {simulation->getCurrFlock()->setDrawNear(true); };
+	auto togNeiOff = [this]() {simulation->getCurrFlock()->setDrawNear(false); };
+	UIElements.push_back(new BToggle("N", { 305, 80 }, { 60,60 }, togNeiOn, togNeiOff));
+
+	auto togRanOn = [this]() {simulation->getCurrFlock()->setDrawRange(true); };
+	auto togRanOff = [this]() {simulation->getCurrFlock()->setDrawRange(false); };
+	UIElements.push_back(new BToggle("R", { 240, 150 }, { 60,60 }, togRanOn, togRanOff));
+
+	auto togTraOn = [this]() {simulation->getCurrFlock()->setDrawTrail(true); };
+	auto togTraOff = [this]() {simulation->getCurrFlock()->setDrawTrail(false); };
+	UIElements.push_back(new BToggle("T", { 305, 150 }, { 60,60 }, togTraOn, togTraOff));
+
+	//#define ALIGNMENT 0.05f
+	//#define COHESION 0.005f
+	//#define SEPARATION 0.05f
+
+	//Movement rules
+	//Align
+	Slider* alignSlide = new Slider("Align", 0.f, 2.5f, ALIGNMENT, { 15,250 }, { 240,50 });
+	auto updateAlignment = [this, alignSlide](float val) {
+		simulation->getCurrFlock()->setAlignment(val);
+	};
+	alignSlide->SetFunc(updateAlignment);
+	UIElements.push_back(alignSlide);
+
+	auto setDefAli = [this, alignSlide]() {alignSlide->SetValue(ALIGNMENT); };
+	UIElements.push_back(new Button("Reset", { 260,250 }, { 100,50 }, setDefAli));
+
+	//Cohesion
+	Slider* coheSlide = new Slider("Cohes", 0.f, .4f, COHESION, { 15,310 }, { 240,50 });
+	auto updateCohesion = [this, coheSlide](float val) {
+		simulation->getCurrFlock()->setCohesion(val);
+	};
+	coheSlide->SetFunc(updateCohesion);
+	UIElements.push_back(coheSlide);
+
+	auto setDefCoh = [this, coheSlide]() {coheSlide->SetValue(COHESION); };
+	UIElements.push_back(new Button("Reset", { 260,310 }, { 100,50 }, setDefCoh));
+
+	//Separation
+	Slider* separSlide = new Slider("Separ", 0.f, 5.f, SEPARATION, { 15,370 }, { 240,50 });
+	auto updateSeparation = [this, separSlide](float val) {
+		simulation->getCurrFlock()->setSeparation(val);
+	};
+	separSlide->SetFunc(updateSeparation);
+	UIElements.push_back(separSlide);
+
+	auto setDefSep = [this, separSlide]() {separSlide->SetValue(SEPARATION); };
+	UIElements.push_back(new Button("Reset", { 260,370 }, { 100,50 }, setDefSep));
+
 
 	//Adding boid functions
 	auto addNB = [this]() {simulation->AddBoid(BoidType::eNormalBoid); };
@@ -150,31 +206,11 @@ void Menu::LoadFlockMenu() {
 	auto addUB = [this]() {simulation->AddBoid(BoidType::eUserBoid); };
 	UIElements.push_back(new Button("UBoid +", { 60, 700 }, { 150,70 }, addUB));
 
-	//Toggle functions
-	auto togHigOn = [this]() {simulation->getCurrFlock()->setDrawHighlight(true); };
-	auto togHigOff = [this]() {simulation->getCurrFlock()->setDrawHighlight(false); };
-	UIElements.push_back(new BToggle(" Highlight", { 20, 300 }, { 150,80 }, togHigOn, togHigOff));
-
-	auto togNeiOn = [this]() {simulation->getCurrFlock()->setDrawNear(true); };
-	auto togNeiOff = [this]() {simulation->getCurrFlock()->setDrawNear(false); };
-	UIElements.push_back(new BToggle("Nearby", { 200, 300 }, { 150,80 }, togNeiOn, togNeiOff));
-
-	auto togRanOn = [this]() {simulation->getCurrFlock()->setDrawRange(true); };
-	auto togRanOff = [this]() {simulation->getCurrFlock()->setDrawRange(false); };
-	UIElements.push_back(new BToggle("Range", { 20, 400 }, { 150,80 }, togRanOn, togRanOff));
-
-	auto togTraOn = [this]() {simulation->getCurrFlock()->setDrawTrail(true); };
-	auto togTraOff = [this]() {simulation->getCurrFlock()->setDrawTrail(false); };
-	UIElements.push_back(new BToggle("Trail", { 200, 400 }, { 150,80 }, togTraOn, togTraOff));
 
 
-	//Flock Selection
-	//Adds outline to all boids of flock based on which one is selected
-	//Add boid
-	//Delete boid
-	//Choose to add predator flock
-	//Delete flocks
-	//Change flock separation,cohesion,alignment
+	auto restartFlock = [this]() {simulation->getCurrFlock()->RestartFlock(); };
+	UIElements.push_back(new Button("Clear", { 240, 500 }, { 100,270 }, restartFlock));
+
 }
 
 void Menu::LoadBoidMenu() {

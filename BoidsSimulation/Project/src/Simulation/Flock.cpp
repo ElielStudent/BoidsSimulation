@@ -65,6 +65,14 @@ void Flock::ClearFlock() {
 	currBoid = nullptr;
 }
 
+void Flock::RestartFlock(){
+	this->ClearFlock();
+	this->AddBoid(eBaseBoid);
+	currBoid = boids.front();
+	currBoidIndex = currBoid->getID();
+	fCount = 1;
+}
+
 void Flock::DrawFlock(sf::RenderWindow& window) {
 	for (BaseBoid* b : boids) {
 		b->Draw(window);

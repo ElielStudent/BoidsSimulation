@@ -24,10 +24,12 @@ void Simulation::UpdateQuadTree() {
 }
 
 void Simulation::AddFlock() {
-	flocks.push_back(new Flock(flocks.size()));
-	currFlock = flocks.back();
-	currFlockIndex = flocks.size() - 1;
-	boidPopulation++;
+	if (this->flocks.size() < 15) {
+		flocks.push_back(new Flock(flocks.size()));
+		currFlock = flocks.back();
+		currFlockIndex = flocks.size() - 1;
+		boidPopulation++;
+	}
 }
 
 void Simulation::AddBoid(BoidType boidType) {
@@ -36,7 +38,7 @@ void Simulation::AddBoid(BoidType boidType) {
 }
 
 void Simulation::Draw() {
-	if (followBoid!= nullptr) {
+	if (followBoid != nullptr) {
 		sf::Vector2f followPos = followBoid->getPosition();
 		world->setView(followPos);
 		SimulationV.setCenter(followPos);
@@ -56,7 +58,7 @@ void Simulation::Draw() {
 	}
 }
 
-void Simulation::DrawPopulation(){
+void Simulation::DrawPopulation() {
 	sf::Font font;
 	font.loadFromFile("Arial.ttf");
 	sf::Text text;
@@ -101,7 +103,7 @@ void Simulation::setDefaultView() {
 	world->setDefaultView();
 }
 
-void Simulation::setFollowBoid(BaseBoid* boid){
+void Simulation::setFollowBoid(BaseBoid* boid) {
 	followBoid = boid;
 }
 
@@ -115,7 +117,7 @@ int Simulation::setFlockIndexFrom(int num) {
 	return currFlockIndex;
 }
 
-void Simulation::resetSim(){
+void Simulation::resetSim() {
 	for (Flock* f : flocks) {
 		f->ClearFlock();
 		delete f;

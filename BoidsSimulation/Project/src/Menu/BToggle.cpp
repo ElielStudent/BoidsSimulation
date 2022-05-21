@@ -32,8 +32,8 @@ void BToggle::Update(sf::RenderWindow& window) {
 					onClick();
 				if (!currentState)	//If it was un-clicked
 					onUnClick();
-				isClicked = true;
 			}
+			isClicked = true;
 		}
 	}
 	else 

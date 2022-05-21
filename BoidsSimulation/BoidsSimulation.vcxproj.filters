@@ -81,7 +81,7 @@
     <ClCompile Include="Project\src\Simulation\UserBoid.cpp">
       <Filter>Source Files\Simulation\Boids</Filter>
     </ClCompile>
-    <ClCompile Include="Slider.cpp">
+    <ClCompile Include="Project\src\Menu\Slider.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,7 +134,7 @@
     <ClInclude Include="Project\include\UserBoid.h">
       <Filter>Header Files\Simulation\Boids</Filter>
     </ClInclude>
-    <ClInclude Include="Slider.h">
+    <ClInclude Include="Project\include\Slider.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>

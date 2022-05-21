@@ -25,8 +25,8 @@ void Button::Update(sf::RenderWindow& window) {
 			if (shape.getGlobalBounds().contains(
 				window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
 				onClick();
-				isClicked = true;
 			}
+			isClicked = true;
 		}
 	}
 	else

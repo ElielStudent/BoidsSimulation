@@ -183,6 +183,7 @@
   <ItemGroup>
     <ClCompile Include="Project\src\Menu\Label.cpp" />
     <ClCompile Include="Project\src\Menu\Menu.cpp" />
+    <ClCompile Include="Project\src\Menu\Slider.cpp" />
     <ClCompile Include="Project\src\Simulation\BaseBoid.cpp" />
     <ClCompile Include="Project\src\Simulation\Boid.cpp" />
     <ClCompile Include="Project\src\Menu\BToggle.cpp" />
@@ -197,7 +198,6 @@
     <ClCompile Include="Project\src\Menu\UIElement.cpp" />
     <ClCompile Include="Project\src\Simulation\World.cpp" />
     <ClCompile Include="Project\src\Simulation\UserBoid.cpp" />
-    <ClCompile Include="Slider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Project\include\BaseBoid.h" />
@@ -213,10 +213,10 @@
     <ClInclude Include="Project\include\QuadTree.h" />
     <ClInclude Include="Project\include\Functions.h" />
     <ClInclude Include="Project\include\Simulation.h" />
+    <ClInclude Include="Project\include\Slider.h" />
     <ClInclude Include="Project\include\UIElement.h" />
     <ClInclude Include="Project\include\World.h" />
     <ClInclude Include="Project\include\UserBoid.h" />
-    <ClInclude Include="Slider.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Project\data\Text.txt" />

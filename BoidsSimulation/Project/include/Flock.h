@@ -12,6 +12,7 @@ public:
 	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the flock's boids into the quadtree referenced
 	void UpdateBoids(QuadTree<BaseBoid>* QT);
 	void ClearFlock();
+	void RestartFlock();
 	void DrawFlock(sf::RenderWindow& window);
 	BaseBoid* getBoid(int id);
 	int getBoidCount();

@@ -2,6 +2,7 @@
 #include "Button.h"
 #include "BToggle.h"
 #include "Label.h"
+#include "Slider.h"
 #include "Simulation.h"
 
 enum MenuType{eWorldMenu, eFlockMenu,eBoidMenu};
