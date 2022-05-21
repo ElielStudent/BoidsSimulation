@@ -9,7 +9,7 @@ public:
 		sf::Color fillColor = sf::Color::White, sf::Color outlineColor = sf::Color::Black);
 	void setFollowsRules(bool followsRules) { this->followsRules = followsRules; }
 private:
-	void calcDirection();
+	void calcDirection(sf::Vector2f mousePos = { 0,0 });
 	sf::Vector2f ChaseBoid();
 	sf::Vector2f Alignment();
 	sf::Vector2f Cohesion();

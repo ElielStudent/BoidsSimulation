@@ -10,7 +10,7 @@ class BaseBoid {
 public:
 	BaseBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Color outlineColor,
 		float alignment, float cohesion, float separation);
-	void Move();
+	void Move(sf::Vector2f mousePos = { 0,0 });
 	void setNeighborBoids(std::list<BaseBoid*>* localBoids);
 
 	void Draw(sf::RenderWindow& window);
@@ -30,11 +30,13 @@ public:
 
 	bool isVisible() { return isvisible; };
 	bool isDead() { return isdead; };
+	bool isFollowingMouse() { return isMouseFollowing; };
 	int getID() { return id; };
 	int getFlID() { return flID; };
 	BoidType getBoidType() { return boidType; };
 	sf::FloatRect getShapeGlobalBounds() { return this->shape.getGlobalBounds(); }
 
+	void setMouseFollow(bool state) { isMouseFollowing = state; };
 	void setDrawRange(bool state) { drawRange = state; };
 	void setDrawNear(bool state) { drawNear = state; };
 	void setDrawTrail(bool state) { drawTrail = state; };
@@ -50,11 +52,12 @@ protected:
 	void DrawHighlight(sf::RenderWindow& window);
 	std::list<sf::Vector2f> lastPos;				//std::list of 10 last pos to draw trail
 
-	virtual void calcDirection() = 0;
+	virtual void calcDirection(sf::Vector2f mousePos = { 0,0 }) = 0;
 	sf::Vector2f checkBounds();
 	virtual sf::Vector2f Alignment();
 	virtual sf::Vector2f Cohesion();
 	virtual sf::Vector2f Separation();
+	sf::Vector2f MouseFollowing(sf::Vector2f mousePos = { 0,0 });
 
 	float getAlignment() { return alignmentForce; }
 	float getCohesion() { return cohesionForce; }
@@ -66,6 +69,6 @@ protected:
 	sf::Vector2f position, direction;		//Position/Direction vector
 	sf::CircleShape shape;
 
-	bool isvisible = 1, isdead = 0, changeSight = 1;					//Whether other boids can see him, Is eaten, Whether it's visual range increases/decreases
+	bool isvisible = 1, isdead = 0, changeSight = 1,isMouseFollowing = 0;					//Whether other boids can see him, Is eaten, Whether it's visual range increases/decreases, whether it follows the mouse
 	bool drawRange = 0, drawNear = 0, drawTrail = 0, drawHighlight = 0;
 };

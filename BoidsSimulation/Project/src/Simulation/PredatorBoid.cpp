@@ -10,10 +10,11 @@ PredatorBoid::PredatorBoid(float alignment, float cohesion, float separation, in
 	visualRadius = MAXVISUALRANGE;
 }
 
-void PredatorBoid::calcDirection() {
+void PredatorBoid::calcDirection(sf::Vector2f mousePos) {
 	direction += ChaseBoid();
 	if (!isChasing) {
 		direction += Alignment() + Cohesion() + Separation();
+		if (isMouseFollowing) direction += MouseFollowing(mousePos);
 		limitSpeed();
 	}
 	else {

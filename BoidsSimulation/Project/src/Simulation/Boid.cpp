@@ -8,7 +8,7 @@ Boid::Boid(float alignment, float cohesion, float separation, int id, int flID, 
 	escapeForce = ESCAPEFORCE;
 }
 
-void Boid::calcDirection() {
+void Boid::calcDirection(sf::Vector2f mousePos) {
 	if (changeSight) {
 		if (localBoids->size() == 0) { 				//If no boids are around
 			if (visualRadius < MAXVISUALRANGE)
@@ -20,9 +20,8 @@ void Boid::calcDirection() {
 		}
 	}
 	direction += Escape();
-	if (!isEscaping) {
-		direction += Alignment() + Cohesion() + Separation();
-	}
+	if (!isEscaping) direction += Alignment() + Cohesion() + Separation();
+	if (isMouseFollowing) direction += MouseFollowing(mousePos);
 	limitSpeed();
 	direction += checkBounds();
 }

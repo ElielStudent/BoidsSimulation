@@ -7,6 +7,6 @@ public:
 	UserBoid(int id, int flID, int x = rand() % GWIDTH, int y = rand() % HEIGHT,
 		sf::Color fillColor = sf::Color::White, sf::Color outlineColor = sf::Color::Black);
 private:
-	void calcDirection();
+	void calcDirection(sf::Vector2f mousePos = { 0,0 });
 };
 

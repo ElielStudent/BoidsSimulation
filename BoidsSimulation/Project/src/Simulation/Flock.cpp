@@ -1,11 +1,11 @@
 #include "Flock.h"
 
-Flock::Flock(int flID) {
+Flock::Flock(int flID, sf::RenderWindow& window) :window(window) {
 	alignmentForce = ALIGNMENT;
 	cohesionForce = COHESION;
 	separationForce = SEPARATION;
 	this->flID = flID;
-	this->color = sf::Color((rand() % (255 - 64)) + 64, (rand() % (255 - 64)) + 64, (rand() % (255-64))+64);
+	this->color = sf::Color((rand() % (255 - 64)) + 64, (rand() % (255 - 64)) + 64, (rand() % (255 - 64)) + 64);
 	AddBoid(eNormalBoid);
 	currBoid = boids.front();
 	currBoidIndex = currBoid->getID();
@@ -23,8 +23,8 @@ void Flock::AddBoid(BoidType bType) {
 	case(ePredatorBoid):
 		boid = new PredatorBoid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
 		break;
-	/*case(eAiBoid):
-		break;*/
+		/*case(eAiBoid):
+			break;*/
 	default:
 		boid = new Boid(alignmentForce, cohesionForce, separationForce, fCount++, this->flID);
 		break;
@@ -53,7 +53,10 @@ void Flock::UpdateBoids(QuadTree<BaseBoid>* QT) {
 		//QT->Query(b->getVisualBoundary(),nearby);						//Square range
 		QT->Query(b->getPosition(), b->getVisualRange(), nearby);		//Radius based	(doesn't return himself)
 		b->setNeighborBoids(nearby);									//Set nearby boids of the boid
-		b->Move();														//Update the boid
+		if (b->isFollowingMouse())
+			b->Move(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+		else
+			b->Move();														//Update the boid
 		it++;															//Keep iterating
 	}
 }
@@ -65,12 +68,12 @@ void Flock::ClearFlock() {
 	currBoid = nullptr;
 }
 
-void Flock::RestartFlock(){
+void Flock::RestartFlock() {
 	this->ClearFlock();
+	fCount = 0;
 	this->AddBoid(eBaseBoid);
 	currBoid = boids.front();
 	currBoidIndex = currBoid->getID();
-	fCount = 1;
 }
 
 void Flock::DrawFlock(sf::RenderWindow& window) {
@@ -86,7 +89,7 @@ BaseBoid* Flock::getBoid(int id) {
 	return *it;
 }
 
-int Flock::getBoidCount(){
+int Flock::getBoidCount() {
 	return fCount;
 }
 
@@ -111,22 +114,27 @@ void Flock::setSeparation(float separationForce) {
 	}
 }
 
-void Flock::setDrawRange(bool state){
+void Flock::setMouseFollow(bool state) {
+	for (BaseBoid* b : boids)
+		b->setMouseFollow(state);
+}
+
+void Flock::setDrawRange(bool state) {
 	for (BaseBoid* b : boids)
 		b->setDrawRange(state);
 }
 
-void Flock::setDrawNear(bool state){
+void Flock::setDrawNear(bool state) {
 	for (BaseBoid* b : boids)
 		b->setDrawNear(state);
 }
 
-void Flock::setDrawTrail(bool state){
+void Flock::setDrawTrail(bool state) {
 	for (BaseBoid* b : boids)
 		b->setDrawTrail(state);
 }
 
-void Flock::setDrawHighlight(bool state){
+void Flock::setDrawHighlight(bool state) {
 	for (BaseBoid* b : boids)
 		b->setDrawHighlight(state);
 }

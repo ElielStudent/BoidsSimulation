@@ -27,6 +27,7 @@
 #define COHESION 0.005f
 #define SEPARATION 0.05f
 
+#define MOUSEFORCE 0.025f
 #define ESCAPEFORCE 5
 #define CHASINGFORCE 5
 

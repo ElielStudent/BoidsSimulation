@@ -37,8 +37,8 @@ BaseBoid::BaseBoid(int id, int flID, int x, int y, sf::Color fillColor, sf::Colo
 		lastPos.push_back({ 0,0 });
 }
 
-void BaseBoid::Move() {
-	calcDirection();
+void BaseBoid::Move(sf::Vector2f mousePos) {
+	calcDirection(mousePos);
 
 	shape.setRotation(atan2f(direction.x, -direction.y) * (180 / 3.1415f));
 
@@ -175,6 +175,13 @@ sf::Vector2f BaseBoid::Separation() {
 		}
 	}
 	return separation * separationForce;
+}
+
+sf::Vector2f BaseBoid::MouseFollowing(sf::Vector2f mousePos){
+	sf::Vector2f follow = sf::Vector2f(mousePos) - this->position;
+	follow.x *= MOUSEFORCE;
+	follow.y *= MOUSEFORCE;
+	return follow;
 }
 
 sf::Vector2f BaseBoid::getPosition() {

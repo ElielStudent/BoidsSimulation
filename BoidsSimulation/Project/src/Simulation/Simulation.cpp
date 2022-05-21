@@ -25,7 +25,7 @@ void Simulation::UpdateQuadTree() {
 
 void Simulation::AddFlock() {
 	if (this->flocks.size() < 15) {
-		flocks.push_back(new Flock(flocks.size()));
+		flocks.push_back(new Flock(flocks.size(),window));
 		currFlock = flocks.back();
 		currFlockIndex = flocks.size() - 1;
 		boidPopulation++;
@@ -70,6 +70,7 @@ void Simulation::DrawPopulation() {
 }
 
 void Simulation::Update() {
+	window.setView(SimulationV);
 	UpdateQuadTree();
 	boidPopulation = 0;
 	for (Flock* f : flocks) {

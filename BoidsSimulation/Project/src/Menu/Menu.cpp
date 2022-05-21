@@ -205,11 +205,14 @@ void Menu::LoadFlockMenu() {
 
 	auto addUB = [this]() {simulation->AddBoid(BoidType::eUserBoid); };
 	UIElements.push_back(new Button("UBoid +", { 60, 700 }, { 150,70 }, addUB));
-
-
+	
+	//Adding mouse follow and clear buttons
+	auto followMouseOn = [this]() {simulation->getCurrFlock()->setMouseFollow(true); };
+	auto followMouseOff = [this]() {simulation->getCurrFlock()->setMouseFollow(false); };
+	UIElements.push_back(new BToggle(" Mouse", { 230, 500 }, { 110,130 }, followMouseOn, followMouseOff));
 
 	auto restartFlock = [this]() {simulation->getCurrFlock()->RestartFlock(); };
-	UIElements.push_back(new Button("Clear", { 240, 500 }, { 100,270 }, restartFlock));
+	UIElements.push_back(new Button("Clear", { 230, 640 }, { 110,130 }, restartFlock));
 
 }
 
@@ -255,8 +258,14 @@ void Menu::LoadBoidMenu() {
 	auto togTraOff = [this]() {simulation->getCurrFlock()->getCurrBoid()->setDrawTrail(false); };
 	UIElements.push_back(new BToggle("Trail", { 200, 400 }, { 150,80 }, togTraOn, togTraOff));
 
+	//Follow mouse
+	auto followMouseOn = [this]() {simulation->getCurrFlock()->getCurrBoid()->setMouseFollow(true); };
+	auto followMouseOff = [this]() {simulation->getCurrFlock()->getCurrBoid()-> setMouseFollow(false); };
+	UIElements.push_back(new BToggle("Mouse", { 100, 520 }, { 150,100 }, followMouseOn, followMouseOff));
+
+
 	//Follow boid
 	auto followB = [this]() {simulation->setFollowBoid(simulation->getCurrFlock()->getCurrBoid()); };
 	auto unFollowB = [this]() {simulation->setDefaultView(); };
-	UIElements.push_back(new BToggle("Follow", { 100, 700 }, { 150,70 }, followB, unFollowB));
+	UIElements.push_back(new BToggle("Follow", { 100, 650 }, { 150,100 }, followB, unFollowB));
 }

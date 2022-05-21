@@ -7,7 +7,7 @@
 
 class Flock {
 public:
-	Flock(int flID);
+	Flock(int flID, sf::RenderWindow& window);
 	void AddBoid(BoidType bType);
 	void InsertBoids(QuadTree<BaseBoid>* QT);	//Insert the flock's boids into the quadtree referenced
 	void UpdateBoids(QuadTree<BaseBoid>* QT);
@@ -25,6 +25,8 @@ public:
 	float getAlignment() { return alignmentForce; }
 	float getCohesion() { return cohesionForce; }
 	float getSeparation() { return separationForce; }
+
+	void setMouseFollow(bool state);
 
 	void setDrawRange(bool state);
 	void setDrawNear(bool state);
@@ -45,5 +47,7 @@ private:
 	float alignmentForce;
 	float cohesionForce;
 	float separationForce;
+
+	sf::RenderWindow& window;
 };
 
