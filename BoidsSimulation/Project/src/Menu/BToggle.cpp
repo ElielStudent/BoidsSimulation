@@ -28,7 +28,7 @@ void BToggle::Update(sf::RenderWindow& window) {
 			if (shape.getGlobalBounds().contains(
 				window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
 				SetState(!currentState);
-				if(currentState)	//If it has been clicked now
+				if (currentState)	//If it has been clicked now
 					onClick();
 				if (!currentState)	//If it was un-clicked
 					onUnClick();
@@ -36,9 +36,7 @@ void BToggle::Update(sf::RenderWindow& window) {
 			isClicked = true;
 		}
 	}
-	else 
-		isClicked = false;
-	
+	else isClicked = false;
 }
 
 void BToggle::SetState(bool state) {

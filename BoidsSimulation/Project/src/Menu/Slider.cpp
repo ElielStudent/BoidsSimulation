@@ -20,6 +20,8 @@ Slider::Slider(std::string text, float lower, float higher,float starter, sf::Ve
 	shape.setSize(size);
 	valueShowShape.setPosition(position);
 	valueShowShape.setSize({ 0,size.y });
+	valueShowShape.setOutlineColor(sf::Color::Black);
+	valueShowShape.setOutlineThickness(-2);
 
 	sliderText.setPosition(
 		(position.x + shape.getGlobalBounds().width / 2.5f) - (sliderText.getLocalBounds().width / 2),
