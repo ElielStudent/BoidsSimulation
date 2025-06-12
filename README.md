@@ -1,5 +1,5 @@
 # Boids
-A boids (bird-oid) implementation written in C++ with SFML. WIP project, planning to add QuadTree as a spatial partitioning to boost the performance of the boids calculations 
+A boids (bird-oid) implementation written in C++ with SFML. Uses QuadTree as a spatial partitioning to boost the performance of the boids calculations 
 from O(n^2) to O(nlogn).
 
 ## The 3 boid rules
